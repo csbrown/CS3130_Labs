@@ -28,7 +28,7 @@ Open the R console now.  In Linux/Mac - open a terminal and type "R".  You shoul
 You can also write your R script in a file with the extension ".R" and execute the entire script with the "Rscript" command.
 
 ### Question 2
-  Open the R interpreter now, and execute `install.packages("ggplot2")`.  This will install the `ggplot2` package.  *confirm that you have successfully installed the `rmarkdown` package*
+  Open the R interpreter now, and execute `install.packages("rmarkdown")`.  This will install the `rmarkdown` package.  *confirm that you have successfully installed the `rmarkdown` package*
   
 ### Question 3
   Open [script.R](./script.R) in your favorite text editor.  Read the file.  What do you imagine will happen when the program gets to `print(string)`?
