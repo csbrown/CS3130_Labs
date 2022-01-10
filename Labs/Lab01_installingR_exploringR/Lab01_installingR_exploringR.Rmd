@@ -23,7 +23,7 @@ R is an [interpreted language](https://en.wikipedia.org/wiki/Interpreter_(comput
 
 Open the R console now.  In Linux/Mac - open a terminal and type "R".  You should be presented with a prompt into which you can type R commands.  In Windows, navigate the file/program search tool to find the R program.  When you open the base R application, you're presented with the R console and you can open the editor via: File $\rightarrow$ New script. 
 
-![R GUI application in Windows:Console and Editor](https://linkpicture.com/q/R-tutorial-pic-1.png)
+![R GUI application in Windows:Console and Editor](http://wiki.awf.forst.uni-goettingen.de/wiki/images/a/ae/01-RConsole.jpg)
 
 You can also write your R script in a file with the extension ".R" and execute the entire script with the "Rscript" command.
 
