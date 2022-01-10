@@ -1,0 +1,68 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+# Lab 01: An Introduction to R
+
+## Installation of R
+
+R is a programming language for statistical computing and graphics. It will be used throughout the course in order to help you visualize, organize, and manipulate data.
+
+R plays a key role in research and data analysis projects because it makes modern statistical methods readily available and easy to use.
+
+R is available for Windows, OS X, and Linux/Unix platforms. For Windows and MacOS, go to [the main R site](http://www.rproject.org/), pick your local CRAN mirror and download the installer relevant to your operating system. For Linux, you might be able to obtain binaries at the above link or install through your package manager - [more info here](https://cran.r-project.org/doc/manuals/r-release/R-FAQ.html#Are-there-Unix_002dlike-binaries-for-R_003f). If you're on a flavor of Linux that isn't one of the most popular variety, you may need to [compile and install R from source](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-R-under-Unix_002dalikes).
+
+### Question 1:
+  Install R now, and *confirm that you have installed R*.
+  (If you are having significant trouble, please alert the TA, and we will have you complete the remainder of the lab with a classmate.)
+
+## The Basic R interpreter
+
+R is an [interpreted language](https://en.wikipedia.org/wiki/Interpreter_(computing)). This is a nice feature, since R is frequently used more like a calculator than a programming language - so we can perform some calculations, inspect the result, and then decide what to do from there. We will be using this feature of R extensively in this class.
+
+Open the R console now.  In Linux/Mac - open a terminal and type "R".  You should be presented with a prompt into which you can type R commands.  In Windows, navigate the file/program search tool to find the R program.  When you open the base R application, you're presented with the R console and you can open the editor via: File $\rightarrow$ New script. 
+
+![R GUI application in Windows:Console and Editor](https://linkpicture.com/q/R-tutorial-pic-1.png)
+
+You can also write your R script in a file with the extension ".R" and execute the entire script with the "Rscript" command.
+
+### Question 2
+  Open the R interpreter now, and execute `install.packages("ggplot2")`.  This will install the `ggplot2` package.  *confirm that you have successfully installed the `rmarkdown` package*
+  
+### Question 3
+  Open [script.R](./script.R) in your favorite text editor.  Read the file.  What do you imagine will happen when the program gets to `print(string)`?
+  
+### Question 4
+  We are going to run the `script.R` file.  Open a terminal, change directories (`cd`) to find the `script.R` file (it should be located wherever you extracted *this* file!).  On Linux/Mac: run the file by typing `Rscript script.R`.  On Windows, your life is complicated....  Using your file explorer, find the path to your R installation, and find the `Rscript.exe` program.  It should be something like "C:\\Program Files\\R\\R-4.1.2\\bin\\Rscript.exe".  In your terminal, type `"C:\Program Files\R\R-4.1.2\bin\Rscript.exe" script.R`.  What does the line containing `print(string)` in `script.R` print to the terminal?
+
+## Installing RStudio
+
+If you found the previous question painful, you're in luck: usually, we don't use `R` or `Rscript` directly.  We use an [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) that does all of the dirty work for us, allowing us to focus on what's important: Statistics!  We will be using the tremendously popular [RStudio](https://www.rstudio.com/products/rstudio/download/#download) in this class.  Download and install RStudio now.
+
+### Question 5
+  Find and launch RStudio in the normal application search tool on your computer.  *confirm that you are able to run RStudio*
+  
+### Question 6
+  In RStudio, use the panel in the bottom right to find and open the `script.R` file.  The contents of `script.R` should appear in the top left panel of RStudio.  Press the "Run" button near the top right of that panel.  What happens?  (Hint: hover your mouse over the "Run" button for a tooltip)
+  
+### Question 7
+  Press the "Source" button located near the "Run" button.  This will run the entire file.  Take a look at the panel in the top right corner of RStudio.  What is the purpose of this panel?
+  
+## R Markdown
+
+In this class, we will be using R Markdown for the Assignments, etc.  R Markdown creates dynamic documents and reports. The magic of R Markdown is that the calculations and the report are all done *in the same file*.  That way, you don't have to, for example, make a graph in R, then embed a picture of that graph in a word document manually.  The creation of the graph and the creation of the document is all part of one seamless process!
+
+For example, we can use R to make a histogram from the `Examination` variable in the `swiss` dataset that comes prepackaged with R, and embed it into this document:
+
+```{r}
+hist(swiss$Examination) # this code generates the histogram you see below
+```
+
+The code that generates this histogram is *part of the document*.  This has deep implications when sharing your work because your work never contains the results of mystery calculations (and the whole point of Statistics is analyzing data to provide evidence, right?  So you will almost surely be sharing your work!)  It is the ULTIMATE in "show-your-work"!
+
+### Question 8
+  Open [the source code for this document](./Lab01_installingR_exploringR.Rmd) in RStudio. RMarkdown uses the term "Knit" to refer to the process of running the embedded R code, compiling the markdown, and putting the output of the R code where it belongs in the document.  You should see a "Knit" button near the "Run" button.  Press the "Knit" button now.  Likely, RStudio will complain that you need to install some packages. Press "yes" and install those packages. You may need to restart RStudio afterward. After all of this, the document should compile, and you should get a replica of this document that you are currently viewing.  *confirm that you have successfully compiled the source code for this document*
+
+### Question 9
+  Examine the source code for this document. Find the bits that generate the above histogram. What is the syntax for embedding R code in an RMarkdown file?
