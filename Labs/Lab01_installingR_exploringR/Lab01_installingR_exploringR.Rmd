@@ -12,7 +12,7 @@ R is a programming language for statistical computing and graphics. It will be u
 
 R plays a key role in research and data analysis projects because it makes modern statistical methods readily available and easy to use.
 
-R is available for Windows, OS X, and Linux/Unix platforms. For Windows and MacOS, go to [the main R site](http://www.rproject.org/), pick your local CRAN mirror and download the installer relevant to your operating system. For Linux, you might be able to obtain binaries at the above link or install through your package manager - [more info here](https://cran.r-project.org/doc/manuals/r-release/R-FAQ.html#Are-there-Unix_002dlike-binaries-for-R_003f). If you're on a flavor of Linux that isn't one of the most popular variety, you may need to [compile and install R from source](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-R-under-Unix_002dalikes).
+R is available for Windows, OS X, and Linux/Unix platforms. For Windows and MacOS, go to [the main R site](http://www.r-project.org/), pick your local CRAN mirror and download the installer relevant to your operating system. For Linux, you might be able to obtain binaries at the above link or install through your package manager - [more info here](https://cran.r-project.org/doc/manuals/r-release/R-FAQ.html#Are-there-Unix_002dlike-binaries-for-R_003f). If you're on a flavor of Linux that isn't one of the most popular variety, you may need to [compile and install R from source](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Installing-R-under-Unix_002dalikes).
 
 ### Question 1:
   Install R now, and *confirm that you have installed R*.
