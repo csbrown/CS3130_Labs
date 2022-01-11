@@ -1,5 +1,5 @@
 ---
-title: "Lab01_presentation"
+title: "Lab01 presentation"
 author: "Scott Brown"
 date: "1/10/2022"
 output: ioslides_presentation
@@ -11,8 +11,10 @@ knitr::opts_chunk$set()
 
 ## R and R Markdown
 
-- Tools for reproducible data analysis
+- Tools for reproducible data analysis and reporting
 - reproducible, adj. - Capable of being reproduced at a different time or place and by different people.
+- R: data analysis, Rmarkdown: data reporting
+  - <img src="static/latency.png" style="height:30vh;">
 
 ## Reproducible Data Analysis
 
