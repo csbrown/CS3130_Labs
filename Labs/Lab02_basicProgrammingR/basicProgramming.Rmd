@@ -1,6 +1,9 @@
-# Data and Programming
+# Lab 2: The Basics of R Programming
 
-## Data Types
+There are two types of activities in this lab. These are labeled `READ` and `QUESTION`. Doing both is critical to your development as an `R` programmer. The `QUESTIONS` will correspond to Canvas questions that you will turn in for the lab
+
+
+## READ: Data Types
 
 `R` has a number of basic data *types*.
 
@@ -18,7 +21,7 @@
 - Character
     - Examples: `"a"`, `"Statistics"`, `"1 plus 2."`
 
-## Data Structures
+## READ: Data Structures
 
 `R` also has a number of basic data *structures*. A data structure is either homogeneous (all elements are of the same data type) or heterogeneous (elements can be of more than one data type).
 
@@ -28,7 +31,7 @@
 | 2         | Matrix          | Data Frame        |
 | 3+        | Array           |                   |
 
-### Vectors
+### READ: Vectors
 
 Many operations in `R` make heavy use of **vectors**. Vectors in `R` are indexed starting at `1`. That is what the `[1]` in the output is indicating, that the first element of the row being displayed is the first element of the vector. Larger vectors will start additional rows with `[*]` where `*` is the index of the first element of the row.
 
@@ -47,7 +50,7 @@ x
 
 As an aside, there is a long history of the assignment operator in `R`, partially due to the keys available on the [keyboards of the creators of the `S` language.](https://twitter.com/kwbroman/status/747829864091127809){target="_blank"} (Which preceded `R`.) For simplicity we will use `=`, but know that often you will see `<-` as the assignment operator. 
 
-The pros and cons of these two are well beyond the scope of this book, but know that for our purposes you will have no issue if you simply use `=`. If you are interested in the weird cases where the difference matters, check out [The R Inferno](http://www.burns-stat.com/documents/books/the-r-inferno/){target="_blank"}.
+The pros and cons of these two are well beyond the scope of this book, but know that for our purposes you will have no issue if you simply use `=`.
 
 If you wish to use `<-`, you will still need to use `=`, however only for argument passing. Some users like to keep assignment (`<-`) and argument passing (`=`) separate. No matter what you choose, the more important thing is that you **stay consistent**. Also, if working on a larger collaborative project, you should use whatever style is already in place.
 
@@ -58,7 +61,29 @@ c(42, "Statistics", TRUE)
 c(42, TRUE)
 ```
 
+### QUESTION 1
+
+Create an R vector using the combine operator `c` that consists of the integer 42 and the string 42. Store it in a variable called `y` -- you can do this all in a single line. On the next line, write `is.character(y)`. Then knit the Rmarkdown. In the knitted HTML output file, look under question 1. Do you see a logical value of `TRUE` or `FALSE`?
+
+```{r}
+#Your code for question 1 goes here
+
+
+```
+
+### QUESTION 2
+
+Recall that vectors can contain only one data type in `R`. Based on your answer to question 1, what data type did `R` coerce the values of `y` to?
+
+### QUESTION 3
+
+`R` has easy to access documentation for functions -- `is.character` is one such function. Navigate to the pane of Rstudio labeled `Console`. In it, enter `?is.character`. Documentation will appear. Navigate to the \textbf{Value} section of the documentation titled `Value`, and copy and paste the line discussing what `is.character` will return into Canvas for question 3.
+
+
+
 Frequently you may wish to create a vector based on a sequence of numbers. The quickest and easiest way to do this is with the `:` operator, which creates a sequence of integers between two specified integers.
+
+READ: Constructing Vectors
 
 ```{r}
 (y = 1:100)
@@ -116,7 +141,12 @@ length(x)
 length(y)
 ```
 
-#### Subsetting
+
+## QUESTION 4
+
+What is the code that you would write to construct the vector that starts with `-10,-5,0,5,10`, then has 50 `1`s,and finishes with the numbers `100,99,98,97,...,4,3,2,1`?
+
+#### READ: Subsetting
 
 To subset a vector, we use square brackets, `[]`. 
 
@@ -152,7 +182,11 @@ z
 x[z]
 ```
 
-### Vectorization
+## QUESTION 5
+
+Suppose I have a vector stored in a variable called `v`. I want to access the last element of `v`. Use what you know about the `length` function -- discussed earlier -- and what you know about subsetting, to write a simple and short line of code to access the last entry of `v`. Enter this as your answer to question 5 on Canvas.
+
+### READ: Vectorization
 
 One of the biggest strengths of `R` is its use of vectorized operations. (Frequently the lack of understanding of this concept leads of a belief that `R` is *slow*. `R` is not the fastest language, but it has a reputation for being slower than it really is.)
 
@@ -168,7 +202,7 @@ log(x)
 We see that when a function like `log()` is called on a vector `x`, a vector is returned which has applied the function to each element of the vector  `x`.
 
 
-### Logical Operators
+### READ: Logical Operators
 
 | Operator | Summary               | Example               | Result |
 |----------|-----------------------|-----------------------|--------|
@@ -207,8 +241,6 @@ x[x > 3]
 x[x != 3]
 ```
 
-- TODO: coercion
-
 ```{r}
 sum(x > 3)
 as.numeric(x > 3)
@@ -225,318 +257,346 @@ which(x == max(x))
 which.max(x)
 ```
 
-### More Vectorization
+
+## QUESTION 6
 
 ```{r}
-x = c(1, 3, 5, 7, 8, 9)
-y = 1:100
+l = c(NA,1,3,NA,5,NA)
 ```
 
-```{r}
-x + 2
-x + rep(2, 6)
-```
+Write a line of code that outputs the indices for which the vector `l` is `NA`. To do this, you will use what you just learned about subsetting. You will also use the `is.na` function. If you cannot guess what `is.na` will do, that is OK! Run `?is.na` in the console, and read the first paragraph in the `Value` section. 
 
-```{r}
-x > 3
-x > rep(3, 6)
-```
+Getting to the correct answer in this problem may take some trial and error. To be efficient,either copy and paste the line where `l` is initialized into the `console`, or if you are looking directly at the `.Rmd` file, put your cursor on the line where `l` is initialized. Then type `command+Enter` on MAC or `control+Enter` on windows. Either method (copy+paste or the other method), will store `l` in your working environment. You can see that `l` is in your working environment by navigating to the `Environment` tab. Now to answer Question 6, put your cursor in the `Console`. Try your hand at writing the line of code in the `Console`. Since `l` is in the working environment, the console will now recognize `l`.
 
-```{r}
-x + y
-length(x)
-length(y)
-length(y) / length(x)
-(x + y) - y
-```
-
-```{r}
-y = 1:60
-x + y
-length(y) / length(x)
-```
-
-```{r}
-rep(x, 10) + y
-```
-
-```{r}
-all(x + y == rep(x, 10) + y)
-identical(x + y, rep(x, 10) + y)
-```
-
-```{r}
-# ?any
-# ?all.equal
-```
-
-### Matrices
-
-`R` can also be used for **matrix** calculations. Matrices have rows and columns containing a single data type. In a matrix, the order of rows and columns is important. (This is not true of *data frames*, which we will see later.)
-
-Matrices can be created using the `matrix` function. 
-
-```{r}
-x = 1:9
-x
-X = matrix(x, nrow = 3, ncol = 3)
-X
-```
-
-Note here that we are using two different variables: lower case `x`, which stores a vector and capital `X`, which stores a matrix. (Following the usual mathematical convention.) We can do this because `R` is case sensitive.
-
-By default the `matrix` function reorders a vector into columns, but we can also tell `R` to use rows instead.
-
-```{r}
-Y = matrix(x, nrow = 3, ncol = 3, byrow = TRUE)
-Y
-```
-
-We can also create a matrix of a specified dimension where every element is the same, in this case `0`.
-
-```{r}
-Z = matrix(0, 2, 4)
-Z
-```
-
-Like vectors, matrices can be subsetted using square brackets, `[]`. However, since matrices are two-dimensional, we need to specify both a row and a column when subsetting.
-
-```{r}
-X
-X[1, 2]
-```
-
-Here we accessed the element in the first row and the second column. We could also subset an entire row or column.
-
-```{r}
-X[1, ]
-X[, 2]
-```
+When you are confident your line is working, enter this into Canvas as your answer to question 6.
 
-We can also use vectors to subset more than one row or column at a time. Here we subset to the first and third column of the second row.
-
-```{r}
-X[2, c(1, 3)]
-```
+## QUESTION 7
 
-Matrices can also be created by combining vectors as columns, using `cbind`, or combining vectors as rows, using `rbind`.
+Run `max(l)` in the console. The output is disappointing, but suppose we want to find the maximum in the vector while ignoring the `NA` values. Read the documentation on the `max` function and figure out the line you would need to run to output the maximum element in `l` while igorning `NA` values. 
 
-```{r}
-x = 1:9
-rev(x)
-rep(1, 9)
-```
+Enter the line you come up with as your answer to question 7 in canvas.
 
-```{r}
-rbind(x, rev(x), rep(1, 9))
-```
+### Read: Matrices and Lists
 
-```{r}
-cbind(col_1 = x, col_2 = rev(x), col_3 = rep(1, 9))
-```
+Matrices and Lists are two other are data structures that are essential for script writing in R and doing data analysis. But we don't have time to cover everything. For now, just remember that
 
-When using `rbind` and `cbind` you can specify "argument" names that will be used as column names.
 
-`R` can then be used to perform matrix calculations.
+A **matrix** has rows and columns and is homogenous (i.e has only one data type). If you have an application where you need to do numeric matrix computations (e.g matrix multiplications, inverse, determinant, etc.), you'll be interested in using the **matrix** data type. For much more detailed information on matrices, see the Matrix section [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html)
 
-```{r}
-x = 1:9
-y = 9:1
-X = matrix(x, 3, 3)
-Y = matrix(y, 3, 3)
-X
-Y
-```
+A **list** is a heterogenous version of a vector. It can act as a dictionary. It's very useful when writing scripts, and a lot of objects that are returned from functions come in the form of a list. When you need more information, go [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html) and look at the section on Lists.
 
-```{r}
-X + Y
-X - Y
-X * Y
-X / Y
-```
+<!-- ### READ IT LATER: More Vectorization -->
 
-Note that `X * Y` is not matrix multiplication. It is element by element multiplication. (Same for `X / Y`). Instead, matrix multiplication uses `%*%`. Other matrix functions include `t()` which gives the transpose of a matrix and `solve()` which returns the inverse of a square matrix if it is invertible.
+<!-- ```{r} -->
+<!-- x = c(1, 3, 5, 7, 8, 9) -->
+<!-- y = 1:100 -->
+<!-- ``` -->
 
-```{r}
-X %*% Y
-t(X)
-```
+<!-- ```{r} -->
+<!-- x + 2 -->
+<!-- x + rep(2, 6) -->
+<!-- ``` -->
 
-```{r}
-Z = matrix(c(9, 2, -3, 2, 4, -2, -3, -2, 16), 3, byrow = TRUE)
-Z
-solve(Z)
-```
+<!-- ```{r} -->
+<!-- x > 3 -->
+<!-- x > rep(3, 6) -->
+<!-- ``` -->
 
-To verify that `solve(Z)` returns the inverse, we multiply it by `Z`. We would expect this to return the identity matrix, however we see that this is not the case due to some computational issues. However, `R` also has the `all.equal()` function which checks for equality, with some small tolerance which accounts for some computational issues. The `identical()` function is used to check for exact equality.
+<!-- ```{r} -->
+<!-- x + y -->
+<!-- length(x) -->
+<!-- length(y) -->
+<!-- length(y) / length(x) -->
+<!-- (x + y) - y -->
+<!-- ``` -->
 
-```{r}
-solve(Z) %*% Z
-diag(3)
-all.equal(solve(Z) %*% Z, diag(3))
-```
+<!-- ```{r} -->
+<!-- y = 1:60 -->
+<!-- x + y -->
+<!-- length(y) / length(x) -->
+<!-- ``` -->
 
-`R` has a number of matrix specific functions for obtaining dimension and summary information.
+<!-- ```{r} -->
+<!-- rep(x, 10) + y -->
+<!-- ``` -->
 
-```{r}
-X = matrix(1:6, 2, 3)
-X
-dim(X)
-rowSums(X)
-colSums(X)
-rowMeans(X)
-colMeans(X)
-```
+<!-- ```{r} -->
+<!-- all(x + y == rep(x, 10) + y) -->
+<!-- identical(x + y, rep(x, 10) + y) -->
+<!-- ``` -->
 
-The `diag()` function can be used in a number of ways. We can extract the diagonal of a matrix.
+<!-- ```{r} -->
+<!-- # ?any -->
+<!-- # ?all.equal -->
+<!-- ``` -->
 
-```{r}
-diag(Z)
-```
+<!-- ### Matrices -->
 
-Or create a matrix with specified elements on the diagonal. (And `0` on the off-diagonals.)
+<!-- `R` can also be used for **matrix** calculations. Matrices have rows and columns containing a single data type. In a matrix, the order of rows and columns is important. (This is not true of *data frames*, which we will see later.) -->
 
-```{r}
-diag(1:5)
-```
+<!-- Matrices can be created using the `matrix` function.  -->
 
-Or, lastly, create a square matrix of a certain dimension with `1` for every element of the diagonal and `0` for the off-diagonals.
+<!-- ```{r} -->
+<!-- x = 1:9 -->
+<!-- x -->
+<!-- X = matrix(x, nrow = 3, ncol = 3) -->
+<!-- X -->
+<!-- ``` -->
 
-```{r}
-diag(5)
-```
+<!-- Note here that we are using two different variables: lower case `x`, which stores a vector and capital `X`, which stores a matrix. (Following the usual mathematical convention.) We can do this because `R` is case sensitive. -->
 
-#### Calculations with Vectors and Matrices {-}
+<!-- By default the `matrix` function reorders a vector into columns, but we can also tell `R` to use rows instead. -->
 
-Certain operations in `R`, for example `%*%` have different behavior on vectors and matrices. To illustrate this, we will first create two vectors.
+<!-- ```{r} -->
+<!-- Y = matrix(x, nrow = 3, ncol = 3, byrow = TRUE) -->
+<!-- Y -->
+<!-- ``` -->
 
-```{r}
-a_vec = c(1, 2, 3)
-b_vec = c(2, 2, 2)
-```
+<!-- We can also create a matrix of a specified dimension where every element is the same, in this case `0`. -->
 
-Note that these are indeed vectors. They are not matrices.
+<!-- ```{r} -->
+<!-- Z = matrix(0, 2, 4) -->
+<!-- Z -->
+<!-- ``` -->
 
-```{r}
-c(is.vector(a_vec), is.vector(b_vec))
-c(is.matrix(a_vec), is.matrix(b_vec))
-```
+<!-- Like vectors, matrices can be subsetted using square brackets, `[]`. However, since matrices are two-dimensional, we need to specify both a row and a column when subsetting. -->
 
-When this is the case, the `%*%` operator is used to calculate the **dot product**, also know as the **inner product** of the two vectors.
+<!-- ```{r} -->
+<!-- X -->
+<!-- X[1, 2] -->
+<!-- ``` -->
+
+<!-- Here we accessed the element in the first row and the second column. We could also subset an entire row or column. -->
 
-The dot product of vectors $\boldsymbol{a} = \lbrack a_1, a_2, \cdots a_n \rbrack$ and $\boldsymbol{b} = \lbrack b_1, b_2, \cdots b_n \rbrack$ is defined to be
+<!-- ```{r} -->
+<!-- X[1, ] -->
+<!-- X[, 2] -->
+<!-- ``` -->
 
-\[
-\boldsymbol{a} \cdot \boldsymbol{b} = \sum_{i = 1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots a_n b_n.
-\]
+<!-- We can also use vectors to subset more than one row or column at a time. Here we subset to the first and third column of the second row. -->
 
-```{r}
-a_vec %*% b_vec # inner product
-a_vec %o% b_vec # outer product
-```
+<!-- ```{r} -->
+<!-- X[2, c(1, 3)] -->
+<!-- ``` -->
 
-The `%o%` operator is used to calculate the **outer product** of the two vectors.
+<!-- Matrices can also be created by combining vectors as columns, using `cbind`, or combining vectors as rows, using `rbind`. -->
 
-When vectors are coerced to become matrices, they are column vectors. So a vector of length $n$ becomes an $n \times 1$ matrix after coercion.
+<!-- ```{r} -->
+<!-- x = 1:9 -->
+<!-- rev(x) -->
+<!-- rep(1, 9) -->
+<!-- ``` -->
 
-```{r}
-as.matrix(a_vec)
-```
+<!-- ```{r} -->
+<!-- rbind(x, rev(x), rep(1, 9)) -->
+<!-- ``` -->
 
-If we use the `%*%` operator on matrices, `%*%` again performs the expected matrix multiplication. So you might expect the following to produce an error, because the dimensions are incorrect.
+<!-- ```{r} -->
+<!-- cbind(col_1 = x, col_2 = rev(x), col_3 = rep(1, 9)) -->
+<!-- ``` -->
 
-```{r}
-as.matrix(a_vec) %*% b_vec
-```
+<!-- When using `rbind` and `cbind` you can specify "argument" names that will be used as column names. -->
 
-At face value this is a $3 \times 1$ matrix, multiplied by a $3 \times 1$ matrix. However, when `b_vec` is automatically coerced to be a matrix, `R` decided to make it a "row vector", a $1 \times 3$ matrix, so that the multiplication has conformable dimensions.
+<!-- `R` can then be used to perform matrix calculations. -->
 
-If we had coerced both, then `R` would produce an error.
+<!-- ```{r} -->
+<!-- x = 1:9 -->
+<!-- y = 9:1 -->
+<!-- X = matrix(x, 3, 3) -->
+<!-- Y = matrix(y, 3, 3) -->
+<!-- X -->
+<!-- Y -->
+<!-- ``` -->
 
-```{r, eval = FALSE}
-as.matrix(a_vec) %*% as.matrix(b_vec)
-```
+<!-- ```{r} -->
+<!-- X + Y -->
+<!-- X - Y -->
+<!-- X * Y -->
+<!-- X / Y -->
+<!-- ``` -->
 
-Another way to calculate a *dot product* is with the `crossprod()` function. Given two vectors, the `crossprod()` function calculates their dot product. The function has a rather misleading name.
+<!-- Note that `X * Y` is not matrix multiplication. It is element by element multiplication. (Same for `X / Y`). Instead, matrix multiplication uses `%*%`. Other matrix functions include `t()` which gives the transpose of a matrix and `solve()` which returns the inverse of a square matrix if it is invertible. -->
 
-```{r}
-crossprod(a_vec, b_vec)  # inner product
-tcrossprod(a_vec, b_vec)  # outer product
-```
+<!-- ```{r} -->
+<!-- X %*% Y -->
+<!-- t(X) -->
+<!-- ``` -->
 
-These functions could be very useful later. When used with matrices $X$ and $Y$ as arguments, it calculates
+<!-- ```{r} -->
+<!-- Z = matrix(c(9, 2, -3, 2, 4, -2, -3, -2, 16), 3, byrow = TRUE) -->
+<!-- Z -->
+<!-- solve(Z) -->
+<!-- ``` -->
 
-\[
-X^\top Y.
-\]
+<!-- To verify that `solve(Z)` returns the inverse, we multiply it by `Z`. We would expect this to return the identity matrix, however we see that this is not the case due to some computational issues. However, `R` also has the `all.equal()` function which checks for equality, with some small tolerance which accounts for some computational issues. The `identical()` function is used to check for exact equality. -->
 
-When dealing with linear models, the calculation
+<!-- ```{r} -->
+<!-- solve(Z) %*% Z -->
+<!-- diag(3) -->
+<!-- all.equal(solve(Z) %*% Z, diag(3)) -->
+<!-- ``` -->
 
-\[
-X^\top X
-\]
+<!-- `R` has a number of matrix specific functions for obtaining dimension and summary information. -->
 
-is used repeatedly.
+<!-- ```{r} -->
+<!-- X = matrix(1:6, 2, 3) -->
+<!-- X -->
+<!-- dim(X) -->
+<!-- rowSums(X) -->
+<!-- colSums(X) -->
+<!-- rowMeans(X) -->
+<!-- colMeans(X) -->
+<!-- ``` -->
 
-```{r}
-C_mat = matrix(c(1, 2, 3, 4, 5, 6), 2, 3)
-D_mat = matrix(c(2, 2, 2, 2, 2, 2), 2, 3)
-```
+<!-- The `diag()` function can be used in a number of ways. We can extract the diagonal of a matrix. -->
 
-This is useful both as a shortcut for a frequent calculation and as a more efficient implementation than using `t()` and `%*%`.
+<!-- ```{r} -->
+<!-- diag(Z) -->
+<!-- ``` -->
 
-```{r}
-crossprod(C_mat, D_mat)
-t(C_mat) %*% D_mat
-all.equal(crossprod(C_mat, D_mat), t(C_mat) %*% D_mat)
-```
+<!-- Or create a matrix with specified elements on the diagonal. (And `0` on the off-diagonals.) -->
 
-```{r}
-crossprod(C_mat, C_mat)
-t(C_mat) %*% C_mat
-all.equal(crossprod(C_mat, C_mat), t(C_mat) %*% C_mat)
-```
+<!-- ```{r} -->
+<!-- diag(1:5) -->
+<!-- ``` -->
 
-### Lists
+<!-- Or, lastly, create a square matrix of a certain dimension with `1` for every element of the diagonal and `0` for the off-diagonals. -->
 
-A list is a one-dimensional heterogeneous data structure. So it is indexed like a vector with a single integer value, but each element can contain an element of any type.
+<!-- ```{r} -->
+<!-- diag(5) -->
+<!-- ``` -->
 
-```{r}
-# creation
-list(42, "Hello", TRUE)
+<!-- #### Calculations with Vectors and Matrices {-} -->
 
-ex_list = list(
-  a = c(1, 2, 3, 4),
-  b = TRUE,
-  c = "Hello!",
-  d = function(arg = 42) {print("Hello World!")},
-  e = diag(5)
-)
-```
+<!-- Certain operations in `R`, for example `%*%` have different behavior on vectors and matrices. To illustrate this, we will first create two vectors. -->
 
-Lists can be subset using two syntaxes, the `$` operator, and square brackets `[]`. The `$` operator returns a named **element** of a list. The `[]` syntax returns a **list**, while the `[[]]` returns an **element** of a list.
+<!-- ```{r} -->
+<!-- a_vec = c(1, 2, 3) -->
+<!-- b_vec = c(2, 2, 2) -->
+<!-- ``` -->
 
-- `ex_list[1]` returns a list containing the first element.
-- `ex_list[[1]]` returns the first element of the list, in this case, a vector.
+<!-- Note that these are indeed vectors. They are not matrices. -->
 
-```{r}
-# subsetting
-ex_list$e
+<!-- ```{r} -->
+<!-- c(is.vector(a_vec), is.vector(b_vec)) -->
+<!-- c(is.matrix(a_vec), is.matrix(b_vec)) -->
+<!-- ``` -->
 
-ex_list[1:2]
-ex_list[1]
-ex_list[[1]]
-ex_list[c("e", "a")]
-ex_list["e"]
-ex_list[["e"]]
+<!-- When this is the case, the `%*%` operator is used to calculate the **dot product**, also know as the **inner product** of the two vectors. -->
 
-ex_list$d
-ex_list$d(arg = 1)
-```
+<!-- The dot product of vectors $\boldsymbol{a} = \lbrack a_1, a_2, \cdots a_n \rbrack$ and $\boldsymbol{b} = \lbrack b_1, b_2, \cdots b_n \rbrack$ is defined to be -->
 
-### Data Frames
+<!-- \[ -->
+<!-- \boldsymbol{a} \cdot \boldsymbol{b} = \sum_{i = 1}^{n} a_i b_i = a_1 b_1 + a_2 b_2 + \cdots a_n b_n. -->
+<!-- \] -->
 
-We have previously seen vectors and matrices for storing data as we introduced `R`. We will now introduce a **data frame** which will be the most common way that we store and interact with data in this course.
+<!-- ```{r} -->
+<!-- a_vec %*% b_vec # inner product -->
+<!-- a_vec %o% b_vec # outer product -->
+<!-- ``` -->
+
+<!-- The `%o%` operator is used to calculate the **outer product** of the two vectors. -->
+
+<!-- When vectors are coerced to become matrices, they are column vectors. So a vector of length $n$ becomes an $n \times 1$ matrix after coercion. -->
+
+<!-- ```{r} -->
+<!-- as.matrix(a_vec) -->
+<!-- ``` -->
+
+<!-- If we use the `%*%` operator on matrices, `%*%` again performs the expected matrix multiplication. So you might expect the following to produce an error, because the dimensions are incorrect. -->
+
+<!-- ```{r} -->
+<!-- as.matrix(a_vec) %*% b_vec -->
+<!-- ``` -->
+
+<!-- At face value this is a $3 \times 1$ matrix, multiplied by a $3 \times 1$ matrix. However, when `b_vec` is automatically coerced to be a matrix, `R` decided to make it a "row vector", a $1 \times 3$ matrix, so that the multiplication has conformable dimensions. -->
+
+<!-- If we had coerced both, then `R` would produce an error. -->
+
+<!-- ```{r, eval = FALSE} -->
+<!-- as.matrix(a_vec) %*% as.matrix(b_vec) -->
+<!-- ``` -->
+
+<!-- Another way to calculate a *dot product* is with the `crossprod()` function. Given two vectors, the `crossprod()` function calculates their dot product. The function has a rather misleading name. -->
+
+<!-- ```{r} -->
+<!-- crossprod(a_vec, b_vec)  # inner product -->
+<!-- tcrossprod(a_vec, b_vec)  # outer product -->
+<!-- ``` -->
+
+<!-- These functions could be very useful later. When used with matrices $X$ and $Y$ as arguments, it calculates -->
+
+<!-- \[ -->
+<!-- X^\top Y. -->
+<!-- \] -->
+
+<!-- When dealing with linear models, the calculation -->
+
+<!-- \[ -->
+<!-- X^\top X -->
+<!-- \] -->
+
+<!-- is used repeatedly. -->
+
+<!-- ```{r} -->
+<!-- C_mat = matrix(c(1, 2, 3, 4, 5, 6), 2, 3) -->
+<!-- D_mat = matrix(c(2, 2, 2, 2, 2, 2), 2, 3) -->
+<!-- ``` -->
+
+<!-- This is useful both as a shortcut for a frequent calculation and as a more efficient implementation than using `t()` and `%*%`. -->
+
+<!-- ```{r} -->
+<!-- crossprod(C_mat, D_mat) -->
+<!-- t(C_mat) %*% D_mat -->
+<!-- all.equal(crossprod(C_mat, D_mat), t(C_mat) %*% D_mat) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- crossprod(C_mat, C_mat) -->
+<!-- t(C_mat) %*% C_mat -->
+<!-- all.equal(crossprod(C_mat, C_mat), t(C_mat) %*% C_mat) -->
+<!-- ``` -->
+
+<!-- ### Lists -->
+
+<!-- A list is a one-dimensional heterogeneous data structure. So it is indexed like a vector with a single integer value, but each element can contain an element of any type. -->
+
+<!-- ```{r} -->
+<!-- # creation -->
+<!-- list(42, "Hello", TRUE) -->
+
+<!-- ex_list = list( -->
+<!--   a = c(1, 2, 3, 4), -->
+<!--   b = TRUE, -->
+<!--   c = "Hello!", -->
+<!--   d = function(arg = 42) {print("Hello World!")}, -->
+<!--   e = diag(5) -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- Lists can be subset using two syntaxes, the `$` operator, and square brackets `[]`. The `$` operator returns a named **element** of a list. The `[]` syntax returns a **list**, while the `[[]]` returns an **element** of a list. -->
+
+<!-- - `ex_list[1]` returns a list containing the first element. -->
+<!-- - `ex_list[[1]]` returns the first element of the list, in this case, a vector. -->
+
+<!-- ```{r} -->
+<!-- # subsetting -->
+<!-- ex_list$e -->
+
+<!-- ex_list[1:2] -->
+<!-- ex_list[1] -->
+<!-- ex_list[[1]] -->
+<!-- ex_list[c("e", "a")] -->
+<!-- ex_list["e"] -->
+<!-- ex_list[["e"]] -->
+
+<!-- ex_list$d -->
+<!-- ex_list$d(arg = 1) -->
+<!-- ``` -->
+
+### READ (VERY IMPORTANT): Data Frames
+
+The **data frame** object is the data structure that will hold our complex data sets. The data frame consists of rows and columns. An example of the initialization of a data frame is given below.
 
 ```{r}
 example_data = data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
@@ -544,13 +604,22 @@ example_data = data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
                           z = rep(c(TRUE, FALSE), 5))
 ```
 
-Unlike a matrix, which can be thought of as a vector rearranged into rows and columns, a data frame is not required to have the same data type for each element. A data frame is a **list** of vectors. So, each vector must contain the same data type, but the different vectors can store different data types. 
+
+## QUESTION 8
+
+Let's create a data frame of random numbers. Your task is to construct a data frame with 100 rows and 3 columns. The first column should be `100` samples from a `uniform(0,1)` distribution -- hint use the `runif` function. The second column should be `100` samples from a `uniform(-1,1)` distribution, and the third column should be the `"Hello"` `100` times.
+
+As your answer on Canvas, give the line of code that you wrote to produce this data frame.
+
+### READ: More on Data Frames
+
+A data frame is not required to have the same data type for each element. A data frame is a **list** of vectors. So, each vector must contain the same data type, but the different vectors can store different data types. 
 
 ```{r}
 example_data
 ```
 
-Unlike a list which has more flexibility, the elements of a data frame must all be vectors, and have the same length.
+The elements of a data frame must all be vectors, and have the same length.
 
 ```{r}
 example_data$x
@@ -568,41 +637,33 @@ dim(example_data)
 
 The `data.frame()` function above is one way to create a data frame. We can also import data from various file types in into `R`, as well as use data stored in packages.
 
-```{r, echo = FALSE}
-write.csv(example_data, "data/example-data.csv", row.names = FALSE)
-```
+Let's read in the csv that came with this lab located in the data folder. 
 
-[The example data above can also be found here as a .csv file.](data/example-data.csv) To read this data into `R`, we would use the `read_csv()` function from the `readr` package. Note that `R` has a built in function `read.csv()` that operates very similarly. The `readr` function `read_csv()` has a number of advantages. For example, it is much faster reading larger data. [It also uses the `tibble` package to read the data as a tibble.](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html){target="_blank"}
+## Question 9
 
-```{r, message = FALSE, warning = FALSE}
-library(readr)
-example_data_from_csv = read_csv("data/example-data.csv")
-```
+1. In the console, run `install.packages("readr")`
+2. In the console, run `library(readr)`
+2. Now find the path to this lab on your machine -- i.e the path where you downloaded and saved this lab
+3. Now in the console, run `setwd(YOUR_PATH_HERE)`
+4. Finally, in the console, run `importedData = read_csv("data/thisLabisAlmostOver.csv")`
+5. Once you have done, this look at `importedData` by typing `importedData` into the console and running. Report as your answer in Canvas the data structure of the first column.
 
-This particular line of code assumes that the file `example_data.csv` exists in a folder called `data` in your current working directory.
+### READ: More on Data Frames
 
-```{r}
-example_data_from_csv
-```
+Note that `read_csv` is a function from the `readr` library that you just installed.
 
 A tibble is simply a data frame that prints with sanity. Notice in the output above that we are given additional information such as dimension and variable type.
 
-The `as_tibble()` function can be used to coerce a regular data frame to a tibble.
+For working with data frames in `R`, and deriving actionable insights from them, there are a couple of essential packages you should have installed
+
+1. ggplot2 (visualizing data)
+2. dplyr (manipulating data frames)
 
 ```{r}
-library(tibble)
-example_data = as_tibble(example_data)
-example_data
-```
-
-Alternatively, we could use the "Import Dataset" feature in RStudio which can be found in the environment window. (By default, the top-right pane of RStudio.)  Once completed, this process will automatically generate the code to import a file. The resulting code will be shown in the console window. In recent versions of RStudio, `read_csv()` is used by default, thus reading in a tibble.
-
-Earlier we looked at installing packages, in particular the `ggplot2` package. (A package for visualization. While not necessary for this course, it is quickly growing in popularity.) 
-
-```{r, message = FALSE, warning = FALSE}
 library(ggplot2)
 ```
 
+### READ: Visualizing data Using ggplot2 Inside a Data Frame
 Inside the `ggplot2` package is a dataset called `mpg`. By loading the package using the `library()` function, we can now access `mpg`.
 
 When using data from inside a package, there are three things we would generally like to do:
@@ -662,202 +723,220 @@ ncol(mpg)
 
 Here `nrow()` is also the number of observations, which in most cases is the *sample size*.
 
-Subsetting data frames can work much like subsetting matrices using square brackets, `[,]`. Here, we find fuel efficient vehicles earning over 35 miles per gallon and only display `manufacturer`, `model` and `year`.
+Let's now visualize some of the data using `ggplot2`. We'll construct a histogram of the city miles per gallon variable. 
+
+The syntax is as follows
+
+`ggplot(data = NAME_OF_YOUR_DATA_FRAME,aes(x=COLUMN_NAME))+geom_histogram()`
+
+## Question 10
+
+Using the above hint, use the below space in the Markdown file to attempt to make a histogram for the city miles per gallon variable `cty` in the `mpg` dataset.
 
 ```{r}
-mpg[mpg$hwy > 35, c("manufacturer", "model", "year")]
+##Your Code goes here
 ```
 
-An alternative would be to use the `subset()` function, which has a much more readable syntax.
+As your answer to this question, reknit the Markdown file. Note that `ggplot2` prints a complaint about binwidth size. Copy and paste this complaint as your answer to question 10 on Canvas.
 
-```{r, eval = FALSE}
-subset(mpg, subset = hwy > 35, select = c("manufacturer", "model", "year"))
-```
+This barely scratches the surface of `ggplot2`. When you want to make beautiful visualizations from your data frames, start by reading Hadley Wickham's chapter on ggplot2 [here](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3)
 
-Lastly, we could use the `filter` and `select` functions from the `dplyr` package which introduces the `%>%` operator from the `magrittr` package. This is not necessary for this course, however the `dplyr` package is something you should be aware of as it is becoming a popular tool in the `R` world.
+<!-- Subsetting data frames can work much like subsetting matrices using square brackets, `[,]`. Here, we find fuel efficient vehicles earning over 35 miles per gallon and only display `manufacturer`, `model` and `year`. -->
 
-```{r, eval = FALSE}
-library(dplyr)
-mpg %>% filter(hwy > 35) %>% select(manufacturer, model, year)
-```
+<!-- ```{r} -->
+<!-- mpg[mpg$hwy > 35, c("manufacturer", "model", "year")] -->
+<!-- ``` -->
 
-All three approaches produce the same results. Which you use will be largely based on a given situation as well as user preference.
+<!-- An alternative would be to use the `subset()` function, which has a much more readable syntax. -->
 
-When subsetting a data frame, be aware of what is being returned, as sometimes it may be a vector instead of a data frame. Also note that there are differences between subsetting a data frame and a tibble. A data frame operates more like a matrix where it is possible to reduce the subset to a vector. A tibble operates more like a list where it always subsets to another tibble.
+<!-- ```{r, eval = FALSE} -->
+<!-- subset(mpg, subset = hwy > 35, select = c("manufacturer", "model", "year")) -->
+<!-- ``` -->
 
-## Programming Basics
+<!-- Lastly, we could use the `filter` and `select` functions from the `dplyr` package which introduces the `%>%` operator from the `magrittr` package. The below code will  -->
 
+<!-- ```{r, eval = FALSE} -->
+<!-- library(dplyr) -->
+<!-- mpg %>% filter(hwy > 35) %>% select(manufacturer, model, year) -->
+<!-- ``` -->
+
+<!-- All three approaches produce the same results. Which you use will be largely based on a given situation as well as user preference. -->
+
+<!-- When subsetting a data frame, be aware of what is being returned, as sometimes it may be a vector instead of a data frame. Also note that there are differences between subsetting a data frame and a tibble. A data frame operates more like a matrix where it is possible to reduce the subset to a vector. A tibble operates more like a list where it always subsets to another tibble. -->
+
+## READ: Programming Basics [Control Flow,Functions]
+
+There likely will come a time in this class that you will need to make some scripts to neatly run your analyses. The details of control flow and functions are critical for this task. When you find yourself needing to write functions to do things, consult the Programming Basics section [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html)
 ### Control Flow
 
-In `R`, the if/else syntax is:
+<!-- In `R`, the if/else syntax is: -->
 
-```{r, eval = FALSE}
-if (...) {
-  some R code
-} else {
-  more R code
-}
-```
+<!-- ```{r, eval = FALSE} -->
+<!-- if (...) { -->
+<!--   some R code -->
+<!-- } else { -->
+<!--   more R code -->
+<!-- } -->
+<!-- ``` -->
 
-For example,
+<!-- For example, -->
 
-```{r}
-x = 1
-y = 3
-if (x > y) {
-  z = x * y
-  print("x is larger than y")
-} else {
-  z = x + 5 * y
-  print("x is less than or equal to y")
-}
+<!-- ```{r} -->
+<!-- x = 1 -->
+<!-- y = 3 -->
+<!-- if (x > y) { -->
+<!--   z = x * y -->
+<!--   print("x is larger than y") -->
+<!-- } else { -->
+<!--   z = x + 5 * y -->
+<!--   print("x is less than or equal to y") -->
+<!-- } -->
 
-z
-```
+<!-- z -->
+<!-- ``` -->
 
-`R` also has a special function `ifelse()` which is very useful. It returns one of two specified values based on a conditional statement.
+<!-- `R` also has a special function `ifelse()` which is very useful. It returns one of two specified values based on a conditional statement. -->
 
-```{r}
-ifelse(4 > 3, 1, 0)
-```
+<!-- ```{r} -->
+<!-- ifelse(4 > 3, 1, 0) -->
+<!-- ``` -->
 
-The real power of `ifelse()` comes from its ability to be applied to vectors.
+<!-- The real power of `ifelse()` comes from its ability to be applied to vectors. -->
 
-```{r}
-fib = c(1, 1, 2, 3, 5, 8, 13, 21)
-ifelse(fib > 6, "Foo", "Bar")
-```
+<!-- ```{r} -->
+<!-- fib = c(1, 1, 2, 3, 5, 8, 13, 21) -->
+<!-- ifelse(fib > 6, "Foo", "Bar") -->
+<!-- ``` -->
 
-Now a `for` loop example,
+<!-- Now a `for` loop example, -->
 
-```{r}
-x = 11:15
-for (i in 1:5) {
-  x[i] = x[i] * 2
-}
+<!-- ```{r} -->
+<!-- x = 11:15 -->
+<!-- for (i in 1:5) { -->
+<!--   x[i] = x[i] * 2 -->
+<!-- } -->
 
-x
-```
+<!-- x -->
+<!-- ``` -->
 
-Note that this `for` loop is very normal in many programming languages, but not in `R`. In `R` we would not use a loop, instead we would simply use a vectorized operation.
+<!-- Note that this `for` loop is very normal in many programming languages, but not in `R`. In `R` we would not use a loop, instead we would simply use a vectorized operation. -->
 
-```{r}
-x = 11:15
-x = x * 2
-x
-```
+<!-- ```{r} -->
+<!-- x = 11:15 -->
+<!-- x = x * 2 -->
+<!-- x -->
+<!-- ``` -->
 
-### Functions
+<!-- ### Functions -->
 
-So far we have been using functions, but haven't actually discussed some of their details.
+<!-- So far we have been using functions, but haven't actually discussed some of their details. -->
 
-```{r, eval = FALSE}
-function_name(arg1 = 10, arg2 = 20)
-```
+<!-- ```{r, eval = FALSE} -->
+<!-- function_name(arg1 = 10, arg2 = 20) -->
+<!-- ``` -->
 
-To use a function, you simply type its name, followed by an open parenthesis, then specify values of its arguments, then finish with a closing parenthesis. 
+<!-- To use a function, you simply type its name, followed by an open parenthesis, then specify values of its arguments, then finish with a closing parenthesis.  -->
 
-An **argument** is a variable which is used in the body of the function. Specifying the values of the arguments is essentially providing the inputs to the function.
+<!-- An **argument** is a variable which is used in the body of the function. Specifying the values of the arguments is essentially providing the inputs to the function. -->
 
-We can also write our own functions in `R`. For example, we often like to "standardize" variables, that is, subtracting the sample mean, and dividing by the sample standard deviation.
+<!-- We can also write our own functions in `R`. For example, we often like to "standardize" variables, that is, subtracting the sample mean, and dividing by the sample standard deviation. -->
 
-\[
-\frac{x - \bar{x}}{s}
-\]
+<!-- \[ -->
+<!-- \frac{x - \bar{x}}{s} -->
+<!-- \] -->
 
-In `R` we would write a function to do this. When writing a function, there are three thing you must do.
+<!-- In `R` we would write a function to do this. When writing a function, there are three thing you must do. -->
 
-- Give the function a name. Preferably something that is short, but descriptive.
-- Specify the arguments using `function()`
-- Write the body of the function within curly braces, `{}`.
+<!-- - Give the function a name. Preferably something that is short, but descriptive. -->
+<!-- - Specify the arguments using `function()` -->
+<!-- - Write the body of the function within curly braces, `{}`. -->
 
-```{r}
-standardize = function(x) {
-  m = mean(x)
-  std = sd(x)
-  result = (x - m) / std
-  result
-}
-```
+<!-- ```{r} -->
+<!-- standardize = function(x) { -->
+<!--   m = mean(x) -->
+<!--   std = sd(x) -->
+<!--   result = (x - m) / std -->
+<!--   result -->
+<!-- } -->
+<!-- ``` -->
 
-Here the name of the function is `standardize`, and the function has a single argument `x` which is used in the body of function. Note that the output of the final line of the body is what is returned by the function. In this case the function returns the vector stored in the variable `result`.
+<!-- Here the name of the function is `standardize`, and the function has a single argument `x` which is used in the body of function. Note that the output of the final line of the body is what is returned by the function. In this case the function returns the vector stored in the variable `result`. -->
 
-To test our function, we will take a random sample of size `n = 10` from a normal distribution with a mean of `2` and a standard deviation of `5`.
+<!-- To test our function, we will take a random sample of size `n = 10` from a normal distribution with a mean of `2` and a standard deviation of `5`. -->
 
-```{r}
-(test_sample = rnorm(n = 10, mean = 2, sd = 5))
-standardize(x = test_sample)
-```
+<!-- ```{r} -->
+<!-- (test_sample = rnorm(n = 10, mean = 2, sd = 5)) -->
+<!-- standardize(x = test_sample) -->
+<!-- ``` -->
 
-This function could be written much more succinctly, simply performing all the operations on one line and immediately returning the result, without storing any of the intermediate results.
+<!-- This function could be written much more succinctly, simply performing all the operations on one line and immediately returning the result, without storing any of the intermediate results. -->
 
-```{r}
-standardize = function(x) {
-  (x - mean(x)) / sd(x)
-}
-```
+<!-- ```{r} -->
+<!-- standardize = function(x) { -->
+<!--   (x - mean(x)) / sd(x) -->
+<!-- } -->
+<!-- ``` -->
 
-When specifying arguments, you can provide default arguments.
+<!-- When specifying arguments, you can provide default arguments. -->
 
-```{r}
-power_of_num = function(num, power = 2) {
-  num ^ power
-}
-```
+<!-- ```{r} -->
+<!-- power_of_num = function(num, power = 2) { -->
+<!--   num ^ power -->
+<!-- } -->
+<!-- ``` -->
 
-Let's look at a number of ways that we could run this function to perform the operation `10^2` resulting in `100`.
+<!-- Let's look at a number of ways that we could run this function to perform the operation `10^2` resulting in `100`. -->
 
-```{r}
-power_of_num(10)
-power_of_num(10, 2)
-power_of_num(num = 10, power = 2)
-power_of_num(power = 2, num = 10)
+<!-- ```{r} -->
+<!-- power_of_num(10) -->
+<!-- power_of_num(10, 2) -->
+<!-- power_of_num(num = 10, power = 2) -->
+<!-- power_of_num(power = 2, num = 10) -->
 
-```
+<!-- ``` -->
 
-Note that without using the argument names, the order matters. The following code will not evaluate to the same output as the previous example.
+<!-- Note that without using the argument names, the order matters. The following code will not evaluate to the same output as the previous example. -->
 
-```{r}
-power_of_num(2, 10)
-```
+<!-- ```{r} -->
+<!-- power_of_num(2, 10) -->
+<!-- ``` -->
 
-Also, the following line of code would produce an error since arguments without a default value must be specified.
+<!-- Also, the following line of code would produce an error since arguments without a default value must be specified. -->
 
-```{r, eval = FALSE}
-power_of_num(power = 5)
-```
+<!-- ```{r, eval = FALSE} -->
+<!-- power_of_num(power = 5) -->
+<!-- ``` -->
 
-To further illustrate a function with a default argument, we will write a function that calculates sample variance two ways.
+<!-- To further illustrate a function with a default argument, we will write a function that calculates sample variance two ways. -->
 
-By default, it will calculate the unbiased estimate of $\sigma^2$, which we will call $s^2$.
+<!-- By default, it will calculate the unbiased estimate of $\sigma^2$, which we will call $s^2$. -->
 
-\[
-s^2 = \frac{1}{n - 1}\sum_{i=1}^{n}(x - \bar{x})^2
-\]
+<!-- \[ -->
+<!-- s^2 = \frac{1}{n - 1}\sum_{i=1}^{n}(x - \bar{x})^2 -->
+<!-- \] -->
 
-It will also have the ability to return the biased estimate (based on maximum likelihood) which we will call $\hat{\sigma}^2$.
+<!-- It will also have the ability to return the biased estimate (based on maximum likelihood) which we will call $\hat{\sigma}^2$. -->
 
-\[
-\hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^{n}(x - \bar{x})^2
-\]
+<!-- \[ -->
+<!-- \hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^{n}(x - \bar{x})^2 -->
+<!-- \] -->
 
-```{r}
-get_var = function(x, biased = FALSE) {
-  n = length(x) - 1 * !biased
-  (1 / n) * sum((x - mean(x)) ^ 2)
-}
-```
+<!-- ```{r} -->
+<!-- get_var = function(x, biased = FALSE) { -->
+<!--   n = length(x) - 1 * !biased -->
+<!--   (1 / n) * sum((x - mean(x)) ^ 2) -->
+<!-- } -->
+<!-- ``` -->
 
-```{r}
-get_var(test_sample)
-get_var(test_sample, biased = FALSE)
-var(test_sample)
-```
+<!-- ```{r} -->
+<!-- get_var(test_sample) -->
+<!-- get_var(test_sample, biased = FALSE) -->
+<!-- var(test_sample) -->
+<!-- ``` -->
 
-We see the function is working as expected, and when returning the unbiased estimate it matches `R`'s built in function `var()`. Finally, let's examine the biased estimate of $\sigma^2$.
+<!-- We see the function is working as expected, and when returning the unbiased estimate it matches `R`'s built in function `var()`. Finally, let's examine the biased estimate of $\sigma^2$. -->
 
-```{r}
-get_var(test_sample, biased = TRUE)
-```
-
+<!-- ```{r} -->
+<!-- get_var(test_sample, biased = TRUE) -->
+<!-- ``` -->
 
