@@ -38,18 +38,16 @@ Possibly the most common way to create a vector in `R` is using the `c()` functi
 c(1, 3, 5, 7, 8, 9)
 ```
 
-Here `R` simply outputs this vector. If we would like to store this vector in a **variable** we can do so with the **assignment** operator `=`. In this case the variable `x` now holds the vector we just created, and we can access the vector by typing `x`.
+Here `R` simply outputs this vector. If we would like to store this vector in a **variable** we can do so with the **assignment** operator `=`. In this case the variable `x` now holds the vector we just created, and we can access the vector by typing `x`. Note that `<-` also allows for assignment
 
 ```{r}
 x = c(1, 3, 5, 7, 8, 9)
 x
+y <- c(1,3,5)
+y
 ```
 
 As an aside, there is a long history of the assignment operator in `R`, partially due to the keys available on the [keyboards of the creators of the `S` language.](https://twitter.com/kwbroman/status/747829864091127809){target="_blank"} (Which preceded `R`.) For simplicity we will use `=`, but know that often you will see `<-` as the assignment operator. 
-
-The pros and cons of these two are well beyond the scope of this book, but know that for our purposes you will have no issue if you simply use `=`. If you are interested in the weird cases where the difference matters, check out [The R Inferno](http://www.burns-stat.com/documents/books/the-r-inferno/){target="_blank"}.
-
-If you wish to use `<-`, you will still need to use `=`, however only for argument passing. Some users like to keep assignment (`<-`) and argument passing (`=`) separate. No matter what you choose, the more important thing is that you **stay consistent**. Also, if working on a larger collaborative project, you should use whatever style is already in place.
 
 Because vectors must contain elements that are all the same type, `R` will automatically coerce to a single type when attempting to create a vector that combines multiple types.
 
@@ -65,12 +63,6 @@ Frequently you may wish to create a vector based on a sequence of numbers. The q
 ```
 
 Here we see `R` labeling the rows after the first since this is a large vector. Also, we see that by putting parentheses around the assignment, `R` both stores the vector in a variable called `y` and automatically outputs `y` to the console.
-
-Note that scalars do not exists in `R`. They are simply vectors of length `1`.
-
-```{r}
-2
-```
 
 If we want to create a sequence that isn't limited to integers and increasing by 1 at a time, we can use the `seq()` function.
 
