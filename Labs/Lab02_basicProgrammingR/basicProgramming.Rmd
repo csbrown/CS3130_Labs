@@ -1,3 +1,5 @@
+
+
 # Lab 2: The Basics of R Programming
 
 There are two types of activities in this lab. These are labeled `READ` and `QUESTION`. Doing both is critical to your development as an `R` programmer. The `QUESTIONS` will correspond to Canvas questions that you will turn in for the lab
@@ -61,23 +63,57 @@ c(42, "Statistics", TRUE)
 c(42, TRUE)
 ```
 
-### QUESTION 1
-
-Create an R vector using the combine operator `c` that consists of the integer 42 and the string 42. Store it in a variable called `y` -- you can do this all in a single line. On the next line, write `is.character(y)`. Then knit the Rmarkdown. In the knitted HTML output file, look under question 1. Do you see a logical value of `TRUE` or `FALSE`?
-
-```{r}
-#Your code for question 1 goes here
-
-
+```{r,echo=FALSE}
+heightData = read.csv("data/classHeight.csv")
+heightData$heights[1] = NA
 ```
 
-### QUESTION 2
+### QUESTION 1: Learning Outcome -- Getting a First Look at a Data Frame
+In a dataframe, each column is a vector. We'll analyze the `heightData` data frame, which has been loaded in R. For now, we'll be more concerned about the vectors inside the data frames than the data frame itself. Later we'll study data frames in more detail.
 
-Recall that vectors can contain only one data type in `R`. Based on your answer to question 1, what data type did `R` coerce the values of `y` to?
+Run `head(heightData)`. What are the three columns that you see? As your answer to Canvas question 1, enter the names of the columns.
 
-### QUESTION 3
+## READ:
 
-`R` has easy to access documentation for functions -- `is.character` is one such function. Navigate to the pane of Rstudio labeled `Console`. In it, enter `?is.character`. Documentation will appear. Navigate to the \textbf{Value} section of the documentation titled `Value`, and copy and paste the line discussing what `is.character` will return into Canvas for question 3.
+Natasha has the last names of all the students. She wants to add them to the name column. They are stored in the below vector
+
+```{r}
+lastNames = c(rep("James",5),rep("Butler",5),rep("Cooper",5),rep("White",5))
+```
+
+### QUESTION 2: Learning Outcome -- Analyzing the Documentation
+
+To add the last names to the names column, we'll use the `str_c` function from the `stringr` package.
+```{r}
+library(stringr)
+```
+
+To access the documentation, enter `?str_c` in the `console`. For question 2, copy and paste the description text as your answer into Canvas question 2.
+
+## READ:
+The below code is one way to update the names column using the `str_c` function
+```{r}
+heightData$names = str_c(heightData$names,lastNames,sep=" ")
+```
+
+
+<!-- ### QUESTION 1 -->
+
+<!-- Create an R vector using the combine operator `c` that consists of the integer 42 and the string 42. Store it in a variable called `y` -- you can do this all in a single line. On the next line, write `is.character(y)`. Then knit the Rmarkdown. In the knitted HTML output file, look under question 1. Do you see a logical value of `TRUE` or `FALSE`? -->
+
+<!-- ```{r} -->
+<!-- #Your code for question 1 goes here -->
+
+
+<!-- ``` -->
+
+<!-- ### QUESTION 2 -->
+
+<!-- Recall that vectors can contain only one data type in `R`. Based on your answer to question 1, what data type did `R` coerce the values of `y` to? -->
+
+<!-- ### QUESTION 3 -->
+
+<!-- `R` has easy to access documentation for functions -- `is.character` is one such function. Navigate to the pane of Rstudio labeled `Console`. In it, enter `?is.character`. Documentation will appear. Navigate to the \textbf{Value} section of the documentation titled `Value`, and copy and paste the line discussing what `is.character` will return into Canvas for question 3. -->
 
 
 
@@ -142,9 +178,24 @@ length(y)
 ```
 
 
-## QUESTION 4
+## QUESTION 3 -- Learning Outcome: Learning to Make Structured Vectors
 
-What is the code that you would write to construct the vector that starts with `-10,-5,0,5,10`, then has 50 `1`s,and finishes with the numbers `100,99,98,97,...,4,3,2,1`?
+Natasha would like to add blood type to the height data set. By coincidence, it turns out that the James's all have blood type A, the Butler's all have blood type B, the Cooper's all have blood type A, and the White's all have blood type O.
+
+Below, write the code to construct the vector of blood types, and add this vector to the data frame, called it `bloodType`
+
+```{r}
+##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function.
+#bloodTypeVector = ???
+#heightData$bloodType = bloodTypeVector 
+```
+
+Once you have written the code, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.
+```{r}
+head(heightData)
+```
+
+For this question, past your code as your answer to question 3 in Canvas.
 
 #### READ: Subsetting
 
@@ -181,10 +232,6 @@ z
 ```{r}
 x[z]
 ```
-
-## QUESTION 5
-
-Suppose I have a vector stored in a variable called `v`. I want to access the last element of `v`. Use what you know about the `length` function -- discussed earlier -- and what you know about subsetting, to write a simple and short line of code to access the last entry of `v`. Enter this as your answer to question 5 on Canvas.
 
 ### READ: Vectorization
 
@@ -257,24 +304,52 @@ which(x == max(x))
 which.max(x)
 ```
 
+## QUESTION 4: Learning Outcome - Using Boolean Subsetting
 
-## QUESTION 6
+Natasha's boss informers her that for every member of the Cooper family, their height information was collected improperly. So in analyzing the data, we shouldn't trust the height information from the Coopers. She needs to change the height information for Julia Cooper to `NA` -- `NA` is missing value in R.
+
+We'll do this in two steps. The first step is Question 4. Here we will create a boolean vector which is true on the row indices corresponding to the Coopers. Write your code below
 
 ```{r}
-l = c(NA,1,3,NA,5,NA)
+heights <- heightData$names
+#Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be "Cooper". Write your code in the below line
+#cooperIndices <- ????
+
+```
+Paste your code as your answer to question 4 in Canvas. Reknit this markdown file (making sure that your code above is uncommented), and continue onto the next question.
+
+
+## QUESTION 5: Learning Outcome - Use Boolean Subsetting
+
+Now that we have the `cooperIndices`, we can use boolean based subsetting to make the adjustment to the height vector of the `heightData` data frame.
+
+Figure out what goes in the question mark area below. Then uncomment the below code in the markdown with your answer. Then reknit the markdown.
+
+```{r}
+#heightData$heights[??] = NA
+heightData
+```
+As your answer to this question in Canvas, write what you put in the question mark area.
+
+## QUESTION 6: Learning Outcome -- Handling NA values
+Observe the below code:
+
+```{r}
+max(heightData$heights)
 ```
 
-Write a line of code that outputs the indices for which the vector `l` is `NA`. To do this, you will use what you just learned about subsetting. You will also use the `is.na` function. If you cannot guess what `is.na` will do, that is OK! Run `?is.na` in the console, and read the first paragraph in the `Value` section. 
+The output is disappointing; this is because there are `NA` values in the heights vector. But suppose we want to find the maximum in the vector while ignoring the `NA` values. Read the documentation on the `max` function and figure out the line you would need to run to output the maximum element in `l` while igorning `NA` values. 
 
-Getting to the correct answer in this problem may take some trial and error. To be efficient,either copy and paste the line where `l` is initialized into the `console`, or if you are looking directly at the `.Rmd` file, put your cursor on the line where `l` is initialized. Then type `command+Enter` on MAC or `control+Enter` on windows. Either method (copy+paste or the other method), will store `l` in your working environment. You can see that `l` is in your working environment by navigating to the `Environment` tab. Now to answer Question 6, put your cursor in the `Console`. Try your hand at writing the line of code in the `Console`. Since `l` is in the working environment, the console will now recognize `l`.
+Enter the line you come up with as your answer to question 6 in canvas.
 
-When you are confident your line is working, enter this into Canvas as your answer to question 6.
+### QUESTION 7: Learning Outcome -- Using Which
 
-## QUESTION 7
+Lookup the which.max function. Then write a line of code that print the name of the tallest individual.
 
-Run `max(l)` in the console. The output is disappointing, but suppose we want to find the maximum in the vector while ignoring the `NA` values. Read the documentation on the `max` function and figure out the line you would need to run to output the maximum element in `l` while igorning `NA` values. 
-
-Enter the line you come up with as your answer to question 7 in canvas.
+```{r}
+#Write the line here
+```
+Reknit the markdown so that it prints the name of the tallest student.
 
 ### Read: Matrices and Lists
 
@@ -287,7 +362,9 @@ A **list** is a heterogenous version of a vector. It can act as a dictionary. It
 
 ### READ (VERY IMPORTANT): Data Frames
 
-The **data frame** object is the data structure that will hold our complex data sets. The data frame consists of rows and columns. An example of the initialization of a data frame is given below.
+The **data frame** object is the data structure that will hold our complex data sets. Luckily, we've already been working with data frames all class (`heightData`).
+
+The data frame consists of rows and columns. An example of the initialization of a data frame is given below.
 
 ```{r}
 example_data = data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
@@ -296,7 +373,7 @@ example_data = data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
 ```
 
 
-## QUESTION 8
+## QUESTION 8: Learning Outcome: Generating Random Numbers and Constructing Data Frames
 
 Let's create a data frame of random numbers. Your task is to construct a data frame with 100 rows and 3 columns. The first column should be `100` samples from a `uniform(0,1)` distribution -- hint use the `runif` function. The second column should be `100` samples from a `uniform(-1,1)` distribution, and the third column should be the `"Hello"` `100` times.
 
@@ -330,7 +407,7 @@ The `data.frame()` function above is one way to create a data frame. We can also
 
 Let's read in the csv that came with this lab located in the data folder. 
 
-## Question 9
+## Question 9: Learning Outcome: Loading a Data Frame
 
 1. In the console, run `install.packages("readr")`
 2. In the console, run `library(readr)`
@@ -355,86 +432,88 @@ library(ggplot2)
 ```
 
 ### READ: Visualizing data Using ggplot2 Inside a Data Frame
-Inside the `ggplot2` package is a dataset called `mpg`. By loading the package using the `library()` function, we can now access `mpg`.
 
-When using data from inside a package, there are three things we would generally like to do:
+You'll learn more about this next soon. So nothing to read on this now.
+<!-- Inside the `ggplot2` package is a dataset called `mpg`. By loading the package using the `library()` function, we can now access `mpg`. -->
 
-- Look at the raw data.
-- Understand the data. (Where did it come from? What are the variables? Etc.)
-- Visualize the data.
+<!-- When using data from inside a package, there are three things we would generally like to do: -->
 
-To look at the data, we have two useful commands: `head()` and `str()`.
+<!-- - Look at the raw data. -->
+<!-- - Understand the data. (Where did it come from? What are the variables? Etc.) -->
+<!-- - Visualize the data. -->
 
-```{r}
-head(mpg, n = 10)
-```
+<!-- To look at the data, we have two useful commands: `head()` and `str()`. -->
 
-The function `head()` will display the first `n` observations of the data frame. The `head()` function was more useful before tibbles. Notice that `mpg` is a tibble already, so the output from `head()` indicates there are only `10` observations. Note that this applies to `head(mpg, n = 10)` and not `mpg` itself. Also note that tibbles print a limited number of rows and columns by default. The last line of the printed output indicates which rows and columns were omitted.
+<!-- ```{r} -->
+<!-- head(mpg, n = 10) -->
+<!-- ``` -->
 
-```{r}
-mpg
-```
+<!-- The function `head()` will display the first `n` observations of the data frame. The `head()` function was more useful before tibbles. Notice that `mpg` is a tibble already, so the output from `head()` indicates there are only `10` observations. Note that this applies to `head(mpg, n = 10)` and not `mpg` itself. Also note that tibbles print a limited number of rows and columns by default. The last line of the printed output indicates which rows and columns were omitted. -->
 
-The function `str()` will display the "structure" of the data frame. It will display the number of **observations** and **variables**, list the variables, give the type of each variable, and show some elements of each variable. This information can also be found in the "Environment" window in RStudio.
+<!-- ```{r} -->
+<!-- mpg -->
+<!-- ``` -->
 
-```{r}
-str(mpg)
-```
+<!-- The function `str()` will display the "structure" of the data frame. It will display the number of **observations** and **variables**, list the variables, give the type of each variable, and show some elements of each variable. This information can also be found in the "Environment" window in RStudio. -->
 
-It is important to note that while matrices have rows and columns, data frames (tibbles) instead have observations and variables. When displayed in the console or viewer, each row is an observation and each column is a variable. However generally speaking, their order does not matter, it is simply a side-effect of how the data was entered or stored.
+<!-- ```{r} -->
+<!-- str(mpg) -->
+<!-- ``` -->
 
-In this dataset an observation is for a particular model-year of a car, and the variables describe attributes of the car, for example its highway fuel efficiency.
+<!-- It is important to note that while matrices have rows and columns, data frames (tibbles) instead have observations and variables. When displayed in the console or viewer, each row is an observation and each column is a variable. However generally speaking, their order does not matter, it is simply a side-effect of how the data was entered or stored. -->
 
-To understand more about the data set, we use the `?` operator to pull up the documentation for the data.
+<!-- In this dataset an observation is for a particular model-year of a car, and the variables describe attributes of the car, for example its highway fuel efficiency. -->
 
-```{r, eval = FALSE}
-?mpg
-```
+<!-- To understand more about the data set, we use the `?` operator to pull up the documentation for the data. -->
 
-`R` has a number of functions for quickly working with and extracting basic information from data frames. To quickly obtain a vector of the variable names, we use the `names()` function.
+<!-- ```{r, eval = FALSE} -->
+<!-- ?mpg -->
+<!-- ``` -->
 
-```{r}
-names(mpg)
-```
+<!-- `R` has a number of functions for quickly working with and extracting basic information from data frames. To quickly obtain a vector of the variable names, we use the `names()` function. -->
 
-To access one of the variables **as a vector**, we use the `$` operator.
+<!-- ```{r} -->
+<!-- names(mpg) -->
+<!-- ``` -->
 
-```{r}
-mpg$year
-mpg$hwy
-```
+<!-- To access one of the variables **as a vector**, we use the `$` operator. -->
 
-We can use the `dim()`, `nrow()` and `ncol()` functions to obtain information about the dimension of the data frame.
+<!-- ```{r} -->
+<!-- mpg$year -->
+<!-- mpg$hwy -->
+<!-- ``` -->
 
-```{r}
-dim(mpg)
-nrow(mpg)
-ncol(mpg)
-```
+<!-- We can use the `dim()`, `nrow()` and `ncol()` functions to obtain information about the dimension of the data frame. -->
 
-Here `nrow()` is also the number of observations, which in most cases is the *sample size*.
+<!-- ```{r} -->
+<!-- dim(mpg) -->
+<!-- nrow(mpg) -->
+<!-- ncol(mpg) -->
+<!-- ``` -->
 
-Let's now visualize some of the data using `ggplot2`. We'll construct a histogram of the city miles per gallon variable. 
+<!-- Here `nrow()` is also the number of observations, which in most cases is the *sample size*. -->
 
-The syntax is as follows
+<!-- Let's now visualize some of the data using `ggplot2`. We'll construct a histogram of the city miles per gallon variable.  -->
 
-`ggplot(data = NAME_OF_YOUR_DATA_FRAME,aes(x=COLUMN_NAME))+geom_histogram()`
+<!-- The syntax is as follows -->
 
-## Question 10
+<!-- `ggplot(data = NAME_OF_YOUR_DATA_FRAME,aes(x=COLUMN_NAME))+geom_histogram()` -->
 
-Using the above hint, use the below space in the Markdown file to attempt to make a histogram for the city miles per gallon variable `cty` in the `mpg` dataset.
+<!-- ## Question 10 -->
 
-```{r}
-##Your Code goes here
-```
+<!-- Using the above hint, use the below space in the Markdown file to attempt to make a histogram for the city miles per gallon variable `cty` in the `mpg` dataset. -->
 
-As your answer to this question, reknit the Markdown file. Note that `ggplot2` prints a complaint about binwidth size. Copy and paste this complaint as your answer to question 10 on Canvas.
+<!-- ```{r} -->
+<!-- ##Your Code goes here -->
+<!-- ``` -->
 
-This barely scratches the surface of `ggplot2`. When you want to make beautiful visualizations from your data frames, start by reading Hadley Wickham's chapter on ggplot2 [here](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3)
+<!-- As your answer to this question, reknit the Markdown file. Note that `ggplot2` prints a complaint about binwidth size. Copy and paste this complaint as your answer to question 10 on Canvas. -->
+
+<!-- This barely scratches the surface of `ggplot2`. When you want to make beautiful visualizations from your data frames, start by reading Hadley Wickham's chapter on ggplot2 [here](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) -->
 
 
 
 ## READ: Programming Basics [Control Flow,Functions]
 
 There likely will come a time in this class that you will need to make some scripts to neatly run your analyses. The details of control flow and functions are critical for this task. When you find yourself needing to write functions to do things, consult the Programming Basics section [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html)
-### Control Flow
+## Control Flow
