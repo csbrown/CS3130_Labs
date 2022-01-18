@@ -1,8 +1,10 @@
 ---
-title: "Lab01_presentation"
+title: "Lab01 presentation"
 author: "Scott Brown"
 date: "1/10/2022"
-output: ioslides_presentation
+output: 
+  ioslides_presentation:
+    widescreen: true
 ---
 
 ```{r setup, include=FALSE}
@@ -11,8 +13,11 @@ knitr::opts_chunk$set()
 
 ## R and R Markdown
 
-- Tools for reproducible data analysis
+- Tools for reproducible data analysis and reporting
 - reproducible, adj. - Capable of being reproduced at a different time or place and by different people.
+- R: data analysis, Rmarkdown: data reporting
+  - <img src="static/latency.png" style="height:30vh;">
+- Rmarkdown $\approx$ R + [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
 ## Reproducible Data Analysis
 
@@ -43,8 +48,23 @@ plot(pressure)
   - [Useful story](https://rpubs.com/Loudc951/848176)
   - [Nice article](https://rpubs.com/samanthallee/facebook-misinformation)
   - [Similar to our Final Project](https://rpubs.com/Felicia_Irawan/848558)
-  - [Similar to our Final Project](https://rpubs.com/Ethan_Kostynick/849754)
+  - [Similar to our Final Project...needs more](https://rpubs.com/Ethan_Kostynick/849754)
   
+## More info on Final Project
+
+- Work in teams of 2-3 please.
+- You might find it easier to form a team if you've got an idea for a project!
+- "Gathering" data is not equal to "Downloading" data for this project
+- You can probably combine these two things though.
+- If you hit a roadblock with the project, you're on track!
+
+## More info on the Labs
+
+- Can work in teams of 2-3.
+- These are intended to be EDUCATIONAL.
+  - The "quiz" is just to keep you on track...
+  - The TAs and I will help you!  No question is too [adj]!
+
 ## Today
 
 - Install R, Install RStudio, Install RMarkdown
@@ -54,4 +74,3 @@ plot(pressure)
 - Get on Canvas and follow the instruction for Lab 01
 - ASK US QUESTIONS!
 - One of the TAs will be available for remote learners
-

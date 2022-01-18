@@ -1,0 +1,440 @@
+# Lab 2: The Basics of R Programming
+
+There are two types of activities in this lab. These are labeled `READ` and `QUESTION`. Doing both is critical to your development as an `R` programmer. The `QUESTIONS` will correspond to Canvas questions that you will turn in for the lab
+
+
+## READ: Data Types
+
+`R` has a number of basic data *types*.
+
+- Numeric
+    - Also known as Double. The default type when dealing with numbers.
+    - Examples: `1`, `1.0`, `42.5`
+- Integer
+    - Examples: `1L`, `2L`, `42L`
+- Complex
+    - Example: `4 + 2i`
+- Logical
+    - Two possible values: `TRUE` and `FALSE`
+    - You can also use `T` and `F`, but this is *not* recommended.
+    - `NA` is also considered logical.
+- Character
+    - Examples: `"a"`, `"Statistics"`, `"1 plus 2."`
+
+## READ: Data Structures
+
+`R` also has a number of basic data *structures*. A data structure is either homogeneous (all elements are of the same data type) or heterogeneous (elements can be of more than one data type).
+
+| Dimension | **Homogeneous** | **Heterogeneous** |
+|-----------|-----------------|-------------------|
+| 1         | Vector          | List              |
+| 2         | Matrix          | Data Frame        |
+| 3+        | Array           |                   |
+
+### READ: Vectors
+
+Many operations in `R` make heavy use of **vectors**. Vectors in `R` are indexed starting at `1`. That is what the `[1]` in the output is indicating, that the first element of the row being displayed is the first element of the vector. Larger vectors will start additional rows with `[*]` where `*` is the index of the first element of the row.
+
+Possibly the most common way to create a vector in `R` is using the `c()` function, which is short for "combine."" As the name suggests, it combines a list of elements separated by commas. 
+
+```{r}
+c(1, 3, 5, 7, 8, 9)
+```
+
+Here `R` simply outputs this vector. If we would like to store this vector in a **variable** we can do so with the **assignment** operator `=`. In this case the variable `x` now holds the vector we just created, and we can access the vector by typing `x`.
+
+```{r}
+x = c(1, 3, 5, 7, 8, 9)
+x
+```
+
+As an aside, there is a long history of the assignment operator in `R`, partially due to the keys available on the [keyboards of the creators of the `S` language.](https://twitter.com/kwbroman/status/747829864091127809){target="_blank"} (Which preceded `R`.) For simplicity we will use `=`, but know that often you will see `<-` as the assignment operator. 
+
+The pros and cons of these two are well beyond the scope of this book, but know that for our purposes you will have no issue if you simply use `=`.
+
+If you wish to use `<-`, you will still need to use `=`, however only for argument passing. Some users like to keep assignment (`<-`) and argument passing (`=`) separate. No matter what you choose, the more important thing is that you **stay consistent**. Also, if working on a larger collaborative project, you should use whatever style is already in place.
+
+Because vectors must contain elements that are all the same type, `R` will automatically coerce to a single type when attempting to create a vector that combines multiple types.
+
+```{r}
+c(42, "Statistics", TRUE)
+c(42, TRUE)
+```
+
+### QUESTION 1
+
+Create an R vector using the combine operator `c` that consists of the integer 42 and the string 42. Store it in a variable called `y` -- you can do this all in a single line. On the next line, write `is.character(y)`. Then knit the Rmarkdown. In the knitted HTML output file, look under question 1. Do you see a logical value of `TRUE` or `FALSE`?
+
+```{r}
+#Your code for question 1 goes here
+
+
+```
+
+### QUESTION 2
+
+Recall that vectors can contain only one data type in `R`. Based on your answer to question 1, what data type did `R` coerce the values of `y` to?
+
+### QUESTION 3
+
+`R` has easy to access documentation for functions -- `is.character` is one such function. Navigate to the pane of Rstudio labeled `Console`. In it, enter `?is.character`. Documentation will appear. Navigate to the \textbf{Value} section of the documentation titled `Value`, and copy and paste the line discussing what `is.character` will return into Canvas for question 3.
+
+
+
+Frequently you may wish to create a vector based on a sequence of numbers. The quickest and easiest way to do this is with the `:` operator, which creates a sequence of integers between two specified integers.
+
+READ: Constructing Vectors
+
+```{r}
+(y = 1:100)
+```
+
+Here we see `R` labeling the rows after the first since this is a large vector. Also, we see that by putting parentheses around the assignment, `R` both stores the vector in a variable called `y` and automatically outputs `y` to the console.
+
+Note that scalars do not exists in `R`. They are simply vectors of length `1`.
+
+```{r}
+2
+```
+
+If we want to create a sequence that isn't limited to integers and increasing by 1 at a time, we can use the `seq()` function.
+
+```{r}
+seq(from = 1.5, to = 4.2, by = 0.1)
+```
+
+We will discuss functions in detail later, but note here that the input labels `from`, `to`, and `by` are optional.
+
+```{r}
+seq(1.5, 4.2, 0.1)
+```
+
+Another common operation to create a vector is `rep()`, which can repeat a single value a number of times.
+
+```{r}
+rep("A", times = 10)
+```
+
+The `rep()` function can be used to repeat a vector some number of times.
+
+```{r}
+rep(x, times = 3)
+```
+
+We have now seen four different ways to create vectors:
+
+- `c()`
+- `:`
+- `seq()`
+- `rep()`
+
+So far we have mostly used them in isolation, but they are often used together.
+
+```{r}
+c(x, rep(seq(1, 9, 2), 3), c(1, 2, 3), 42, 2:4)
+```
+
+The length of a vector can be obtained with the `length()` function.
+
+```{r}
+length(x)
+length(y)
+```
+
+
+## QUESTION 4
+
+What is the code that you would write to construct the vector that starts with `-10,-5,0,5,10`, then has 50 `1`s,and finishes with the numbers `100,99,98,97,...,4,3,2,1`?
+
+#### READ: Subsetting
+
+To subset a vector, we use square brackets, `[]`. 
+
+```{r}
+x
+x[1]
+x[3]
+```
+
+We see that `x[1]` returns the first element, and `x[3]` returns the third element.
+
+```{r}
+x[-2]
+```
+
+We can also exclude certain indexes, in this case the second element.
+
+```{r}
+x[1:3]
+x[c(1,3,4)]
+```
+
+Lastly we see that we can subset based on a vector of indices.
+
+All of the above are subsetting a vector using a vector of indexes. (Remember a single number is still a vector.) We could instead use a vector of logical values.
+
+```{r}
+z = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE)
+z
+```
+
+```{r}
+x[z]
+```
+
+## QUESTION 5
+
+Suppose I have a vector stored in a variable called `v`. I want to access the last element of `v`. Use what you know about the `length` function -- discussed earlier -- and what you know about subsetting, to write a simple and short line of code to access the last entry of `v`. Enter this as your answer to question 5 on Canvas.
+
+### READ: Vectorization
+
+One of the biggest strengths of `R` is its use of vectorized operations. (Frequently the lack of understanding of this concept leads of a belief that `R` is *slow*. `R` is not the fastest language, but it has a reputation for being slower than it really is.)
+
+```{r}
+x = 1:10
+x + 1
+2 * x
+2 ^ x
+sqrt(x)
+log(x)
+```
+
+We see that when a function like `log()` is called on a vector `x`, a vector is returned which has applied the function to each element of the vector  `x`.
+
+
+### READ: Logical Operators
+
+| Operator | Summary               | Example               | Result |
+|----------|-----------------------|-----------------------|--------|
+| `x < y`  | `x` less than `y`                | `3 < 42`               | `r 3 < 42`               |
+| `x > y`  | `x` greater than `y`             | `3 > 42`               | `r 3 > 42`               |
+| `x <= y` | `x` less than or equal to `y`    | `3 <= 42`              | `r 3 <= 42`              |
+| `x >= y` | `x` greater than or equal to `y` | `3 >= 42`              | `r 3 >= 42`              |
+| `x == y` | `x`equal to `y`                  | `3 == 42`              | `r 3 == 42`              |
+| `x != y` | `x` not equal to `y`             | `3 != 42`              | `r 3 != 42`              |
+| `!x`     | not `x`                          | `!(3 > 42)`            | `r !(3 > 42)`            |
+| `x | y`  | `x` or `y`                       | `(3 > 42) | TRUE`      | `r (3 > 42) | TRUE`      |
+| `x & y`  | `x` and `y`                      | `(3 < 4) & ( 42 > 13)` | `r (3 < 4) & ( 42 > 13)` |
+
+In `R`, logical operators are vectorized. 
+
+```{r}
+x = c(1, 3, 5, 7, 8, 9)
+```
+
+```{r}
+x > 3
+x < 3
+x == 3
+x != 3
+```
+
+```{r}
+x == 3 & x != 3
+x == 3 | x != 3
+```
+
+This is extremely useful for subsetting.
+
+```{r}
+x[x > 3]
+x[x != 3]
+```
+
+```{r}
+sum(x > 3)
+as.numeric(x > 3)
+```
+
+Here we see that using the `sum()` function on a vector of logical `TRUE` and `FALSE` values that is the result of `x > 3` results in a numeric result. `R` is first automatically coercing the logical to numeric where `TRUE` is `1` and `FALSE` is `0`. This coercion from logical to numeric happens for most mathematical operations.
+
+```{r}
+which(x > 3)
+x[which(x > 3)]
+
+max(x)
+which(x == max(x))
+which.max(x)
+```
+
+
+## QUESTION 6
+
+```{r}
+l = c(NA,1,3,NA,5,NA)
+```
+
+Write a line of code that outputs the indices for which the vector `l` is `NA`. To do this, you will use what you just learned about subsetting. You will also use the `is.na` function. If you cannot guess what `is.na` will do, that is OK! Run `?is.na` in the console, and read the first paragraph in the `Value` section. 
+
+Getting to the correct answer in this problem may take some trial and error. To be efficient,either copy and paste the line where `l` is initialized into the `console`, or if you are looking directly at the `.Rmd` file, put your cursor on the line where `l` is initialized. Then type `command+Enter` on MAC or `control+Enter` on windows. Either method (copy+paste or the other method), will store `l` in your working environment. You can see that `l` is in your working environment by navigating to the `Environment` tab. Now to answer Question 6, put your cursor in the `Console`. Try your hand at writing the line of code in the `Console`. Since `l` is in the working environment, the console will now recognize `l`.
+
+When you are confident your line is working, enter this into Canvas as your answer to question 6.
+
+## QUESTION 7
+
+Run `max(l)` in the console. The output is disappointing, but suppose we want to find the maximum in the vector while ignoring the `NA` values. Read the documentation on the `max` function and figure out the line you would need to run to output the maximum element in `l` while igorning `NA` values. 
+
+Enter the line you come up with as your answer to question 7 in canvas.
+
+### Read: Matrices and Lists
+
+Matrices and Lists are two other are data structures that are essential for script writing in R and doing data analysis. But we don't have time to cover everything. For now, just remember that
+
+
+A **matrix** has rows and columns and is homogenous (i.e has only one data type). If you have an application where you need to do numeric matrix computations (e.g matrix multiplications, inverse, determinant, etc.), you'll be interested in using the **matrix** data type. For much more detailed information on matrices, see the Matrix section [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html)
+
+A **list** is a heterogenous version of a vector. It can act as a dictionary. It's very useful when writing scripts, and a lot of objects that are returned from functions come in the form of a list. When you need more information, go [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html) and look at the section on Lists.
+
+### READ (VERY IMPORTANT): Data Frames
+
+The **data frame** object is the data structure that will hold our complex data sets. The data frame consists of rows and columns. An example of the initialization of a data frame is given below.
+
+```{r}
+example_data = data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
+                          y = c(rep("Hello", 9), "Goodbye"),
+                          z = rep(c(TRUE, FALSE), 5))
+```
+
+
+## QUESTION 8
+
+Let's create a data frame of random numbers. Your task is to construct a data frame with 100 rows and 3 columns. The first column should be `100` samples from a `uniform(0,1)` distribution -- hint use the `runif` function. The second column should be `100` samples from a `uniform(-1,1)` distribution, and the third column should be the `"Hello"` `100` times.
+
+As your answer on Canvas, give the line of code that you wrote to produce this data frame.
+
+### READ: More on Data Frames
+
+A data frame is not required to have the same data type for each element. A data frame is a **list** of vectors. So, each vector must contain the same data type, but the different vectors can store different data types. 
+
+```{r}
+example_data
+```
+
+The elements of a data frame must all be vectors, and have the same length.
+
+```{r}
+example_data$x
+
+all.equal(length(example_data$x),
+          length(example_data$y),
+          length(example_data$z))
+
+str(example_data)
+
+nrow(example_data)
+ncol(example_data)
+dim(example_data)
+```
+
+The `data.frame()` function above is one way to create a data frame. We can also import data from various file types in into `R`, as well as use data stored in packages.
+
+Let's read in the csv that came with this lab located in the data folder. 
+
+## Question 9
+
+1. In the console, run `install.packages("readr")`
+2. In the console, run `library(readr)`
+2. Now find the path to this lab on your machine -- i.e the path where you downloaded and saved this lab
+3. Now in the console, run `setwd(YOUR_PATH_HERE)`
+4. Finally, in the console, run `importedData = read_csv("data/thisLabisAlmostOver.csv")`
+5. Once you have done, this look at `importedData` by typing `importedData` into the console and running. Report as your answer in Canvas the data structure of the first column.
+
+### READ: More on Data Frames
+
+Note that `read_csv` is a function from the `readr` library that you just installed.
+
+A tibble is simply a data frame that prints with sanity. Notice in the output above that we are given additional information such as dimension and variable type.
+
+For working with data frames in `R`, and deriving actionable insights from them, there are a couple of essential packages you should have installed
+
+1. ggplot2 (visualizing data)
+2. dplyr (manipulating data frames)
+
+```{r}
+library(ggplot2)
+```
+
+### READ: Visualizing data Using ggplot2 Inside a Data Frame
+Inside the `ggplot2` package is a dataset called `mpg`. By loading the package using the `library()` function, we can now access `mpg`.
+
+When using data from inside a package, there are three things we would generally like to do:
+
+- Look at the raw data.
+- Understand the data. (Where did it come from? What are the variables? Etc.)
+- Visualize the data.
+
+To look at the data, we have two useful commands: `head()` and `str()`.
+
+```{r}
+head(mpg, n = 10)
+```
+
+The function `head()` will display the first `n` observations of the data frame. The `head()` function was more useful before tibbles. Notice that `mpg` is a tibble already, so the output from `head()` indicates there are only `10` observations. Note that this applies to `head(mpg, n = 10)` and not `mpg` itself. Also note that tibbles print a limited number of rows and columns by default. The last line of the printed output indicates which rows and columns were omitted.
+
+```{r}
+mpg
+```
+
+The function `str()` will display the "structure" of the data frame. It will display the number of **observations** and **variables**, list the variables, give the type of each variable, and show some elements of each variable. This information can also be found in the "Environment" window in RStudio.
+
+```{r}
+str(mpg)
+```
+
+It is important to note that while matrices have rows and columns, data frames (tibbles) instead have observations and variables. When displayed in the console or viewer, each row is an observation and each column is a variable. However generally speaking, their order does not matter, it is simply a side-effect of how the data was entered or stored.
+
+In this dataset an observation is for a particular model-year of a car, and the variables describe attributes of the car, for example its highway fuel efficiency.
+
+To understand more about the data set, we use the `?` operator to pull up the documentation for the data.
+
+```{r, eval = FALSE}
+?mpg
+```
+
+`R` has a number of functions for quickly working with and extracting basic information from data frames. To quickly obtain a vector of the variable names, we use the `names()` function.
+
+```{r}
+names(mpg)
+```
+
+To access one of the variables **as a vector**, we use the `$` operator.
+
+```{r}
+mpg$year
+mpg$hwy
+```
+
+We can use the `dim()`, `nrow()` and `ncol()` functions to obtain information about the dimension of the data frame.
+
+```{r}
+dim(mpg)
+nrow(mpg)
+ncol(mpg)
+```
+
+Here `nrow()` is also the number of observations, which in most cases is the *sample size*.
+
+Let's now visualize some of the data using `ggplot2`. We'll construct a histogram of the city miles per gallon variable. 
+
+The syntax is as follows
+
+`ggplot(data = NAME_OF_YOUR_DATA_FRAME,aes(x=COLUMN_NAME))+geom_histogram()`
+
+## Question 10
+
+Using the above hint, use the below space in the Markdown file to attempt to make a histogram for the city miles per gallon variable `cty` in the `mpg` dataset.
+
+```{r}
+##Your Code goes here
+```
+
+As your answer to this question, reknit the Markdown file. Note that `ggplot2` prints a complaint about binwidth size. Copy and paste this complaint as your answer to question 10 on Canvas.
+
+This barely scratches the surface of `ggplot2`. When you want to make beautiful visualizations from your data frames, start by reading Hadley Wickham's chapter on ggplot2 [here](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3)
+
+
+
+## READ: Programming Basics [Control Flow,Functions]
+
+There likely will come a time in this class that you will need to make some scripts to neatly run your analyses. The details of control flow and functions are critical for this task. When you find yourself needing to write functions to do things, consult the Programming Basics section [here](https://daviddalpiaz.github.io/appliedstats/data-and-programming.html)
+### Control Flow
