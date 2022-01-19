@@ -2,6 +2,13 @@
 
 # Lab 2: The Basics of R Programming
 
+## VERY IMPORTANT INSTRUCTIONS
+
+In this lab, you will be reading the .html file, and periodically updating the .Rmd file. So at this time make sure you have the .Rmd file open!!
+
+<span style="color:red">
+To do certain questions in the lab, you will need to have some variables from the .Rmd file stored in your working `environment`. We will guide you in loading variables into your working `environment`. It is essential that you follow all instructions **regarding putting variables in your working environment**; otherwise this lab will be extremely difficult for you. Instructions about storing variables in the working environment will be in red</span>
+
 There are two types of activities in this lab. These are labeled `READ` and `QUESTION`. Doing both is critical to your development as an `R` programmer. The `QUESTIONS` will correspond to Canvas questions that you will turn in for the lab
 
 
@@ -68,10 +75,13 @@ heightData = read.csv("data/classHeight.csv")
 heightData$heights[1] = NA
 ```
 
+<span style="color:red">In the .Rmd file, find QUESTION 1. It should be around line 80. Just above it, the `heightData` data set is read into R. We're going to put the `heightData` data set into our `environment`. To do this, put your cursor at the end of the line `heightData = read.csv("data/classHeight.csv")`. Then on Mac, press `cmd+Enter`. On windows, press `ctrl+Enter`. In your global envioronment `heightData` will be loaded in the `environment` pane. Now put your cursor on the next line, and run this line in the same way -- making an update to the `heightData` variable. </span>
+
+
 ### QUESTION 1: Learning Outcome -- Getting a First Look at a Data Frame
 In a dataframe, each column is a vector. We'll analyze the `heightData` data frame, which has been loaded in R. For now, we'll be more concerned about the vectors inside the data frames than the data frame itself. Later we'll study data frames in more detail.
 
-Run `head(heightData)`. What are the three columns that you see? As your answer to Canvas question 1, enter the names of the columns.
+<span style="color:red">Run `head(heightData)` in the console </span>. What are the three columns that you see? As your answer to Canvas question 1, enter the names of the columns.
 
 ## READ:
 
@@ -88,7 +98,7 @@ To add the last names to the names column, we'll use the `str_c` function from t
 library(stringr)
 ```
 
-To access the documentation, enter `?str_c` in the `console`. For question 2, copy and paste the description text as your answer into Canvas question 2.
+<span style="color:red">To access the documentation, enter `?str_c` in the `console` </span>. For question 2, copy and paste the description text as your answer into Canvas question 2.
 
 ## READ:
 The below code is one way to update the names column using the `str_c` function
@@ -96,30 +106,17 @@ The below code is one way to update the names column using the `str_c` function
 heightData$names = str_c(heightData$names,lastNames,sep=" ")
 ```
 
+<span style="color:red">Make the following updates to `heightData` that you have stored in your environment by finding in the .Rmd file the following lines, and running them in the given order below:
 
-<!-- ### QUESTION 1 -->
-
-<!-- Create an R vector using the combine operator `c` that consists of the integer 42 and the string 42. Store it in a variable called `y` -- you can do this all in a single line. On the next line, write `is.character(y)`. Then knit the Rmarkdown. In the knitted HTML output file, look under question 1. Do you see a logical value of `TRUE` or `FALSE`? -->
-
-<!-- ```{r} -->
-<!-- #Your code for question 1 goes here -->
-
-
-<!-- ``` -->
-
-<!-- ### QUESTION 2 -->
-
-<!-- Recall that vectors can contain only one data type in `R`. Based on your answer to question 1, what data type did `R` coerce the values of `y` to? -->
-
-<!-- ### QUESTION 3 -->
-
-<!-- `R` has easy to access documentation for functions -- `is.character` is one such function. Navigate to the pane of Rstudio labeled `Console`. In it, enter `?is.character`. Documentation will appear. Navigate to the \textbf{Value} section of the documentation titled `Value`, and copy and paste the line discussing what `is.character` will return into Canvas for question 3. -->
-
-
-
+<ol>
+  <li>`lastNames = c(rep("James",5),rep("Butler",5),rep("Cooper",5),rep("White",5))`</li>
+  <li>`library(stringr)`</li>
+  <li>`heightData$names = str_c(heightData$names,lastNames,sep=" ")`</li>
+</ol>
+</span>
 Frequently you may wish to create a vector based on a sequence of numbers. The quickest and easiest way to do this is with the `:` operator, which creates a sequence of integers between two specified integers.
 
-READ: Constructing Vectors
+## READ: Constructing Vectors
 
 ```{r}
 (y = 1:100)
@@ -182,18 +179,17 @@ length(y)
 
 Natasha would like to add blood type to the height data set. By coincidence, it turns out that the James's all have blood type A, the Butler's all have blood type B, the Cooper's all have blood type A, and the White's all have blood type O.
 
-Below, write the code to construct the vector of blood types, and add this vector to the data frame, called it `bloodType`
+Below, (in the .Rmd file) write the code to construct the vector of blood types, and add this vector to the data frame, called it `bloodType`
 
 ```{r}
-##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function.
+##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function. You'll fill in the ??? with the correct syntax to construct the blood type vector. Then uncomment the line below it to add the vector to the data frame.
+#Remember to uncomment the below two lines when you are done by removing the # from the beginning of each line. (for the below two lines)
 #bloodTypeVector = ???
 #heightData$bloodType = bloodTypeVector 
 ```
 
-Once you have written the code, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.
-```{r}
-head(heightData)
-```
+<span style="color:red">ANOTHER HINT for the above question: You can use the `console` to play around with constructing the correct vector so you don't have to reknit the markdown everytime to check your work. Or you can play around by constructing the line in an R script (which you would make via `File -> New File -> R script)`. Writing the line in there, and then using `Cmd+Enter` or `Ctrl+Enter` to see if your vector is what you want it to be. When you are confident you have the write code, then you can paste into the space above. </span>
+Once you have written the code in the space above, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.
 
 For this question, past your code as your answer to question 3 in Canvas.
 
@@ -306,18 +302,25 @@ which.max(x)
 
 ## QUESTION 4: Learning Outcome - Using Boolean Subsetting
 
-Natasha's boss informers her that for every member of the Cooper family, their height information was collected improperly. So in analyzing the data, we shouldn't trust the height information from the Coopers. She needs to change the height information for Julia Cooper to `NA` -- `NA` is missing value in R.
+<span style="color:red">In the .Rmd file, run the line `heights <- heightData$names`</span>
+
+Natasha's boss informers her that for every member of the Cooper family, their height information was collected improperly. So in analyzing the data, we shouldn't trust the height information from the Coopers. She needs to change the height information for all the Coopers to `NA`    -- `NA` is missing value in R.
 
 We'll do this in two steps. The first step is Question 4. Here we will create a boolean vector which is true on the row indices corresponding to the Coopers. Write your code below
 
 ```{r}
 heights <- heightData$names
 #Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be "Cooper". Write your code in the below line
+#Remember to uncomment the below line when you are done by removing the # from the beginning of the line
 #cooperIndices <- ????
 
 ```
+<span style="color:red">Another hint: do play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the `heights` vector and the `endsWith` fucntion in the console until you are confident you have the correct code.</span>
+
+
 Paste your code as your answer to question 4 in Canvas. Reknit this markdown file (making sure that your code above is uncommented), and continue onto the next question.
 
+<span style="color:red">After you are done with question 4, make sure that in your enviornment, `cooperIndices` exists and stores your answer to question 4. We will use it in question 5. To do this, you can run `cmd+Enter` or `ctrl+Enter` on the line you filled in for question 4 -- after it is uncommented.</span>
 
 ## QUESTION 5: Learning Outcome - Use Boolean Subsetting
 
@@ -329,6 +332,8 @@ Figure out what goes in the question mark area below. Then uncomment the below c
 #heightData$heights[??] = NA
 heightData
 ```
+<span style="color:red">Now run the `heightData` above in the .Rmd file to store in your environment the latest version of `heightData`</span>
+
 As your answer to this question in Canvas, write what you put in the question mark area.
 
 ## QUESTION 6: Learning Outcome -- Handling NA values
@@ -338,15 +343,17 @@ Observe the below code:
 max(heightData$heights)
 ```
 
-The output is disappointing; this is because there are `NA` values in the heights vector. But suppose we want to find the maximum in the vector while ignoring the `NA` values. Read the documentation on the `max` function and figure out the line you would need to run to output the maximum element in `l` while igorning `NA` values. 
+The output is disappointing; this is because there are `NA` values in the heights vector. But suppose we want to find the maximum in the vector while ignoring the `NA` values. Read the documentation on the `max` function and figure out the line you would need to run to output the maximum element in `heightData$heights` while igorning `NA` values. 
 
 Enter the line you come up with as your answer to question 6 in canvas.
 
 ### QUESTION 7: Learning Outcome -- Using Which
 
-Lookup the which.max function. Then write a line of code that print the name of the tallest individual.
+Lookup the `which.max` function. Then write a line of code that print the name of the tallest individual.
 
 ```{r}
+#HINT: the heights are stored in the vector heightData$heights
+#And remember to uncomment -- remove the # -- the below line when you are confident with you answer.
 #Write the line here
 ```
 Reknit the markdown so that it prints the name of the tallest student.
@@ -409,12 +416,14 @@ Let's read in the csv that came with this lab located in the data folder.
 
 ## Question 9: Learning Outcome: Loading a Data Frame
 
+[Note: Instructions `3` and `4` below will only be nescessary if your working directory isn't already set to the location of the lab. ]
+
 1. In the console, run `install.packages("readr")`
 2. In the console, run `library(readr)`
 2. Now find the path to this lab on your machine -- i.e the path where you downloaded and saved this lab
 3. Now in the console, run `setwd(YOUR_PATH_HERE)`
 4. Finally, in the console, run `importedData = read_csv("data/thisLabisAlmostOver.csv")`
-5. Once you have done, this look at `importedData` by typing `importedData` into the console and running. Report as your answer in Canvas the data structure of the first column.
+5. Once you have done this, look at `importedData` by typing `importedData` into the console and running. Report as your answer in Canvas the data structure of the first column.
 
 ### READ: More on Data Frames
 
@@ -434,84 +443,6 @@ library(ggplot2)
 ### READ: Visualizing data Using ggplot2 Inside a Data Frame
 
 You'll learn more about this next soon. So nothing to read on this now.
-<!-- Inside the `ggplot2` package is a dataset called `mpg`. By loading the package using the `library()` function, we can now access `mpg`. -->
-
-<!-- When using data from inside a package, there are three things we would generally like to do: -->
-
-<!-- - Look at the raw data. -->
-<!-- - Understand the data. (Where did it come from? What are the variables? Etc.) -->
-<!-- - Visualize the data. -->
-
-<!-- To look at the data, we have two useful commands: `head()` and `str()`. -->
-
-<!-- ```{r} -->
-<!-- head(mpg, n = 10) -->
-<!-- ``` -->
-
-<!-- The function `head()` will display the first `n` observations of the data frame. The `head()` function was more useful before tibbles. Notice that `mpg` is a tibble already, so the output from `head()` indicates there are only `10` observations. Note that this applies to `head(mpg, n = 10)` and not `mpg` itself. Also note that tibbles print a limited number of rows and columns by default. The last line of the printed output indicates which rows and columns were omitted. -->
-
-<!-- ```{r} -->
-<!-- mpg -->
-<!-- ``` -->
-
-<!-- The function `str()` will display the "structure" of the data frame. It will display the number of **observations** and **variables**, list the variables, give the type of each variable, and show some elements of each variable. This information can also be found in the "Environment" window in RStudio. -->
-
-<!-- ```{r} -->
-<!-- str(mpg) -->
-<!-- ``` -->
-
-<!-- It is important to note that while matrices have rows and columns, data frames (tibbles) instead have observations and variables. When displayed in the console or viewer, each row is an observation and each column is a variable. However generally speaking, their order does not matter, it is simply a side-effect of how the data was entered or stored. -->
-
-<!-- In this dataset an observation is for a particular model-year of a car, and the variables describe attributes of the car, for example its highway fuel efficiency. -->
-
-<!-- To understand more about the data set, we use the `?` operator to pull up the documentation for the data. -->
-
-<!-- ```{r, eval = FALSE} -->
-<!-- ?mpg -->
-<!-- ``` -->
-
-<!-- `R` has a number of functions for quickly working with and extracting basic information from data frames. To quickly obtain a vector of the variable names, we use the `names()` function. -->
-
-<!-- ```{r} -->
-<!-- names(mpg) -->
-<!-- ``` -->
-
-<!-- To access one of the variables **as a vector**, we use the `$` operator. -->
-
-<!-- ```{r} -->
-<!-- mpg$year -->
-<!-- mpg$hwy -->
-<!-- ``` -->
-
-<!-- We can use the `dim()`, `nrow()` and `ncol()` functions to obtain information about the dimension of the data frame. -->
-
-<!-- ```{r} -->
-<!-- dim(mpg) -->
-<!-- nrow(mpg) -->
-<!-- ncol(mpg) -->
-<!-- ``` -->
-
-<!-- Here `nrow()` is also the number of observations, which in most cases is the *sample size*. -->
-
-<!-- Let's now visualize some of the data using `ggplot2`. We'll construct a histogram of the city miles per gallon variable.  -->
-
-<!-- The syntax is as follows -->
-
-<!-- `ggplot(data = NAME_OF_YOUR_DATA_FRAME,aes(x=COLUMN_NAME))+geom_histogram()` -->
-
-<!-- ## Question 10 -->
-
-<!-- Using the above hint, use the below space in the Markdown file to attempt to make a histogram for the city miles per gallon variable `cty` in the `mpg` dataset. -->
-
-<!-- ```{r} -->
-<!-- ##Your Code goes here -->
-<!-- ``` -->
-
-<!-- As your answer to this question, reknit the Markdown file. Note that `ggplot2` prints a complaint about binwidth size. Copy and paste this complaint as your answer to question 10 on Canvas. -->
-
-<!-- This barely scratches the surface of `ggplot2`. When you want to make beautiful visualizations from your data frames, start by reading Hadley Wickham's chapter on ggplot2 [here](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) -->
-
-
 
 ## READ: Programming Basics [Control Flow,Functions]
 

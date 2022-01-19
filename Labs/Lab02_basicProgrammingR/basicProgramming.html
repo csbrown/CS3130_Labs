@@ -367,7 +367,12 @@ summary {
 
 <div id="lab-2-the-basics-of-r-programming" class="section level1">
 <h1>Lab 2: The Basics of R Programming</h1>
+<div id="very-important-instructions" class="section level2">
+<h2>VERY IMPORTANT INSTRUCTIONS</h2>
+<p>In this lab, you will be reading the .html file, and periodically updating the .Rmd file. So at this time make sure you have the .Rmd file open!!</p>
+<p><span style="color:red"> To do certain questions in the lab, you will need to have some variables from the .Rmd file stored in your working <code>environment</code>. We will guide you in loading variables into your working <code>environment</code>. It is essential that you follow all instructions <strong>regarding putting variables in your working environment</strong>; otherwise this lab will be extremely difficult for you. Instructions about storing variables in the working environment will be in red</span></p>
 <p>There are two types of activities in this lab. These are labeled <code>READ</code> and <code>QUESTION</code>. Doing both is critical to your development as an <code>R</code> programmer. The <code>QUESTIONS</code> will correspond to Canvas questions that you will turn in for the lab</p>
+</div>
 <div id="read-data-types" class="section level2">
 <h2>READ: Data Types</h2>
 <p><code>R</code> has a number of basic data <em>types</em>.</p>
@@ -444,11 +449,12 @@ x</code></pre>
 <pre><code>## [1] &quot;42&quot;         &quot;Statistics&quot; &quot;TRUE&quot;</code></pre>
 <pre class="r"><code>c(42, TRUE)</code></pre>
 <pre><code>## [1] 42  1</code></pre>
+<p><span style="color:red">In the .Rmd file, find QUESTION 1. It should be around line 80. Just above it, the <code>heightData</code> data set is read into R. We’re going to put the <code>heightData</code> data set into our <code>environment</code>. To do this, put your cursor at the end of the line <code>heightData = read.csv(&quot;data/classHeight.csv&quot;)</code>. Then on Mac, press <code>cmd+Enter</code>. On windows, press <code>ctrl+Enter</code>. In your global envioronment <code>heightData</code> will be loaded in the <code>environment</code> pane. Now put your cursor on the next line, and run this line in the same way – making an update to the <code>heightData</code> variable. </span></p>
 </div>
 <div id="question-1-learning-outcome-getting-a-first-look-at-a-data-frame" class="section level3">
 <h3>QUESTION 1: Learning Outcome – Getting a First Look at a Data Frame</h3>
 <p>In a dataframe, each column is a vector. We’ll analyze the <code>heightData</code> data frame, which has been loaded in R. For now, we’ll be more concerned about the vectors inside the data frames than the data frame itself. Later we’ll study data frames in more detail.</p>
-<p>Run <code>head(heightData)</code>. What are the three columns that you see? As your answer to Canvas question 1, enter the names of the columns.</p>
+<p><span style="color:red">Run <code>head(heightData)</code> in the console </span>. What are the three columns that you see? As your answer to Canvas question 1, enter the names of the columns.</p>
 </div>
 </div>
 <div id="read" class="section level2">
@@ -459,24 +465,29 @@ x</code></pre>
 <h3>QUESTION 2: Learning Outcome – Analyzing the Documentation</h3>
 <p>To add the last names to the names column, we’ll use the <code>str_c</code> function from the <code>stringr</code> package.</p>
 <pre class="r"><code>library(stringr)</code></pre>
-<p>To access the documentation, enter <code>?str_c</code> in the <code>console</code>. For question 2, copy and paste the description text as your answer into Canvas question 2.</p>
+<p><span style="color:red">To access the documentation, enter <code>?str_c</code> in the <code>console</code> </span>. For question 2, copy and paste the description text as your answer into Canvas question 2.</p>
 </div>
 </div>
 <div id="read-1" class="section level2">
 <h2>READ:</h2>
 <p>The below code is one way to update the names column using the <code>str_c</code> function</p>
 <pre class="r"><code>heightData$names = str_c(heightData$names,lastNames,sep=&quot; &quot;)</code></pre>
-<!-- ### QUESTION 1 -->
-<!-- Create an R vector using the combine operator `c` that consists of the integer 42 and the string 42. Store it in a variable called `y` -- you can do this all in a single line. On the next line, write `is.character(y)`. Then knit the Rmarkdown. In the knitted HTML output file, look under question 1. Do you see a logical value of `TRUE` or `FALSE`? -->
-<!-- ```{r} -->
-<!-- #Your code for question 1 goes here -->
-<!-- ``` -->
-<!-- ### QUESTION 2 -->
-<!-- Recall that vectors can contain only one data type in `R`. Based on your answer to question 1, what data type did `R` coerce the values of `y` to? -->
-<!-- ### QUESTION 3 -->
-<!-- `R` has easy to access documentation for functions -- `is.character` is one such function. Navigate to the pane of Rstudio labeled `Console`. In it, enter `?is.character`. Documentation will appear. Navigate to the \textbf{Value} section of the documentation titled `Value`, and copy and paste the line discussing what `is.character` will return into Canvas for question 3. -->
-<p>Frequently you may wish to create a vector based on a sequence of numbers. The quickest and easiest way to do this is with the <code>:</code> operator, which creates a sequence of integers between two specified integers.</p>
-<p>READ: Constructing Vectors</p>
+<p><span style="color:red">Make the following updates to <code>heightData</code> that you have stored in your environment by finding in the .Rmd file the following lines, and running them in the given order below:</p>
+<ol>
+<li>
+<code>lastNames = c(rep(&quot;James&quot;,5),rep(&quot;Butler&quot;,5),rep(&quot;Cooper&quot;,5),rep(&quot;White&quot;,5))</code>
+</li>
+<li>
+<code>library(stringr)</code>
+</li>
+<li>
+<code>heightData$names = str_c(heightData$names,lastNames,sep=&quot; &quot;)</code>
+</li>
+</ol>
+<p></span> Frequently you may wish to create a vector based on a sequence of numbers. The quickest and easiest way to do this is with the <code>:</code> operator, which creates a sequence of integers between two specified integers.</p>
+</div>
+<div id="read-constructing-vectors" class="section level2">
+<h2>READ: Constructing Vectors</h2>
 <pre class="r"><code>(y = 1:100)</code></pre>
 <pre><code>##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
 ##  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
@@ -522,19 +533,12 @@ x</code></pre>
 <div id="question-3-learning-outcome-learning-to-make-structured-vectors" class="section level2">
 <h2>QUESTION 3 – Learning Outcome: Learning to Make Structured Vectors</h2>
 <p>Natasha would like to add blood type to the height data set. By coincidence, it turns out that the James’s all have blood type A, the Butler’s all have blood type B, the Cooper’s all have blood type A, and the White’s all have blood type O.</p>
-<p>Below, write the code to construct the vector of blood types, and add this vector to the data frame, called it <code>bloodType</code></p>
-<pre class="r"><code>##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function.
+<p>Below, (in the .Rmd file) write the code to construct the vector of blood types, and add this vector to the data frame, called it <code>bloodType</code></p>
+<pre class="r"><code>##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function. You'll fill in the ??? with the correct syntax to construct the blood type vector. Then uncomment the line below it to add the vector to the data frame.
+#Remember to uncomment the below two lines when you are done by removing the # from the beginning of each line. (for the below two lines)
 #bloodTypeVector = ???
 #heightData$bloodType = bloodTypeVector </code></pre>
-<p>Once you have written the code, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.</p>
-<pre class="r"><code>head(heightData)</code></pre>
-<pre><code>##        names  heights color
-## 1 Jeff James       NA Green
-## 2  Joe James 60.40665 Green
-## 3 John James 58.15722   Red
-## 4 Dave James 61.32240 Green
-## 5 Bill James 58.22690 Green
-## 6 Don Butler 60.70396  Blue</code></pre>
+<p><span style="color:red">ANOTHER HINT for the above question: You can use the <code>console</code> to play around with constructing the correct vector so you don’t have to reknit the markdown everytime to check your work. Or you can play around by constructing the line in an R script (which you would make via <code>File -&gt; New File -&gt; R script)</code>. Writing the line in there, and then using <code>Cmd+Enter</code> or <code>Ctrl+Enter</code> to see if your vector is what you want it to be. When you are confident you have the write code, then you can paste into the space above. </span> Once you have written the code in the space above, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.</p>
 <p>For this question, past your code as your answer to question 3 in Canvas.</p>
 <div id="read-subsetting" class="section level4">
 <h4>READ: Subsetting</h4>
@@ -685,12 +689,16 @@ x + 1</code></pre>
 </div>
 <div id="question-4-learning-outcome---using-boolean-subsetting" class="section level2">
 <h2>QUESTION 4: Learning Outcome - Using Boolean Subsetting</h2>
-<p>Natasha’s boss informers her that for every member of the Cooper family, their height information was collected improperly. So in analyzing the data, we shouldn’t trust the height information from the Coopers. She needs to change the height information for Julia Cooper to <code>NA</code> – <code>NA</code> is missing value in R.</p>
+<p><span style="color:red">In the .Rmd file, run the line <code>heights &lt;- heightData$names</code></span></p>
+<p>Natasha’s boss informers her that for every member of the Cooper family, their height information was collected improperly. So in analyzing the data, we shouldn’t trust the height information from the Coopers. She needs to change the height information for all the Coopers to <code>NA</code> – <code>NA</code> is missing value in R.</p>
 <p>We’ll do this in two steps. The first step is Question 4. Here we will create a boolean vector which is true on the row indices corresponding to the Coopers. Write your code below</p>
 <pre class="r"><code>heights &lt;- heightData$names
 #Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be &quot;Cooper&quot;. Write your code in the below line
+#Remember to uncomment the below line when you are done by removing the # from the beginning of the line
 #cooperIndices &lt;- ????</code></pre>
+<p><span style="color:red">Another hint: do play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the <code>heights</code> vector and the <code>endsWith</code> fucntion in the console until you are confident you have the correct code.</span></p>
 <p>Paste your code as your answer to question 4 in Canvas. Reknit this markdown file (making sure that your code above is uncommented), and continue onto the next question.</p>
+<p><span style="color:red">After you are done with question 4, make sure that in your enviornment, <code>cooperIndices</code> exists and stores your answer to question 4. We will use it in question 5. To do this, you can run <code>cmd+Enter</code> or <code>ctrl+Enter</code> on the line you filled in for question 4 – after it is uncommented.</span></p>
 </div>
 <div id="question-5-learning-outcome---use-boolean-subsetting" class="section level2">
 <h2>QUESTION 5: Learning Outcome - Use Boolean Subsetting</h2>
@@ -719,6 +727,7 @@ heightData</code></pre>
 ## 18  Groupey White 63.13752  Blue
 ## 19   Noopey White 56.81980   Red
 ## 20    Foopy White 61.54767  Blue</code></pre>
+<p><span style="color:red">Now run the <code>heightData</code> above in the .Rmd file to store in your environment the latest version of <code>heightData</code></span></p>
 <p>As your answer to this question in Canvas, write what you put in the question mark area.</p>
 </div>
 <div id="question-6-learning-outcome-handling-na-values" class="section level2">
@@ -726,12 +735,14 @@ heightData</code></pre>
 <p>Observe the below code:</p>
 <pre class="r"><code>max(heightData$heights)</code></pre>
 <pre><code>## [1] NA</code></pre>
-<p>The output is disappointing; this is because there are <code>NA</code> values in the heights vector. But suppose we want to find the maximum in the vector while ignoring the <code>NA</code> values. Read the documentation on the <code>max</code> function and figure out the line you would need to run to output the maximum element in <code>l</code> while igorning <code>NA</code> values.</p>
+<p>The output is disappointing; this is because there are <code>NA</code> values in the heights vector. But suppose we want to find the maximum in the vector while ignoring the <code>NA</code> values. Read the documentation on the <code>max</code> function and figure out the line you would need to run to output the maximum element in <code>heightData$heights</code> while igorning <code>NA</code> values.</p>
 <p>Enter the line you come up with as your answer to question 6 in canvas.</p>
 <div id="question-7-learning-outcome-using-which" class="section level3">
 <h3>QUESTION 7: Learning Outcome – Using Which</h3>
-<p>Lookup the which.max function. Then write a line of code that print the name of the tallest individual.</p>
-<pre class="r"><code>#Write the line here</code></pre>
+<p>Lookup the <code>which.max</code> function. Then write a line of code that print the name of the tallest individual.</p>
+<pre class="r"><code>#HINT: the heights are stored in the vector heightData$heights
+#And remember to uncomment -- remove the # -- the below line when you are confident with you answer.
+#Write the line here</code></pre>
 <p>Reknit the markdown so that it prints the name of the tallest student.</p>
 </div>
 <div id="read-matrices-and-lists" class="section level3">
@@ -792,13 +803,14 @@ heightData</code></pre>
 </div>
 <div id="question-9-learning-outcome-loading-a-data-frame" class="section level2">
 <h2>Question 9: Learning Outcome: Loading a Data Frame</h2>
+<p>[Note: Instructions <code>3</code> and <code>4</code> below will only be nescessary if your working directory isn’t already set to the location of the lab. ]</p>
 <ol style="list-style-type: decimal">
 <li>In the console, run <code>install.packages(&quot;readr&quot;)</code></li>
 <li>In the console, run <code>library(readr)</code></li>
 <li>Now find the path to this lab on your machine – i.e the path where you downloaded and saved this lab</li>
 <li>Now in the console, run <code>setwd(YOUR_PATH_HERE)</code></li>
 <li>Finally, in the console, run <code>importedData = read_csv(&quot;data/thisLabisAlmostOver.csv&quot;)</code></li>
-<li>Once you have done, this look at <code>importedData</code> by typing <code>importedData</code> into the console and running. Report as your answer in Canvas the data structure of the first column.</li>
+<li>Once you have done this, look at <code>importedData</code> by typing <code>importedData</code> into the console and running. Report as your answer in Canvas the data structure of the first column.</li>
 </ol>
 <div id="read-more-on-data-frames-1" class="section level3">
 <h3>READ: More on Data Frames</h3>
@@ -813,55 +825,7 @@ heightData</code></pre>
 </div>
 <div id="read-visualizing-data-using-ggplot2-inside-a-data-frame" class="section level3">
 <h3>READ: Visualizing data Using ggplot2 Inside a Data Frame</h3>
-<p>You’ll learn more about this next soon. So nothing to read on this now. <!-- Inside the `ggplot2` package is a dataset called `mpg`. By loading the package using the `library()` function, we can now access `mpg`. --></p>
-<!-- When using data from inside a package, there are three things we would generally like to do: -->
-<!-- - Look at the raw data. -->
-<!-- - Understand the data. (Where did it come from? What are the variables? Etc.) -->
-<!-- - Visualize the data. -->
-<!-- To look at the data, we have two useful commands: `head()` and `str()`. -->
-<!-- ```{r} -->
-<!-- head(mpg, n = 10) -->
-<!-- ``` -->
-<!-- The function `head()` will display the first `n` observations of the data frame. The `head()` function was more useful before tibbles. Notice that `mpg` is a tibble already, so the output from `head()` indicates there are only `10` observations. Note that this applies to `head(mpg, n = 10)` and not `mpg` itself. Also note that tibbles print a limited number of rows and columns by default. The last line of the printed output indicates which rows and columns were omitted. -->
-<!-- ```{r} -->
-<!-- mpg -->
-<!-- ``` -->
-<!-- The function `str()` will display the "structure" of the data frame. It will display the number of **observations** and **variables**, list the variables, give the type of each variable, and show some elements of each variable. This information can also be found in the "Environment" window in RStudio. -->
-<!-- ```{r} -->
-<!-- str(mpg) -->
-<!-- ``` -->
-<!-- It is important to note that while matrices have rows and columns, data frames (tibbles) instead have observations and variables. When displayed in the console or viewer, each row is an observation and each column is a variable. However generally speaking, their order does not matter, it is simply a side-effect of how the data was entered or stored. -->
-<!-- In this dataset an observation is for a particular model-year of a car, and the variables describe attributes of the car, for example its highway fuel efficiency. -->
-<!-- To understand more about the data set, we use the `?` operator to pull up the documentation for the data. -->
-<!-- ```{r, eval = FALSE} -->
-<!-- ?mpg -->
-<!-- ``` -->
-<!-- `R` has a number of functions for quickly working with and extracting basic information from data frames. To quickly obtain a vector of the variable names, we use the `names()` function. -->
-<!-- ```{r} -->
-<!-- names(mpg) -->
-<!-- ``` -->
-<!-- To access one of the variables **as a vector**, we use the `$` operator. -->
-<!-- ```{r} -->
-<!-- mpg$year -->
-<!-- mpg$hwy -->
-<!-- ``` -->
-<!-- We can use the `dim()`, `nrow()` and `ncol()` functions to obtain information about the dimension of the data frame. -->
-<!-- ```{r} -->
-<!-- dim(mpg) -->
-<!-- nrow(mpg) -->
-<!-- ncol(mpg) -->
-<!-- ``` -->
-<!-- Here `nrow()` is also the number of observations, which in most cases is the *sample size*. -->
-<!-- Let's now visualize some of the data using `ggplot2`. We'll construct a histogram of the city miles per gallon variable.  -->
-<!-- The syntax is as follows -->
-<!-- `ggplot(data = NAME_OF_YOUR_DATA_FRAME,aes(x=COLUMN_NAME))+geom_histogram()` -->
-<!-- ## Question 10 -->
-<!-- Using the above hint, use the below space in the Markdown file to attempt to make a histogram for the city miles per gallon variable `cty` in the `mpg` dataset. -->
-<!-- ```{r} -->
-<!-- ##Your Code goes here -->
-<!-- ``` -->
-<!-- As your answer to this question, reknit the Markdown file. Note that `ggplot2` prints a complaint about binwidth size. Copy and paste this complaint as your answer to question 10 on Canvas. -->
-<!-- This barely scratches the surface of `ggplot2`. When you want to make beautiful visualizations from your data frames, start by reading Hadley Wickham's chapter on ggplot2 [here](https://r4ds.had.co.nz/exploratory-data-analysis.html#introduction-3) -->
+<p>You’ll learn more about this next soon. So nothing to read on this now.</p>
 </div>
 </div>
 <div id="read-programming-basics-control-flowfunctions" class="section level2">
