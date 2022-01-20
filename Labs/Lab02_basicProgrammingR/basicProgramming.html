@@ -537,7 +537,7 @@ x</code></pre>
 <h2>QUESTION 3 – Learning Outcome: Learning to Make Structured Vectors</h2>
 <p>Natasha would like to add blood type to the height data set. By coincidence, it turns out that the James’s all have blood type A, the Butler’s all have blood type B, the Cooper’s all have blood type A, and the White’s all have blood type O.</p>
 <p>Below, (in the .Rmd file) write the code to construct the vector of blood types, and add this vector to the data frame, called it <code>bloodType</code></p>
-<pre class="r"><code>##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function. You'll fill in the ??? with the correct syntax to construct the blood type vector. Then uncomment the line below it to add the vector to the data frame.
+<pre class="r"><code>##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function. You'll fill in the ??? with the correct syntax to construct the blood type vector. 
 #Remember to uncomment the below two lines when you are done by removing the # from the beginning of each line. (for the below two lines)
 #bloodTypeVector = ???
 #heightData$bloodType = bloodTypeVector </code></pre>
@@ -704,10 +704,10 @@ x + 1</code></pre>
 <p>Natasha’s boss informers her that for every member of the Cooper family, their height information was collected improperly. So in analyzing the data, we shouldn’t trust the height information from the Coopers. She needs to change the height information for all the Coopers to <code>NA</code> – <code>NA</code> is missing value in R.</p>
 <p>We’ll do this in two steps. The first step is Question 4. Here we will create a boolean vector which is true on the row indices corresponding to the Coopers. Write your code below</p>
 <pre class="r"><code>heights &lt;- heightData$names
-#Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be &quot;Cooper&quot;. Write your code in the below line
+#Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be &quot;Cooper&quot;. 
 #Remember to uncomment the below line when you are done by removing the # from the beginning of the line
-#cooperIndices &lt;- </code></pre>
-<p><span style="color:red">Another hint: do play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the <code>heights</code> vector and the <code>endsWith</code> fucntion in the console until you are confident you have the correct code.</span></p>
+#cooperIndices &lt;- ???</code></pre>
+<p><span style="color:red">Another hint: to play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the <code>heights</code> vector and the <code>endsWith</code> fucntion in the console until you are confident you have the correct code.</span></p>
 <p>Paste your code as your answer to question 4 in Canvas. Reknit this markdown file (making sure that your code above is uncommented), and continue onto the next question.</p>
 <p><span style="color:red">After you are done with question 4, make sure that in your enviornment, <code>cooperIndices</code> exists and stores your answer to question 4. We will use it in question 5. To do this, you can run <code>cmd+Enter</code> or <code>ctrl+Enter</code> on the line you filled in for question 4 – after it is uncommented.</span></p>
 </div>
@@ -752,7 +752,7 @@ heightData</code></pre>
 <h3>QUESTION 7: Learning Outcome – Using Which</h3>
 <p>Lookup the <code>which.max</code> function. Then write a line of code that print the name of the tallest individual.</p>
 <pre class="r"><code>#HINT: the heights are stored in the vector heightData$heights and the names are stored in heightData$names
-#And remember to uncomment -- remove the # -- the below line when you are confident with you answer.
+#And remember to uncomment -- remove the # -- in the below line when you are confident with your answer.
 #Write the line here</code></pre>
 <p>Reknit the markdown so that it prints the name of the tallest student. As your answer on canvas, put the line you wrote.</p>
 </div>

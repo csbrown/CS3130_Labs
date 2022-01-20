@@ -190,7 +190,7 @@ Natasha would like to add blood type to the height data set. By coincidence, it 
 Below, (in the .Rmd file) write the code to construct the vector of blood types, and add this vector to the data frame, called it `bloodType`
 
 ```{r}
-##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function. You'll fill in the ??? with the correct syntax to construct the blood type vector. Then uncomment the line below it to add the vector to the data frame.
+##your code goes here: Hint the James are the first 5, the Butler's are the next 5, the Coopers are the next 5, and the White's are the last 5. So trying using the rep function. You'll fill in the ??? with the correct syntax to construct the blood type vector. 
 #Remember to uncomment the below two lines when you are done by removing the # from the beginning of each line. (for the below two lines)
 #bloodTypeVector = ???
 #heightData$bloodType = bloodTypeVector 
@@ -323,12 +323,12 @@ We'll do this in two steps. The first step is Question 4. Here we will create a 
 
 ```{r}
 heights <- heightData$names
-#Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be "Cooper". Write your code in the below line
+#Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be "Cooper". 
 #Remember to uncomment the below line when you are done by removing the # from the beginning of the line
-#cooperIndices <- 
+#cooperIndices <- ???
 
 ```
-<span style="color:red">Another hint: do play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the `heights` vector and the `endsWith` fucntion in the console until you are confident you have the correct code.</span>
+<span style="color:red">Another hint: to play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the `heights` vector and the `endsWith` fucntion in the console until you are confident you have the correct code.</span>
 
 
 Paste your code as your answer to question 4 in Canvas. Reknit this markdown file (making sure that your code above is uncommented), and continue onto the next question.
@@ -366,7 +366,7 @@ Lookup the `which.max` function. Then write a line of code that print the name o
 
 ```{r}
 #HINT: the heights are stored in the vector heightData$heights and the names are stored in heightData$names
-#And remember to uncomment -- remove the # -- the below line when you are confident with you answer.
+#And remember to uncomment -- remove the # -- in the below line when you are confident with your answer.
 #Write the line here
 ```
 Reknit the markdown so that it prints the name of the tallest student. As your answer on canvas, put the line you wrote.
