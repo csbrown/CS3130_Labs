@@ -460,12 +460,15 @@ x</code></pre>
 <div id="read" class="section level2">
 <h2>READ:</h2>
 <p>Natasha has the last names of all the students. She wants to add them to the name column. They are stored in the below vector</p>
-<pre class="r"><code>lastNames = c(rep(&quot;James&quot;,5),rep(&quot;Butler&quot;,5),rep(&quot;Cooper&quot;,5),rep(&quot;White&quot;,5))</code></pre>
+<pre class="r"><code>lastNames = c(rep(&quot;James&quot;,5),rep(&quot;Butler&quot;,5),rep(&quot;Cooper&quot;,5),rep(&quot;White&quot;,5))
+#Another way to do this which is more eloquent is:
+#lastNames = rep(c(&quot;James&quot;,&quot;Butler&quot;,&quot;Cooper&quot;,&quot;White&quot;),each=5)
+#You can use this strategy to answer question 3. But don't worry about that right now.</code></pre>
 <div id="question-2-learning-outcome-analyzing-the-documentation" class="section level3">
 <h3>QUESTION 2: Learning Outcome – Analyzing the Documentation</h3>
 <p>To add the last names to the names column, we’ll use the <code>str_c</code> function from the <code>stringr</code> package.</p>
 <pre class="r"><code>library(stringr)</code></pre>
-<p><span style="color:red">To access the documentation, enter <code>?str_c</code> in the <code>console</code> </span>. For question 2, copy and paste the description text as your answer into Canvas question 2.</p>
+<p><span style="color:red">To access the documentation, first load the library stringr into the environment by running <code>library(stringr)</code>. Then enter <code>?str_c</code> in the <code>console</code> </span>. For question 2, copy and paste the description text as your answer into Canvas question 2.</p>
 </div>
 </div>
 <div id="read-1" class="section level2">
@@ -538,7 +541,15 @@ x</code></pre>
 #Remember to uncomment the below two lines when you are done by removing the # from the beginning of each line. (for the below two lines)
 #bloodTypeVector = ???
 #heightData$bloodType = bloodTypeVector </code></pre>
-<p><span style="color:red">ANOTHER HINT for the above question: You can use the <code>console</code> to play around with constructing the correct vector so you don’t have to reknit the markdown everytime to check your work. Or you can play around by constructing the line in an R script (which you would make via <code>File -&gt; New File -&gt; R script)</code>. Writing the line in there, and then using <code>Cmd+Enter</code> or <code>Ctrl+Enter</code> to see if your vector is what you want it to be. When you are confident you have the write code, then you can paste into the space above. </span> Once you have written the code in the space above, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.</p>
+<p><span style="color:red">ANOTHER HINT for the above question: You can use the <code>console</code> to play around with constructing the correct vector so you don’t have to reknit the markdown everytime to check your work. Or you can play around by constructing the line in an R script (which you would make via <code>File -&gt; New File -&gt; R script)</code>. Writing the line in there, and then using <code>Cmd+Enter</code> or <code>Ctrl+Enter</code> to see if your vector is what you want it to be. When you are confident you have the write code, then you can paste into the space above. </span></p>
+<p>Once you have written the code in the space above, reknit the Rmarkdown – recall to knit the .Rmd file, find the blue <code>knit</code> button – on the drop down arrow, click <code>knit to HTML</code>. You should see the blood type vector below after you have filled in the code and reknitted the markdown.</p>
+<pre><code>##        names  heights color
+## 1 Jeff James       NA Green
+## 2  Joe James 60.40665 Green
+## 3 John James 58.15722   Red
+## 4 Dave James 61.32240 Green
+## 5 Bill James 58.22690 Green
+## 6 Don Butler 60.70396  Blue</code></pre>
 <p>For this question, past your code as your answer to question 3 in Canvas.</p>
 <div id="read-subsetting" class="section level4">
 <h4>READ: Subsetting</h4>
@@ -695,7 +706,7 @@ x + 1</code></pre>
 <pre class="r"><code>heights &lt;- heightData$names
 #Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be &quot;Cooper&quot;. Write your code in the below line
 #Remember to uncomment the below line when you are done by removing the # from the beginning of the line
-#cooperIndices &lt;- ????</code></pre>
+#cooperIndices &lt;- </code></pre>
 <p><span style="color:red">Another hint: do play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the <code>heights</code> vector and the <code>endsWith</code> fucntion in the console until you are confident you have the correct code.</span></p>
 <p>Paste your code as your answer to question 4 in Canvas. Reknit this markdown file (making sure that your code above is uncommented), and continue onto the next question.</p>
 <p><span style="color:red">After you are done with question 4, make sure that in your enviornment, <code>cooperIndices</code> exists and stores your answer to question 4. We will use it in question 5. To do this, you can run <code>cmd+Enter</code> or <code>ctrl+Enter</code> on the line you filled in for question 4 – after it is uncommented.</span></p>
@@ -740,10 +751,10 @@ heightData</code></pre>
 <div id="question-7-learning-outcome-using-which" class="section level3">
 <h3>QUESTION 7: Learning Outcome – Using Which</h3>
 <p>Lookup the <code>which.max</code> function. Then write a line of code that print the name of the tallest individual.</p>
-<pre class="r"><code>#HINT: the heights are stored in the vector heightData$heights
+<pre class="r"><code>#HINT: the heights are stored in the vector heightData$heights and the names are stored in heightData$names
 #And remember to uncomment -- remove the # -- the below line when you are confident with you answer.
 #Write the line here</code></pre>
-<p>Reknit the markdown so that it prints the name of the tallest student.</p>
+<p>Reknit the markdown so that it prints the name of the tallest student. As your answer on canvas, put the line you wrote.</p>
 </div>
 <div id="read-matrices-and-lists" class="section level3">
 <h3>Read: Matrices and Lists</h3>
@@ -763,7 +774,7 @@ heightData</code></pre>
 <div id="question-8-learning-outcome-generating-random-numbers-and-constructing-data-frames" class="section level2">
 <h2>QUESTION 8: Learning Outcome: Generating Random Numbers and Constructing Data Frames</h2>
 <p>Let’s create a data frame of random numbers. Your task is to construct a data frame with 100 rows and 3 columns. The first column should be <code>100</code> samples from a <code>uniform(0,1)</code> distribution – hint use the <code>runif</code> function. The second column should be <code>100</code> samples from a <code>uniform(-1,1)</code> distribution, and the third column should be the <code>&quot;Hello&quot;</code> <code>100</code> times.</p>
-<p>As your answer on Canvas, give the line of code that you wrote to produce this data frame.</p>
+<p>As your answer on Canvas, give the line of code that you wrote to produce this data frame. [Nothing to write in the .Rmd file for this question.]</p>
 <div id="read-more-on-data-frames" class="section level3">
 <h3>READ: More on Data Frames</h3>
 <p>A data frame is not required to have the same data type for each element. A data frame is a <strong>list</strong> of vectors. So, each vector must contain the same data type, but the different vectors can store different data types.</p>
@@ -810,7 +821,7 @@ heightData</code></pre>
 <li>Now find the path to this lab on your machine – i.e the path where you downloaded and saved this lab</li>
 <li>Now in the console, run <code>setwd(YOUR_PATH_HERE)</code></li>
 <li>Finally, in the console, run <code>importedData = read_csv(&quot;data/thisLabisAlmostOver.csv&quot;)</code></li>
-<li>Once you have done this, look at <code>importedData</code> by typing <code>importedData</code> into the console and running. Report as your answer in Canvas the data structure of the first column.</li>
+<li>Once you have done this, look at <code>importedData</code> by typing <code>importedData</code> into the console and running. Report as your answer in Canvas the data structure of the first column. HINT: It willl show up directly underneath the row giving the names of the columns]</li>
 </ol>
 <div id="read-more-on-data-frames-1" class="section level3">
 <h3>READ: More on Data Frames</h3>
@@ -821,7 +832,6 @@ heightData</code></pre>
 <li>ggplot2 (visualizing data)</li>
 <li>dplyr (manipulating data frames)</li>
 </ol>
-<pre class="r"><code>library(ggplot2)</code></pre>
 </div>
 <div id="read-visualizing-data-using-ggplot2-inside-a-data-frame" class="section level3">
 <h3>READ: Visualizing data Using ggplot2 Inside a Data Frame</h3>

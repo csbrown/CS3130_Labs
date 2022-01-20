@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 
 
 # Lab 2: The Basics of R Programming
@@ -89,6 +94,9 @@ Natasha has the last names of all the students. She wants to add them to the nam
 
 ```{r}
 lastNames = c(rep("James",5),rep("Butler",5),rep("Cooper",5),rep("White",5))
+#Another way to do this which is more eloquent is:
+#lastNames = rep(c("James","Butler","Cooper","White"),each=5)
+#You can use this strategy to answer question 3. But don't worry about that right now.
 ```
 
 ### QUESTION 2: Learning Outcome -- Analyzing the Documentation
@@ -98,7 +106,7 @@ To add the last names to the names column, we'll use the `str_c` function from t
 library(stringr)
 ```
 
-<span style="color:red">To access the documentation, enter `?str_c` in the `console` </span>. For question 2, copy and paste the description text as your answer into Canvas question 2.
+<span style="color:red">To access the documentation, first load the library stringr into the environment by running `library(stringr)`. Then enter `?str_c` in the `console` </span>. For question 2, copy and paste the description text as your answer into Canvas question 2.
 
 ## READ:
 The below code is one way to update the names column using the `str_c` function
@@ -189,8 +197,13 @@ Below, (in the .Rmd file) write the code to construct the vector of blood types,
 ```
 
 <span style="color:red">ANOTHER HINT for the above question: You can use the `console` to play around with constructing the correct vector so you don't have to reknit the markdown everytime to check your work. Or you can play around by constructing the line in an R script (which you would make via `File -> New File -> R script)`. Writing the line in there, and then using `Cmd+Enter` or `Ctrl+Enter` to see if your vector is what you want it to be. When you are confident you have the write code, then you can paste into the space above. </span>
-Once you have written the code in the space above, reknit the Rmarkdown. You should see the blood type vector below after you have filled in the code.
 
+
+Once you have written the code in the space above, reknit the Rmarkdown -- recall to knit the .Rmd file, find the blue `knit` button -- on the drop down arrow, click `knit to HTML`. You should see the blood type vector below after you have filled in the code and reknitted the markdown.
+
+```{r,echo = FALSE}
+head(heightData)
+```
 For this question, past your code as your answer to question 3 in Canvas.
 
 #### READ: Subsetting
@@ -312,7 +325,7 @@ We'll do this in two steps. The first step is Question 4. Here we will create a 
 heights <- heightData$names
 #Write code here. HINT: Look up the endsWith function using ?endsWith in the console. x will be heights, and suffix will be "Cooper". Write your code in the below line
 #Remember to uncomment the below line when you are done by removing the # from the beginning of the line
-#cooperIndices <- ????
+#cooperIndices <- 
 
 ```
 <span style="color:red">Another hint: do play around with how to do this, you can either use the console or open up another r script. I recommend just playing around with the `heights` vector and the `endsWith` fucntion in the console until you are confident you have the correct code.</span>
@@ -352,11 +365,11 @@ Enter the line you come up with as your answer to question 6 in canvas.
 Lookup the `which.max` function. Then write a line of code that print the name of the tallest individual.
 
 ```{r}
-#HINT: the heights are stored in the vector heightData$heights
+#HINT: the heights are stored in the vector heightData$heights and the names are stored in heightData$names
 #And remember to uncomment -- remove the # -- the below line when you are confident with you answer.
 #Write the line here
 ```
-Reknit the markdown so that it prints the name of the tallest student.
+Reknit the markdown so that it prints the name of the tallest student. As your answer on canvas, put the line you wrote.
 
 ### Read: Matrices and Lists
 
@@ -384,7 +397,7 @@ example_data = data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
 
 Let's create a data frame of random numbers. Your task is to construct a data frame with 100 rows and 3 columns. The first column should be `100` samples from a `uniform(0,1)` distribution -- hint use the `runif` function. The second column should be `100` samples from a `uniform(-1,1)` distribution, and the third column should be the `"Hello"` `100` times.
 
-As your answer on Canvas, give the line of code that you wrote to produce this data frame.
+As your answer on Canvas, give the line of code that you wrote to produce this data frame. [Nothing to write in the .Rmd file for this question.]
 
 ### READ: More on Data Frames
 
@@ -423,7 +436,7 @@ Let's read in the csv that came with this lab located in the data folder.
 2. Now find the path to this lab on your machine -- i.e the path where you downloaded and saved this lab
 3. Now in the console, run `setwd(YOUR_PATH_HERE)`
 4. Finally, in the console, run `importedData = read_csv("data/thisLabisAlmostOver.csv")`
-5. Once you have done this, look at `importedData` by typing `importedData` into the console and running. Report as your answer in Canvas the data structure of the first column.
+5. Once you have done this, look at `importedData` by typing `importedData` into the console and running. Report as your answer in Canvas the data structure of the first column. HINT: It willl show up directly underneath the row giving the names of the columns]
 
 ### READ: More on Data Frames
 
@@ -435,10 +448,6 @@ For working with data frames in `R`, and deriving actionable insights from them,
 
 1. ggplot2 (visualizing data)
 2. dplyr (manipulating data frames)
-
-```{r}
-library(ggplot2)
-```
 
 ### READ: Visualizing data Using ggplot2 Inside a Data Frame
 
