@@ -77,7 +77,6 @@ c(42, TRUE)
 
 ```{r,echo=FALSE}
 heightData = read.csv("data/classHeight.csv")
-heightData$heights[1] = NA
 ```
 
 <span style="color:red">In the .Rmd file, find QUESTION 1. It should be around line 80. Just above it, the `heightData` data set is read into R. We're going to put the `heightData` data set into our `environment`. To do this, put your cursor at the end of the line `heightData = read.csv("data/classHeight.csv")`. Then on Mac, press `cmd+Enter`. On windows, press `ctrl+Enter`. In your global envioronment `heightData` will be loaded in the `environment` pane. Now put your cursor on the next line, and run this line in the same way -- making an update to the `heightData` variable. </span>
