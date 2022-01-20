@@ -1,0 +1,63 @@
+---
+title: "RStudio Workflow"
+author: "Scott Brown"
+date: "1/20/2022"
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Workflow
+
+- It's really easy to open up RStudio and get going!
+  - This can result in a mess.
+  
+## Your R workspace
+
+- Your "Environment"
+- The Console
+- .R files
+- .Rmd files
+- "Projects"
+
+## Your R workspace
+
+- The Environment
+  - RStudio keeps an R interpreter open
+  - All of your .R and console code runs in *this one interpreter*
+  - The state of this environment is persisted on disk!
+  - Saved in the `.RData` file
+
+## Your R workspace
+
+- The Console
+  - The Experimenting Area
+  - Ideal for things like `?max`
+  - Variables persist in `.RData`
+  - Still, expect this code/variables to die!
+
+## Your R workspace
+
+- .R files
+  - Less Experimental
+  - This code lives on!
+  - Not ready for documenting yet
+
+## Your R workspace
+
+- `.Rmd` files
+  - "Knitting" doesn't pollute your environment
+  - Have to "re-knit" for each change, so experimenting is more difficult
+  - This code is "done-ish"
+  
+## Your R workspace
+
+- Projects
+  - Automatically sets the working directory (`setwd`) when you open the project
+  - Keeps track of your open files
+  - Has it's own `.RData` file
+  - KEEPS YOUR WORKSPACE CLEAN!!!
