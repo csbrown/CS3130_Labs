@@ -1,0 +1,126 @@
+---
+title: "Lab03"
+author: "Scott Brown"
+date: "1/26/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# this function tabulates the frequency per row.
+# setting MARGIN to 2 gives frequency per column.
+table_per_row <- function(data, MARGIN=1) {
+    flat_data <- as.vector(as.matrix(data)) # "flatten" the data into just a list of heads and tails
+    unique_values <- unique(flat_data) # get all of the unique values in the data 
+    factored <- apply(data, MARGIN, function(row) factor(row, levels=unique_values), simplify=FALSE) # maps the "factor" function over the rows... this is just a precursor to make "table" work right
+    tabulated <- sapply(factored, table) # map "table" over the previous line
+    return(data.frame(t(tabulated))) # return as a dataframe in familiar orientation.
+}
+```
+
+## Getting Started
+
+We will be using the coin-flipping data that we generated in class for the lab today.  It is located adjacent to this file in the materials you unzipped.  This data is in `.csv` format, which is a very common type of format for sharing the sorts of data that Statisticians often work on.  A ".csv" has data arranged so that each "row" of data is on a single line, and each "datum" in that row is separated by some delimiter, usually a comma - hence the name csv (comma-separated-value).  You can open and edit `.csv` files in a plain-text editor, but it's kind of a pain.  Often, we just use some kind of spreadsheet software to enter and edit any data that we are collecting.  Note that `.csv` files are super basic bare-bones, and don't support any of the formatting or data-manipulation features that spreadsheet software such as Excel support.  This is fine, because we plan to do all of our data-manipulation with `R`!
+
+To get an idea of the relationship between the "actual contents" of a `.csv` file, what you see in your spreadsheet, and what you see in `R`:
+
+Open the `flippin_coins.csv` file in your favorite plain-text editor (such as "notepad" on windoz, "textedit" on mac, or "gedit" on linux.), also open the `flippin_coins.csv` file in spreadsheet software (Google Sheets is a free online option, if you don't have anything installed), and also run `data <- read.csv("flippin_coins.csv")` in your `RStudio` console (this requires you to have created a project for today's lab... you did that, right?).  The "Environment" panel is a great place to inspect your data.
+
+```{r}
+data <- read.csv("flippin_coins.csv")
+```
+
+### 1. How many commas are on the first line of the `.csv` file?
+### 2. How many "variables" are in the data you loaded into `R`?
+### 3. How many rows are occupied in the spreadsheet?
+### 4. How many "observations" are in the data you loaded into `R`?
+    
+## Idempotent operations
+
+We don't need the "timestamp" data.  You can index matrices and data.frames in `R` as:
+
+```{r results='hide'}
+data[1] # the first row
+data[,1] # the first column
+data[1,1] # the obs. in the first row and first column
+data[,2:ncol(data)] # all columns but the first
+data[1:nrow(data)-1,] # all rows but the last
+```
+
+### 5. Which of the above lines will remove the "timestamp" column?
+
+Consider the following code:  `data <- data[, 2:ncol(data)]`
+
+### 6. What will happen if we run this line 10 times?  How about 11?
+
+Since `R` is interpreted, we are often running code "a line at a time". Thus, it is a good plan to make code that is [idempotent](https://en.wikipedia.org/wiki/Idempotence), meaning that if you run it multiple times, it doesn't screw everything up.  If you ran the previous line multiple times and screwed everything up, go back and re-load your data now.
+
+Note that the following line IS [idempotent](https://en.wikipedia.org/wiki/Idempotence).  It's not a problem if you run it twice.  Run this in your console now.  Run it again.  Run it as many times as you like.
+
+```{r}
+coins <- data[, 2:length(data)]
+```
+
+## Data Wrangling
+
+We have created a function `table_per_row` that [maps](https://en.wikipedia.org/wiki/Map_(higher-order_function)) thhe `table` function, which creates a frequency table, over every row of our data.  We won't go over the workings of this function, but the `?apply` function in `R` is super useful.  As a general rule, the paradigm for `R` is [functional](https://en.wikipedia.org/wiki/Functional_programming), and performing an `apply` is preferable to writing a `for` loop whenever possible.  If you're interested, `table_per_row` is defined at the top of this document.
+
+Anyhow, we'll tally up how many heads and how many tails each student got.  Run the following line in your console now:
+
+```{r}
+heads_v_tails_per_student <- table_per_row(coins) # how many heads did each student get?
+```
+
+Inspect this dataframe in your "Environment" panel.  If you reach a point in your data-wrangling that you'd like to, for whatever reason, save to a file that you can share with others, you can also *write* to `.csv` format with `?write.csv`.  Try writing the `heads_v_tails_per_student` frame to a `.csv` file.
+
+## Summaries
+
+Since `R` is designed for statistics, it has a lot of built-in functions that make summarizing data a breeze.  We covered a lot of these in class.
+
+### 7. What is the mean number of heads that students got in 10 flips?
+### 8. What is the standard deviation of the number of heads that students got in 10 flips?
+
+These help give us, the researcher, some idea of the general layout of our data.  Recall that the [mean](https://en.wikipedia.org/wiki/Arithmetic_mean) gives information about a value that most students "centered around".  The [standard deviation](https://simple.wikipedia.org/wiki/Standard_deviation) gives information about how far the values tended to be *away from the mean*.
+
+Recall that many operations in `R`, including things like `<`, are [vectorized](https://en.wikipedia.org/wiki/Array_programming).  This really lends itself to the "functional" aspects of `R`.  One way that we can see this is through counting things.  `R` allows you to perform math on booleans.  Try typing `TRUE + TRUE` into the console to get an idea of this.
+
+So, for example, we can use our `?sum` function and the `<` operator to figure out "how many students got fewer than 7 heads?":
+
+```{r}
+sum(heads_v_tails_per_student$heads < 7)
+```
+
+The `?nrow` or the `?length` functions can let us turn this into a percentage "what percent of students got fewer than 7 heads?":
+
+```{r}
+sum(heads_v_tails_per_student$heads < 7) / nrow(heads_v_tails_per_student)
+```
+
+### 9. What percent of students got a number of heads that is within 1 standard deviation of the mean (in either direction)?
+### 10. What percent of students got a number of heads that is within 2.5 standard deviations of the mean (in either direction)?
+
+## Plotting
+
+Histograms are often used to visualize numerical data.  Typically, they are used for continuous data, but sometimes we can use these same techniques for discrete data.
+
+```{r}
+hist(heads_v_tails_per_student$heads)
+```
+
+Sometimes when our data is discrete, our histogram can be confusing - The bar that seems to have 0 on the left and 1 on the right: does it include students who observed 0 heads?  Does it include students who observed 1 head?  The range of values that fall within a single bar is usually called a "bin".  `R` defines bins by specifying the endpoints of each bin: the `breaks`.  We can specify the `breaks` in our histogram to make the picture more clear:
+
+```{r}
+cuts = seq(-0.5, 9.5, length.out=11) # make 11 evenly spaced "breaks" from -0.5 to 9.5 (inclusive).  Note that this makes 10 "bins"!
+hist(heads_v_tails_per_student$heads, breaks = cuts) 
+```
+
+Note that each bar now exactly straddles an integer, so it's pretty clear which values occur in which "bins".
+
+### 11. Do you notice any potential outliers in our data from this image?  What might be the cause of these outliers?  Do you think that this cause applies to ALL of our outliers?  Do you think it would be appropriate for us to "ignore" them in our data analysis?  
+
+### 12. Suppose that we decide to remove these outliers before continuing our analysis.  Should we include the fact that we ignored them and our reasons why in our documentation?
+
+### 13. Change the number of breaks in the histogram by editing the `length.out` parameter (keep everything else the same).  Starting at 2 and working your way up, what is the smallest number of breaks needed here that our outliers become apparent?
+
+`R` defaults to an algorithm to estimate a "pretty" number and location of breaks.  You can specify an integer for the `breaks` parameter to "suggest" to the `R` algorithm approximately how many breaks you would like.
+
+### 14. Create a histogram for the built-in `swiss$Fertility` variable.  Change the number of suggested breaks from 2 to 10 to 25 to 50 to 100.  Describe what you think makes a "good" number of histogram "bins".
