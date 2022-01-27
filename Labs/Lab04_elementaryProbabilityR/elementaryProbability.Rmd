@@ -1,0 +1,49 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+# Lab 3: Elementary Probability in R
+
+
+You will do all your work for this lab in an R script file and the `console`; so you won't need to touch the `.Rmd` file for this lab. Open an empty R script file.  
+
+We'll use the built-in `Titanic` dataset for several questions in this lab
+
+
+At the top of your script file, load in the `tidyverse` library. In your console, type `Titanic`. The `Titanic` dataset displays. To view the dataset, run `view(Titanic)` in the console. You can also learn more about this dataset by running `?Titanic` in the console
+
+
+First, lets get some practice making contingency tables using `dplyr`. To do so, we'll need to make sure `Titanic` is a `data.frame` object. Run `class(Titanic)` in the console; notice it is a `table` object. Convert it to a `data.frame` object by putting `Titanic = data.frame(Titanic)` in your R script file, and then running that line. 
+
+Run the following line in the console:
+```{r,eval=FALSE}
+Titanic %>%
+  group_by(Age,Survived) %>%
+  summarise(n = sum(Freq))
+```
+The syntax `x %>% f(.,OTHER_ARGS)` feeds `x` into function `f` in the position where the `.` is located (the first argument). The `%>%` is called the `pipe` in R. So `group_by` takes as its first argument `Titanic`. In this setting, `group_by` creates a preliminary data structure which in this case has `4` different categories, broken down by the levels of the two variables `Age` and `Survived`. These categories are `Age=Child,Survived=Yes`,`Age=Adult,Survived=Yes`,`Age=Child,Survived=No`,`Age=Adult,Survived=No`. The `summarise` function sums the `Freq` variable within each group and stores it in a new column called `n`.
+
+This is all we have time to discuss about `dplyr` now. But for more info, see [here](https://r4ds.had.co.nz/transform.html#grouped-summaries-with-summarise) for a more complete introduction to grouping and summarising using `dplyr`. See [here](https://r4ds.had.co.nz/pipes.html) for more information on the `pipe` operator.
+
+## Question 1: Learning Outcome -- Using `dplyr` to Construct a Contingency Table from a Data Frame
+
+Write code to produce a 3 x 2 contingency table of `Class` against `Survived`. Store the code in your R script, and run it. Note that it will output 6 rows corresponding to the 6 different categories. Store the newly created data frame as a variable in your working environment. Now answer question 1 on Canvas.
+
+Before moving onto question `2`, it may help to store the code you used for question `1` in your R script file, and run it.
+
+## Question 2: Learning Outcome -- Assessing whether events are independent
+
+Let `A` be the event `Being a Member of 1st Class on Titanic`. Let `B` be the event `Surviving the Titanic`. Are the events `A` and `B` independent?
+
+As a hint, you may want to write some code that groups by `Surivived` and sums over `Freq` to help compute the marginal probability of Survival.
+
+
+
+
+
+
+
+
