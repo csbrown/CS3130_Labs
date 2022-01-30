@@ -1,0 +1,88 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+# Lab 3: Elementary Probability in R
+
+
+You will do all your work for this lab in the `console`; so you won't need to touch the `.Rmd` file for this lab.
+
+We'll use the built-in `Titanic` dataset for several questions in this lab
+
+
+Load in the `tidyverse` library. Also, run `install.packages("janitor")` and then `library(janitor)`. In your console, type `Titanic`. The `Titanic` dataset displays. To view the dataset, run `view(Titanic)` in the console. You can also learn more about this dataset by running `?Titanic` in the console
+
+
+First, lets get some practice making contingency tables using `dplyr`. To do so, we'll need to make sure `Titanic` is a `data.frame` object. Run `class(Titanic)` in the console; notice it is a `table` object. Convert it to a `data.frame` object by putting `Titanic = data.frame(Titanic)` in the console, and then running that line. We also recommend setting `N = sum(Titanic$Freq)` in the console. This will store the total number of individuals on the `Titanic` in the variable `N`.
+
+We'll also do some preprocessing on the `Titanic` dataset to make it easier to use in conjunction with the contingency table functions available in `R`. Run the following line in the `console` to update `Titanic`
+```{r,eval = FALSE}
+Titanic = as.data.frame(lapply(Titanic,rep,Titanic$Freq))
+
+```
+
+Now run the following line in the console:
+```{r,eval=FALSE}
+Titanic %>%
+  tabyl(Age,Survived) %>%
+  adorn_totals(c("row","col")) %>%
+  adorn_percentages("all") %>%
+  adorn_ns
+
+```
+The syntax `x %>% f(.,OTHER_ARGS)` feeds `x` into function `f` in the position where the `.` is located (the first argument). The `%>%` is called the `pipe` in R. So `tabyl` takes as its first argument `Titanic`. In this setting, `taybl` creates a contingency table based on the two variables `Age` and `Survived`. The `adorn_totals` function gives row and column totals respectively. The `adorn_percentages` function will put the marginal percentages next to each count. The `adorn_ns` function ensures that both the counts and percentages display.
+
+The `%>%` is from the `magrittr` library which loads autmoatically when you run `library(tidyverse)`. The `tabyl` function is from the `janitor` package.
+
+If you are ever need help using the `tabyl` function, see [here](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html). See [here](https://r4ds.had.co.nz/pipes.html) for more information on the `pipe` operator.
+
+## Question 1: Learning Outcome -- Using `tabyl` to Construct a Contingency Table
+
+Write code to produce a 3 x 2 table of `Class` against `Survived`. Run it. Store the newly created data frame as a variable in your working environment. Now answer question 1 on Canvas.
+
+
+## Question 2: Learning Outcome -- Assessing whether events are independent
+
+Let `A` be the event `Being a Member of 1st Class on Titanic`. Let `B` be the event `Surviving the Titanic`. Are the events `A` and `B` independent?
+
+Hint: Use the table you constructed in question 1
+
+## Question 3: Learning Outcome -- Assessing whether events are mutually exclusive
+
+Let `A` be the event `First class child or second class child`. Let `B` be the event `DIED on the Titanic`. Are the events `A` and `B` mutually exclusive?
+
+Hint: Run the below lines to create a table that `filters` by First or Second class child, and displays the total frequency of Survived, and Died.
+```{r,eval = FALSE}
+#Assuming you have set Titanic = data.frame(Titanic) in your environment
+Titanic %>%
+  filter((Class == "1st" | Class == "2nd") & Age == "Child") %>%
+  group_by(Survived) %>%
+  summarise(n = sum(Freq))
+
+```
+
+## Question 4: Learning Outcome -- Mututal Exclusivity vs Independence
+
+Based on your answer to question 3, are the events `First class child or second class child` and `DIED on the Titanic` independent events?
+
+
+## Question 5: Learning Outcome -- Using the Addition Rule
+
+Let `A` be the event `Surviving the Titanic` and `B` be the event `Being a member of 3rd class`. Find $P(A \cup B)$.
+
+Hint: The table you created in question 1 may be helpful
+
+## READ
+
+Say we want to know whether `Being a Child on the Titanic` and `Surviving the Titanic` were independent events.
+
+We can answer this definitevly because we have access to data from all members of the titanic (i.e we had access to the entire population). The numbers `P(Being a Child on Titanic)` and `P(Surviving the Titanic)` are properties of this population.
+
+Let's now imagine we didn't have access to the population. Instead, we have only a random sample of `100` members of the Titanic. To get this sample, run
+```{r,eval = FALSE}
+TitanicSample = Titanic[sample(nrow(Titanic),size = 100,replace = FALSE),]
+```
+

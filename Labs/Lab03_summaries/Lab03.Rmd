@@ -9,11 +9,15 @@ output: html_document
 # this function tabulates the frequency per row.
 # setting MARGIN to 2 gives frequency per column.
 table_per_row <- function(data, MARGIN=1) {
-    flat_data <- as.vector(as.matrix(data)) # "flatten" the data into just a list of heads and tails
-    unique_values <- unique(flat_data) # get all of the unique values in the data 
-    factored <- apply(data, MARGIN, function(row) factor(row, levels=unique_values), simplify=FALSE) # maps the "factor" function over the rows... this is just a precursor to make "table" work right
-    tabulated <- sapply(factored, table) # map "table" over the previous line
-    return(data.frame(t(tabulated))) # return as a dataframe in familiar orientation.
+###    flat_data <- as.vector(as.matrix(data)) # "flatten" the data into just a list of heads and tails
+#    unique_values <- unique(flat_data) # get all of the unique values in the data 
+#    factored <- apply(data, MARGIN, function(row) factor(row, levels=unique_values)) # maps the "factor" function over the rows... this is just a precursor to make "table" work right
+#    tabulated <- sapply(factored, table) # map "table" over the previous line
+#    return(data.frame(t(tabulated))) # return as a dataframe in familiar orientation.
+    frame = data.frame(apply(data,MARGIN,function(row) sum(row == "heads")))
+    names(frame) = c("heads")
+    frame$tails = 10 - frame$heads
+    return (frame)
 }
 ```
 
