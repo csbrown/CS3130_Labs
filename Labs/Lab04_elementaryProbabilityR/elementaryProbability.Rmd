@@ -83,8 +83,11 @@ Hint: The table you created in question 1 may be helpful
 
 Suppose that in the population that was the 2021 class of CS 3130 students, the event of `X = Getting an A on the First Exam` and `Y = Liking Cilantro` are under study. We collected the corresponding 2x2 table with these two variables for the entire class of 200 students.
 
-## Question 6: Learning Outcome -- Determining Independence from a Population 2x2 Table
 
+`Scott: Maybe we should focus on titanic or cilantro but not both....`
+
+
+## Question 6: Learning Outcome -- Determining Independence from a Population 2x2 Table
 ```{r,echo=FALSE}
 population = data.frame('Got A' = c(60,40,100), 'Did Not Get A' = c(40,60,100),'Total' = c(100,100,200))
 row.names(population) = c('Likes Cilantro','Does Not Like Cilantro','Total')
@@ -95,7 +98,11 @@ Are `Getting an A on the First exam` and `Liking Cilantro` independent in the po
 
 ## READ
 
-Now suppose Albert had no idea whether `Getting an A on the First exam` and `Liking Cilantro` were independent in the population of 2021 CS 3130 students. He wanted to determine this. So he collected information from a simple random sample of 12 students. The data from these students is given below
+Now suppose Albert had no idea whether `Getting an A on the First exam` and `Liking Cilantro` were independent in the population of 2021 CS 3130 students. He wanted to determine this. 
+
+So he collected information from a simple random sample of 12 students. The data from these students is given below
+
+
 
 ```{r,echo=FALSE}
 sample = data.frame('Got A' = c(4,3,7), 'Did Not Get A' = c(4,1,5),'Total' = c(8,4,12))
@@ -107,6 +114,26 @@ kable(sample)
 ```
 
 Let's assume now that we knew apriori that that Albert's sample would have $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. Given this sampling constraint, we'll compute the probability that Albert collected this specific table.
+
+We can use the logic that we used in combinations/permutations and overcounting to count up all of the different ways to get this table.  Specifically, if you recall, to get the formula for combinations, we first enumerated all the ways that we could choose a particular arrangement WITH order included, and then divided by the factor by which we overcounted.
+
+- How many ways can we arrange the 8 folks who Like Cilantro, *taking order into account*?
+- How many ways can we arrange the 4 who don't?
+- And the 7 who got As?
+- And the 5 who did not?
+
+Note that each of these arrangements is a "different choice" in some sense.  So we can use the multiplication rule to combine them.
+
+- How many ways can we arrange the 8 folks who like cilantro, the 4 who don't, the 7 who got As and the 5 who didn't, all taking order into account?
+
+However, some of these arrangements "overcount" w.r.t. our goal of creating a contingency table with this exact layout.  Specifically, when we arranged our cilantro-likers, we counted the various arrangments of the 4 who got "A"s, but when we arranged the folks who got "A"s, we AGAIN counted the arrangements of those same 4.  So, we have overcounted by a factor of "the number of ways to arrange 4 people".  Calculate "the number of ways to arrange" the number of people in each cell of the contingency table above, and divide the answer to Q? by this number.
+
+- How many ways can we get a contingency table with 8 folks who like cilantro, 4 who don't, 7 who got As, 5 who didn't, 4 "A" students who liked cilantro, 3 "A" students who didn't, 4 non-"A" students who liked cilantro, and 1 non-"A" student who didn't?
+
+- How many ways can we order 12 students?
+
+Divide your answer in Q? by your answer to Q? to get the probability of getting our specific contingency table given that $8$ folks liked cilantro and $7$ got an "A".
+
 
 The key to computing this probability is to note that that there are only two undetermined quantities in the 2x2 table if we know $8$ people `Liked Cilantro` and $7$ people `Got an A`. For example `Got A and Liked Cilantro` and `Got A and Didn't Like Cilantro`.
 
