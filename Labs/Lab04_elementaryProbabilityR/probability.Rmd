@@ -17,7 +17,7 @@ library(janitor)
 Back in 2020, Alice Student took a lot of time and effort to gather data for the entire class comparing whether or not someone got an "A" on the first exam with whether or not they like Cilantro.  The data are in `CS3130Cilantro.csv`.  Load in this data into a variable called `pop2020`.  Although we can use the built-in `R` `table` function to get much of this, we're going to use some additional libraries that are popular in the data-analysis community.  Load the `tidyverse` and `janitor` libraries now (recall the `library` and `install.packages` functions).  Use the code below to construct a 2x2 contingency table over the variables `Got.A` and `Likes.Cilantro`.  The syntax `x %>% f(.,OTHER_ARGS)` feeds `x` into the first argument of function `f`.  The %>% is called the pipe, and is useful for "chaining" operations in `R`.  It is loaded from one of the packages in the `tidyverse` library.
 
 ```{r,eval=FALSE}
-my_data %>%
+pop2020 %>%
   tabyl(Got.A, Likes.Cilantro) %>%
   adorn_totals(c("row","col")) %>%
   adorn_percentages("all") %>%
