@@ -4,178 +4,108 @@ output:
   pdf_document: default
 ---
 
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(janitor)
+```
 
 # Lab 3: Probability in R
 
+## A Study
 
-You will do all your work for this lab in the `console`; so you won't need to touch the `.Rmd` file for this lab.
+Back in 2020, Alice Student took a lot of time and effort to gather data for the entire class comparing whether or not someone got an "A" on the first exam with whether or not they like Cilantro.  The data are in `CS3130Cilantro.csv`.  Load in this data into a variable called `pop2020`.  Although we can use the built-in `R` `table` function to get much of this, we're going to use some additional libraries that are popular in the data-analysis community.  Load the `tidyverse` and `janitor` libraries now (recall the `library` and `install.packages` functions).  Use the code below to construct a 2x2 contingency table over the variables `Got.A` and `Likes.Cilantro`.  The syntax `x %>% f(.,OTHER_ARGS)` feeds `x` into the first argument of function `f`.  The %>% is called the pipe, and is useful for "chaining" operations in `R`.  It is loaded from one of the packages in the `tidyverse` library.
 
-We'll use the built-in `Titanic` dataset for several questions in this lab
-
-```{r,echo = FALSE}
-library(knitr)
-```
-
-
-Load in the `tidyverse` library. Also, run `install.packages("janitor")` and then `library(janitor)`. In your console, type `Titanic`. The `Titanic` dataset displays. To view the dataset, run `view(Titanic)` in the console. You can also learn more about this dataset by running `?Titanic` in the console
-
-
-First, lets get some practice making contingency tables using `dplyr`. To do so, we'll need to make sure `Titanic` is a `data.frame` object. Run `class(Titanic)` in the console; notice it is a `table` object. We'll need to convert it to a dataframe and then do some preprocessing on it to be able to use it in conjunction with the contingency table functions available in `R`.
-
-Run the following lines in the `console` to update `Titanic`
-```{r,eval = FALSE}
-Titanic = data.frame(Titanic)
-OurTitanic = as.data.frame(lapply(Titanic,rep,Titanic$Freq))
-
-```
-
-Now run the following line in the console:
 ```{r,eval=FALSE}
-OurTitanic %>%
-  tabyl(Age,Survived) %>%
+my_data %>%
+  tabyl(Got.A, Likes.Cilantro) %>%
   adorn_totals(c("row","col")) %>%
   adorn_percentages("all") %>%
   adorn_ns() %>%
   View()
 
 ```
-The syntax `x %>% f(.,OTHER_ARGS)` feeds `x` into function `f` in the position where the `.` is located (the first argument). The `%>%` is called the `pipe` in R. So `tabyl` takes as its first argument `Titanic`. In this setting, `taybl` creates a contingency table based on the two variables `Age` and `Survived`. The `adorn_totals` function gives row and column totals respectively. The `adorn_percentages` function will put the marginal percentages next to each count. The `adorn_ns` function ensures that both the counts and percentages display.
 
-The `%>%` is from the `magrittr` library which loads autmoatically when you run `library(tidyverse)`. The `tabyl` function is from the `janitor` package.
+## Question 1: Determining Independence from a Population 2x2 Table
 
-If you are ever need help using the `tabyl` function, see [here](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html). See [here](https://r4ds.had.co.nz/pipes.html) for more information on the `pipe` operator.
+Are `Getting an A on the First exam` and `Liking Cilantro` independent in the population of 2020 CS 3130 students?
 
-## Question 1: Learning Outcome -- Using `tabyl` to Construct a Contingency Table
+## The probability of a sample (given ?)
 
-Write code to produce a 3 x 2 table of `Class` against `Survived`. Run it. Store the newly created data frame as a variable in your working environment. Now answer question 1 on Canvas.
+It's a new year.  Alice has no idea whether `Getting an A on the First exam` and `Liking Cilantro` are independent in the population of **2021** CS 3130 students. They would like to determine this, but do not have the resources to gather info from the entire population of CS3130 students.
 
-Tip for Later: Save the code you used to make this plot; perhaps by storing it in an r script file. You may use it later.
-
-
-## Question 2: Learning Outcome -- Assessing whether events are independent
-
-Let `A` be the event `Being a Member of 1st Class on Titanic`. Let `B` be the event `Surviving the Titanic`. Are the events `A` and `B` independent?
-
-Hint: Use the table you constructed in question 1
-
-## Question 3: Learning Outcome -- Assessing whether events are mutually exclusive
-
-Let `A` be the event `First class child or second class child`. Let `B` be the event `DIED on the Titanic`. Are the events `A` and `B` mutually exclusive?
-
-Hint: Run the below lines to create a table that `filters` by First or Second class child, and displays the total frequency of Survived, and Died.
-```{r,eval = FALSE}
-#Assuming you have set Titanic = data.frame(Titanic) in your environment
-OurTitanic %>%
-  filter((Class == "1st" | Class == "2nd") & Age == "Child") %>%
-  group_by(Survived) %>%
-  summarise(n = sum(Freq)) %>%
-  View()
-
-```
-
-## Question 4: Learning Outcome -- Mututal Exclusivity vs Independence
-
-Based on your answer to question 3, are the events `First class child or second class child` and `DIED on the Titanic` independent events?
-
-
-## Question 5: Learning Outcome -- Using the Addition Rule
-
-Let `A` be the event `Surviving the Titanic` and `B` be the event `Being a member of 3rd class`. Find $P(A \cup B)$.
-
-Hint: The table you created in question 1 may be helpful
-
-## READ
-
-Suppose that in the population that was the 2021 class of CS 3130 students, the event of `X = Getting an A on the First Exam` and `Y = Liking Cilantro` are under study. We collected the corresponding 2x2 table with these two variables for the entire class of 200 students.
-
-
-## Question 6: Learning Outcome -- Determining Independence from a Population 2x2 Table
-Load the `CS3130Cilantro.csv` dataset. Construct a 2x2 table from it based off of the `Got.A` and `Likes.Cilantro` variables. Answer the following question:
-
-Are `Getting an A on the First exam` and `Liking Cilantro` independent in the population of 2021 CS 3130 students?
-
-## READ
-
-Now suppose Albert had no idea whether `Getting an A on the First exam` and `Liking Cilantro` were independent in the population of 2021 CS 3130 students. He wanted to determine this. 
-
-So he collected information from a simple random sample of 12 students and arranged the data into a table like the following:
-
+So, they decide that they would like to collect information from a simple random sample of 12 students and arrange the data into a 2x2 table like we just did with the previous year's population data.  Because Alice is a meticulous researcher, she decides to do some probability calculations ahead of time to decide exactly what might convince her that the new population is, in fact, **NOT** independent.  As part of these exercises, they examine the following entirely contrived and arbitrary table:
 
 ```{r,echo=FALSE}
-sample = data.frame('Got A' = c(4,3,7), 'Did Not Get A' = c(4,1,5),'Total' = c(8,4,12))
+sample = data.frame('Got A' = c(3,4,7), 'Did Not Get A' = c(5,0,5),'Total' = c(8,4,12))
 row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
+kable(sample, caption="TABLE 1: contrived example contingency table")
 ```
 
-```{r,echo=FALSE}
-kable(sample)
-```
+The fact that $8$ people `Liked Cilantro` in this table (regardless of whether or not they got an "A") doesn't seem to have anything to do with whether Cilantro and "A"s are independent or not - so, to ease our calculations, we'll only be working with samples that contain $8$ people who like cilantro (and similarly for the other numbers in the "margins").
 
-The above table wasn't Albert's table, but Albert's table had the same margins as the above table. For now we'll just focus on the above table.
+One of the main results that we are interested in is "If the events 'got an A' and 'likes cilantro' are independent in the population, what is the probability of getting a sample that gives this table (given these margins)?".  We will compute this and some further results in small steps over the next several questions.
 
+## Counting, counting, counting
 
-Let's assume now that we knew apriori that any sample from the population would have $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. Given this sampling constraint, we'll compute the probability of the above table, and revisit Albert's situation later.
-
-This probability will be computed over the next several questions. But to give you a brief summary of the big picture before we get started:
-
-We can use counting logic similar to that which we used in combinations/permutations and "overcounting" to count up all of the different ways to get this table, and then divided by the factor by which we overcount.
+In order to tackle this problem, we can use counting logic similar to that which we used in combinations/permutations and "overcounting" to count up all of the different ways to get this table and then some, and then divide by the factor by which we overcount.  So, we'll just start by counting lots of things.  Compute the following:
 
 - How many ways can we arrange the 8 folks who Like Cilantro, *taking order into account*?
 - How many ways can we arrange the 4 who don't?
 - And the 7 who got As?
 - And the 5 who did not?
 
+You might find the `?factorial` function in `R` to be helpful.  There is also a related `?choose` function.
+
+## Question 2: Counting Practice 1
+
+Taking order into consideration:
+
+How many ways can we order the 8 folks who like cilantro?
+
+## The multiplication rule
+
 Note that each of these arrangements is a "different choice" in some sense.  So we can use the multiplication rule to combine them.
 
-Now lets begin
+## Question 3: Counting Practice 2
 
-## Question 7: Counting Practice 1
+Imagining for a moment that the 8 cilantro haters, 4 cilantro likers, 7 A students and 5 not A students **are all different people**, how many ways are there to order all of these groups? 
 
-Taking order into consideration ordering
+## Overcounting
 
-How many ways can we arrange the 8 folks who like cilantro?
+Using the multiplication rule in question 8 leads to "overcounting" certain arrangements that could result in the contingency table displayed above because they are not, in fact, all different people.  For example, some of the cilantro-likers are "A" students. Specifically, when we arranged our cilantro-likers, we counted the various arrangments of the 3 who got "A"s, but when we arranged the folks who got "A"s, we AGAIN counted the arrangements of those same 3.  So, we have overcounted by a factor of "the number of ways to arrange 3 people".   
 
-## READ
+## Question 4: Counting Practice 3
 
-While question 7 was only about the folks who like cilantro, also answer this question about the other groups (how many ways can we arrange the 4 who don't like cilantro? how many ways can we arrange the 7 who got As, how many ways can we arrange the 5 who didn't get As). In each case, take order into account.
+Calculate "the number of ways to arrange" the people in the cells of the contingency table above, given the layout of the cells.
 
+Hint: Use the same reasoning from Q8, but with the values in the "cells" of the table instead of the margins.
 
-## Question 8: Counting Practice 2
+## From counting to probability
 
-Imagining for a moment that the 8 cilantro haters, 4 cilantro likers, 7 A students and 5 not A students $\textbf{are all different people}$, how many ways is there to arrange them? 
+Dividing the correct answer to question $3$ by the correct answer to question $4$ tells you the number of ways to get a contingency table with 3 "A" students who liked cilantro, 4 "A" students who didn't, 5 non-"A" students who liked cilantro, and 0 non-"A" students who didn't when we already know there are 8 folks who like cilantro, 4 who don't, 7 who got As, and 5 who didn't.
 
-Hint: Use the multiplication rule
+Now that we've counted up the number of ways that a sample might have resulted in this table, we would like to start computing probabilities.  In order to turn our counting problem into a probability problem, we *need to establish a scenario* where sampling events are "equally likely".
 
-## READ
-Using the multiplication rule in question 8 leads to "overcounting" certain arrangements that could result in the contingency table displayed above. Specifically, when we arranged our cilantro-likers, we counted the various arrangments of the 4 who got "A"s, but when we arranged the folks who got "A"s, we AGAIN counted the arrangements of those same 4.  So, we have overcounted by a factor of "the number of ways to arrange 4 people".   
+Note from the 2020 population data that the distribution of people who got "A"s, and the distribution of people who "like cilantro" may not be 50/50.  These are the values and ratios "in the margins".  So, getting a sample with a great number of "A"s is less likely than getting a sample with something like the expected proportion of "A"s.  We will deal with this situation by "fixing the margins" and only considering samples that have gotten precisely the number of "A"s, precisely the number of cilantro-likers, etc as the above table.
 
-## Question 9: Counting Practice 3
-Calculate "the number of ways to arrange" the people in each cell of the contingency table above
+Lastly, even with the margins fixed, we are not necessarily equally likely to get someone in the various cells, because "got an A" and "likes cilantro" might be related.  So getting someone who "got an A AND likes cilantro" is not as likely as getting someone who "got an A AND doesn't like cilantro" because "likes cilantro" affects the probability that someone got an A.
 
-Hint: There are 4 cells in the contingency table. We just discussed that in the upper left cell (where there were 4 people), there are $4!$ ways to arrange. Carry out this reasoning in the other three cells; then use the multiplication rule again.
+However, recall our original question: "If the events 'got an A' and 'likes cilantro' are independent in the population, what is the probability of getting a sample that gives this table?"
 
-## READ
-Dividing the correct answer to question $8$ by the correct answer to question $9$ tells you the number of ways to get a contingency table with 4 "A" students who liked cilantro, 3 "A" students who didn't, 4 non-"A" students who liked cilantro, and 1 non-"A" student who didn't when we already know there are 8 folks who like cilantro, 4 who don't, 7 who got As, and 5 who didn't.
+If the events 'got an A' and 'likes cilantro' are independent, then whether or not someone likes cilantro does NOT affect the probability that someone got an A!
 
-## Question 10: Counting Practice 4
+To sum up, by considering only tables with these margins, we can create a scenario where sampling events are "equally likely" by prefacing our results with "If the events 'got an A' and 'likes cilantro' are independent".  Having to preface your results with this message seems like an unfortunate thing to give up at this point, but it will be super important later, so stay tuned.
 
-There are 12 students in total that were collected for the displayed contingency table. How many ways can we order the 12 students?
+## Question 5: Probability Practice
 
-## READ
+Now that we've counted up the number of ways to order individuals in a sample that results in the above table, and we've established conditions under which the outcomes under our probability model are all "equally likely", compute the probability of getting the above table (given fixed margins and independence).
 
-Under the assumption that `Liking Cilantro` and `Getting an A` are independent events in the population, dividing your answer in question 9 by the answer to question 10 gives the probability that there are 4 "A" students who liked cilantro, 3 "A" students who didn't, 4 non-"A" students who liked cilantro, and 1 non-"A" student who didn't given the specified margins. i.e it is the probability of the table that we keep referring to (which is displayed again below)
+Hint: How many ways can we order *everyone* in the sample?
 
-```{r,echo=FALSE}
-sample = data.frame('Got A' = c(4,3,7), 'Did Not Get A' = c(4,1,5),'Total' = c(8,4,12))
-row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
-```
+## The addition rule
 
-```{r,echo=FALSE}
-kable(sample)
-```
-
-## READ
-
-Suppose still that there are $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. There are actually only a couple of possible tables in these circumstances. This is because if we know these margins and specify the upper left cell (or any cell), then the table is determined. And based on the margins, the upper left cell can definitly only take on the values $0,1,2,3,4,5,6,7$ (and actually less as we'll see). You already computed the probability when the upper left cell is $4$.
+Suppose still that there are $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. There are actually only a couple of possible tables in these circumstances. This is because if we know these margins and specify any given cell, then the table is determined (i.e. you can compute the rest of the table). And based on the margins, the upper left cell can definitely only take on the values $0,1,2,3,4,5,6,7$ (and actually less as we'll see). You've already computed the probability when the upper left cell is $6$.
 
 Denoting $P(Table = i | margins, independence)$ as the conditional probability the upper left cell is $i$ given these margins and given that `Getting A` and `Liking Cilantro` are independent of one another, we can compute for $i=0,1,2,3,4,5,6,7$ $P(Table = i| margins)$. The probabilities are as follows:
 
@@ -187,33 +117,53 @@ computeProb <- function(i) {
 probs = sapply(vec,computeProb)
 probs = probs/sum(probs)
 frame = data.frame(i = 0:7,prob = probs)
-kable(frame)
+kable(frame, caption="TABLE 2: all possible contingency tables")
 ```
-These probabilities were computed just like you did for the $i =4$ case. We can call this the distribution of the tables *under the hypothesis of assuming independence between Getting an A and Liking Cilantro given 8 people liked Cilantro and 7 people got an A*.
 
-Now recall Albert from a while back. Albert doesn't know whether there is independence of the two events of concern in the population.
+These probabilities were computed just like you did for the $i = 3$ case.  Check your answer from Question 10 now.
 
-Albert wants to conduct a *hypothesis test* to decide whether there is independence between `Getting an A` and `Liking Cilantro`in the population. His test will work in the following manner: Albert believes that very high values of the upper left cell in sample tables is stronger evidence for a lack of independence in the population. He also only wants to reject the null hypothesis of independence (when independence is the case in the population) no more than $5\%$ of the time.
+We can compute the probability of getting one table OR another table using the addition rule.
 
-So he will reject when the value of the upper left cell in the sample table he collects is greater than or equal to $Z$, where $Z$ is selected so that he rejects less than or equal to $5\%$ of the time.
+## Question 6: Addition Rule
 
-## Question 11: Learning Outcome -- Deciding on a Critical Value for the Test
+What is the probability that the cell in the top left is 0 OR 1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7?
 
-To ensure Albert rejects the test no more than $5\%$ of the time when independence in the population is the truth and the margins are as they have been throughout this problem (i.e 8 Cilantro Likers and 7 A students), what should $Z$ be?
+## Using these as evidence
 
-Hint: The distribution under the null is given by the table above. We need to answer the question what should $Z$ be so that $P(table \geq Z | margins,independence) \leq .05$. So $Z$ will be one of $0,1,2,3,4,5,6,7$. You need to pick the correct integer.
+Now recall Alice from a while back.  They are still interested in whether these variables are independent *in the population*.
 
-## READ
+Toward this end, she notes that given these margins, there is precisely one theoretical table in which "liking cilantro" and "getting an A" *in our sample* are independent.  You can actually solve for this with a little algebra by setting an arbitrary cell to $x$, and solving for $x$ in $P("A" | Cilantro ) = P("A")$ with our given margins.  You can try this on your own if you like.
 
-Finally Albert collects a sample given these margins; his table is given below:
+```{r,echo=FALSE}
+sample = data.frame('Got A' = c(8-10/3,7-(8-10/3),7), 'Did Not Get A' = c(10/3,5-10/3,5),'Total' = c(8,4,12))
+row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
+kable(sample, caption="TABLE 3: independent sample")
+```
+
+Of course, it is impossible to actually get a sample that gives this table, but this isn't what Alice is interested in.  Alice notes that although there is precisely one table for which the variables in our sample are independent, there are many in which the variables are *dependent*, and there are *grades* of dependence.  If we get a sample for which the top left cell is 5, then $P("A" | Cilantro)$ is closer to $P("A")$ than when the top left cell is 6 and they are even farther if the top left cell is 7.
+
+Based on this notion of "grades of dependence", she decides that getting a sample that is "very dependent" is good evidence that the population is actually not independent.  Because of her previous investigations with probability, she decides that she might have a means to *measure* the strength of said evidence in terms of a probability calculation.  
+
+Alice notices that getting a sample table with these margins "as dependent or even more dependent" as the one they were examining above has low probability exactly "If 'getting an A' and 'liking cilantro' are independent"!  Because of this, she decides that getting a sample table with these margins "as dependent or even more dependent" than the one above is "strong evidence" that our variables are, in fact, NOT independent. 
+
+## Question 7: The addition rule
+
+Identify which of the possible tables from the "all possible tables" figure above are "as or more dependent than" the contrived sample, where "more dependent" is measured as how far the top left cell is from the "independent" value of $4\frac{2}{3}$ (Note that this could be in either direction!).  What is the probability of getting a sample table given these margins and independence that is "as or more dependent than" the contrived sample?
+
+## Performing an experiment
+
+Alice realizes that her margins might not be as above, so she performs similar probability computations and decides on standards of evidence for all of these various scenarios.  We will spare you these numerous computations.  :)
+
+Now that Alice has decided on what she wants to study, how to go about her experiment, what she will consider strong evidence and why, she decides that she is ready to go gather a sample.
+
+She collects a sample, and as luck would have it the margins just happen to coincide with the contrived sample we've been analyzing in this lab.
 
 ```{r,echo=FALSE}
 sample = data.frame('Got A' = c(7,0,7), 'Did Not Get A' = c(1,4,5),'Total' = c(8,4,12))
 row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
-kable(sample)
+kable(sample, caption="TABLE 4: collected data")
 ```
 
-## Question 12: Learning Outcome - The Probability of Albert's Table
+## Question 8: Quality of evidence
 
-Does Albert reject the hypothesis that in the population, `Getting an A` and `Liking Cilantro` are independent?
-
+Does Alice decide that she has "strong evidence" that "getting an A" and "likes cilantro" are NOT independent in the 2021 *population*?

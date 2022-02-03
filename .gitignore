@@ -1,3 +1,7 @@
 *.pdf
 *.html
 .Rproj.user
+*.Rproj
+.RData
+.Rhistory
+*.zip
