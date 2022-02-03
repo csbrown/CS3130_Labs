@@ -25,6 +25,53 @@ my_data %>%
   View()
 
 ```
+<<<<<<< HEAD
+=======
+The syntax `x %>% f(.,OTHER_ARGS)` feeds `x` into function `f` in the position where the `.` is located (the first argument). The `%>%` is called the `pipe` in R. So `tabyl` takes as its first argument `Titanic`. In this setting, `taybl` creates a contingency table based on the two variables `Age` and `Survived`. The `adorn_totals` function gives row and column totals respectively. The `adorn_percentages` function will put the marginal percentages next to each count. The `adorn_ns` function ensures that both the counts and percentages display.
+
+The `%>%` is from the `magrittr` library which loads autmoatically when you run `library(tidyverse)`. The `tabyl` function is from the `janitor` package.
+
+If you are ever need help using the `tabyl` function, see [here](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html). See [here](https://r4ds.had.co.nz/pipes.html) for more information on the `pipe` operator.
+
+## Question 1: Learning Outcome -- Using `tabyl` to Construct a Contingency Table
+
+Write code to produce a 3 x 2 table of `Class` against `Survived`. Run it. Now answer question 1 on Canvas.
+
+Tip for Later: Save the code you used to make this plot; perhaps by storing it in an r script file. You may use it later.
+
+
+## Question 2: Learning Outcome -- Assessing whether events are independent
+
+Let `A` be the event `Being a Member of 1st Class on Titanic`. Let `B` be the event `Surviving the Titanic`. Are the events `A` and `B` independent?
+
+Hint: Use the table you constructed in question 1
+
+## Question 3: Learning Outcome -- Assessing whether events are mutually exclusive
+
+Let `A` be the event `First class child or second class child`. Let `B` be the event `DIED on the Titanic`. Are the events `A` and `B` mutually exclusive?
+
+Hint: Run the below lines to create a table that `filters` by First or Second class child, and displays the total frequency of Survived, and Died.
+```{r,eval = FALSE}
+#Assuming you have set Titanic = data.frame(Titanic) in your environment
+OurTitanic %>%
+  filter((Class == "1st" | Class == "2nd") & Age == "Child") %>%
+  group_by(Survived) %>%
+  summarise(n = sum(Freq)) %>%
+  View()
+
+```
+
+## Question 4: Learning Outcome -- Mututal Exclusivity vs Independence
+
+Based on your answer to question 3, are the events `First class child or second class child` and `DIED on the Titanic` independent events?
+
+
+## Question 5: Learning Outcome -- Using the Addition Rule
+
+Let `A` be the event `Surviving the Titanic` and `B` be the event `Being a member of 3rd class`. Find $P(A \cup B)$.
+
+Hint: The table you created in question 1 may be helpful
+>>>>>>> cd40ead15797dadac14d0a63aa92a9d09f063941
 
 ## Question 1: Determining Independence from a Population 2x2 Table
 
