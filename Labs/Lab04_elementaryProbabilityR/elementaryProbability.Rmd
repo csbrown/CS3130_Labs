@@ -139,7 +139,7 @@ The key to computing this probability is to note that that there are only two un
 
 We basically just have to enumerate the number of ways that $4$ people can `Get an A and Like Cilantro` and also $3$ people can `Get an A and Not Like Cilantro`.
 
-There are $8 \choose 4$ ways to select $4$ of the $8$ people who `liked Cilantro`to get an `A`. That covers the enumeration of `Get A and Like Cilantro`. Now we know that if $4$ people `Get A and Like Cilantro`, then $7-4$ people must `Get A and Not Like Cilantro`, $7$ people total `Got an A`. And $4$ people in total didn't like cilantro. So $4 \choose 3$ is the number of ways to choose the remaining Cilantro haters who will `Get an A`.
+There are $8 \choose 4$ ways to select $4$ of the $8$ people who `liked Cilantro`to get an `A`. That covers the enumeration of `Get A and Like Cilantro`. Now we know that if $4$ people `Get A and Like Cilantro`, then $7-4$ people must `Get A and Not Like Cilantro`, since $7$ people total `Got an A`. And $4$ people in total didn't like cilantro. So $4 \choose 3$ is the number of ways to choose the remaining Cilantro haters who will `Get an A`.
 
 So the number of ways to arrive at this table is
 \[
@@ -153,21 +153,14 @@ So the probability is
 P(X and Y = 4|X+NotX = 8,Y+NotY=4) = \frac{{8 \choose 4} {4 \choose 3}}{\sum_{v=0}^{8} {8 \choose v} {4 \choose 7-v}}
 \]
 
+## Question 7: Learning Outcome: Computing the Probability of a Table
 
+Suppose again that there are $8$ people that `Liked Cilantro` and $7$ people that Got an `A` and we recieve the following random sample from the population of CS3130 2021 students:
 
-
-Are `Got A` and `Likes Cilantro` independent events in our population of CS 3130 students from 2020?
-
-## READ
-
-Let's suppose that a student didn't have access to this two-way table. They only had access to a random sample of 
-
-Say we want to know whether `Being a Child on the Titanic` and `Surviving the Titanic` were independent events.
-
-We can answer this definitevly because we have access to data from all members of the titanic (i.e we had access to the entire population). The numbers `P(Being a Child on Titanic)` and `P(Surviving the Titanic)` are properties of this population.
-
-Let's now imagine we didn't have access to the population. Instead, we have only a random sample of `100` members of the Titanic. To get this sample, run
-```{r,eval = FALSE}
-TitanicSample = Titanic[sample(nrow(Titanic),size = 100,replace = FALSE),]
+```{r,echo=FALSE}
+sample = data.frame('Got A' = c(3,4,7), 'Did Not Get A' = c(5,0,5),'Total' = c(8,4,12))
+row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
+kable(sample)
 ```
+What is the probability of this table (assuming independence of `Liking Cilantro and Getting an A`)?
 
