@@ -100,8 +100,7 @@ Are `Getting an A on the First exam` and `Liking Cilantro` independent in the po
 
 Now suppose Albert had no idea whether `Getting an A on the First exam` and `Liking Cilantro` were independent in the population of 2021 CS 3130 students. He wanted to determine this. 
 
-So he collected information from a simple random sample of 12 students. The data from these students is given below
-
+So he collected information from a simple random sample of 12 students and arranged the data into a table like the following:
 
 
 ```{r,echo=FALSE}
@@ -113,7 +112,10 @@ row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
 kable(sample)
 ```
 
-Let's assume now that we knew apriori that that Albert's sample would have $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. Given this sampling constraint, we'll compute the probability that Albert collected this specific table.
+The above table wasn't Albert's table, but Albert's table had the same margins as the above table. For now we'll just focus on the above table.
+
+
+Let's assume now that we knew apriori that any sample from the population would have $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. Given this sampling constraint, we'll compute the probability of the above table, and revisit Albert's table later.
 
 We can use the logic that we used in combinations/permutations and overcounting to count up all of the different ways to get this table.  Specifically, if you recall, to get the formula for combinations, we first enumerated all the ways that we could choose a particular arrangement WITH order included, and then divided by the factor by which we overcounted.
 
@@ -134,33 +136,54 @@ However, some of these arrangements "overcount" w.r.t. our goal of creating a co
 
 Divide your answer in Q? by your answer to Q? to get the probability of getting our specific contingency table given that $8$ folks liked cilantro and $7$ got an "A".
 
-
-The key to computing this probability is to note that that there are only two undetermined quantities in the 2x2 table if we know $8$ people `Liked Cilantro` and $7$ people `Got an A`. For example `Got A and Liked Cilantro` and `Got A and Didn't Like Cilantro`.
-
-We basically just have to enumerate the number of ways that $4$ people can `Get an A and Like Cilantro` and also $3$ people can `Get an A and Not Like Cilantro`.
-
-There are $8 \choose 4$ ways to select $4$ of the $8$ people who `liked Cilantro`to get an `A`. That covers the enumeration of `Get A and Like Cilantro`. Now we know that if $4$ people `Get A and Like Cilantro`, then $7-4$ people must `Get A and Not Like Cilantro`, since $7$ people total `Got an A`. And $4$ people in total didn't like cilantro. So $4 \choose 3$ is the number of ways to choose the remaining Cilantro haters who will `Get an A`.
-
-So the number of ways to arrive at this table is
-\[
-  {8 \choose 4} {4 \choose 3}
-\]
-
-Due to independence, each way is equally likely. 
-
-So the probability is
-\[
-P(X and Y = 4|X+NotX = 8,Y+NotY=4) = \frac{{8 \choose 4} {4 \choose 3}}{\sum_{v=0}^{8} {8 \choose v} {4 \choose 7-v}}
-\]
-
 ## Question 7: Learning Outcome: Computing the Probability of a Table
 
-Suppose again that there are $8$ people that `Liked Cilantro` and $7$ people that Got an `A` and we recieve the following random sample from the population of CS3130 2021 students:
+What is the probability of this table?
+```{r,echo=FALSE}
+sample = data.frame('Got A' = c(4,3,7), 'Did Not Get A' = c(4,1,5),'Total' = c(8,4,12))
+row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
+```
 
 ```{r,echo=FALSE}
-sample = data.frame('Got A' = c(3,4,7), 'Did Not Get A' = c(5,0,5),'Total' = c(8,4,12))
+kable(sample)
+```
+
+## READ
+
+Suppose again that there are $8$ people that `Liked Cilantro` and $7$ people that Got an `A`. There are only $8$ possible tables. This is because if we know these margins and specify the upper left cell (or any cell), then the table is determined. And based on the margins, the upper left cell can only take on the values $0,1,2,3,4,5,6,7$. You already computed the probability when the upper left cell is $4$.
+
+Denoting $P(Table = i | margins, independence)$ as the conditional probability the upper left cell is $i$ given these margins and given that `Getting A` and `Liking Cilantro` are independent of one another, we can compute for $i=0,1,2,3,4,5,6,7$ $P(Table = i| margins)$. The probabilities are as follows:
+
+```{r,echo=FALSE}
+vec = 0:7
+computeProb <- function(i) {
+  return(choose(8,i)*choose(4,7-i))
+}
+probs = sapply(vec,computeProb)
+probs = probs/sum(probs)
+frame = data.frame(i = 0:7,prob = probs)
+kable(frame)
+```
+These probabilities were computed just like you did in problem $7$. We can call this the distribution of the tables *under the null hypothesis of assuming independence between Getting an A and Liking Cilantro*.
+
+Now recall Albert from a while back, he collected a table with these margins; he wanted to use his table to decide if in the population at large, `Getting and A` and `Liking Cilantro` were independent. His table is given below:
+
+```{r,echo=FALSE}
+sample = data.frame('Got A' = c(7,0,7), 'Did Not Get A' = c(1,4,5),'Total' = c(8,4,12))
 row.names(sample) = c('Likes Cilantro','Does Not Like Cilantro','Total')
 kable(sample)
 ```
-What is the probability of this table (assuming independence of `Liking Cilantro and Getting an A`)?
+
+## Question 8: Learning Outcome - The Probability of Albert's Table
+
+What is the probability of Albert's table under the assumption of these margins and the assumption of independence between `Getting an A` and `Liking Cilantro`.
+
+## Question 9: Learning Outcome - The Probability of a More Extreme Result Than Albert's
+
+What is the probability of getting an upper left cell greater than or equal to the upper left cell given in Albert's table, under the assumption of independence between `Getting an A` and `Liking Cilantro` (and assuming these margins)
+
+## Question 10: Learning Outcome - Making a Decision For Albert
+
+Remember that the probabilities you computed in questions 8 and 9 were under the assumption of independence of `Getting an A` and `Liking Cilantro`. Suppose for a moment that you were Albert, and you never knew that in the population `Getting an A` and `Liking Cilantro` were independent. Also suppose that you would be willing to reject the *hypothesis of independence* if the probability of the table being as extreme or more extreme than what was observed by Albert is below $.05$. Do you reject the *hypothesis of independence*?
+
 
