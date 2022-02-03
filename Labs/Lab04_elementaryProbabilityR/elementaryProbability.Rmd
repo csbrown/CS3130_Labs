@@ -117,7 +117,7 @@ The above table wasn't Albert's table, but Albert's table had the same margins a
 
 Let's assume now that we knew apriori that any sample from the population would have $8$ people that `Liked Cilantro` and $7$ people that `Got an A`. Given this sampling constraint, we'll compute the probability of the above table, and revisit Albert's table later.
 
-We can use the logic that we used in combinations/permutations and overcounting to count up all of the different ways to get this table.  Specifically, if you recall, to get the formula for combinations, we first enumerated all the ways that we could choose a particular arrangement WITH order included, and then divided by the factor by which we overcounted.
+We can a logic similar to that which we used in combinations/permutations and "overcounting" to count up all of the different ways to get this table, and then divided by the factor by which we overcount.
 
 - How many ways can we arrange the 8 folks who Like Cilantro, *taking order into account*?
 - How many ways can we arrange the 4 who don't?
