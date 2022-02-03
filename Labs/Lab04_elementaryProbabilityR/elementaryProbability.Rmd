@@ -137,19 +137,3 @@ kable(sample)
 ```
 What is the probability of this table (assuming independence of `Liking Cilantro and Getting an A`)?
 
-
-
-
-## READ
-
-Let's suppose that a student didn't have access to this two-way table. They only had access to a random sample of 
-
-Say we want to know whether `Being a Child on the Titanic` and `Surviving the Titanic` were independent events.
-
-We can answer this definitevly because we have access to data from all members of the titanic (i.e we had access to the entire population). The numbers `P(Being a Child on Titanic)` and `P(Surviving the Titanic)` are properties of this population.
-
-Let's now imagine we didn't have access to the population. Instead, we have only a random sample of `100` members of the Titanic. To get this sample, run
-```{r,eval = FALSE}
-TitanicSample = Titanic[sample(nrow(Titanic),size = 100,replace = FALSE),]
-```
-
