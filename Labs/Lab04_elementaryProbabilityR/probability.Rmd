@@ -47,7 +47,7 @@ If you are ever need help using the `tabyl` function, see [here](https://cran.r-
 
 ## Question 1: Learning Outcome -- Using `tabyl` to Construct a Contingency Table
 
-Write code to produce a 3 x 2 table of `Class` against `Survived`. Run it. Store the newly created data frame as a variable in your working environment. Now answer question 1 on Canvas.
+Write code to produce a 3 x 2 table of `Class` against `Survived`. Run it. Now answer question 1 on Canvas.
 
 Tip for Later: Save the code you used to make this plot; perhaps by storing it in an r script file. You may use it later.
 
