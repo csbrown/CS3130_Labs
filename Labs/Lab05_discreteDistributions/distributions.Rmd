@@ -1,0 +1,98 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+```
+
+# Lab 5: Discrete Distributions
+
+The following section is taken verbatim from [David Dalpiaz's "Applied Statistics with `R`"](https://daviddalpiaz.github.io/appliedstats/probability-and-statistics-in-r.html#distributions)
+
+### Distributions
+
+When working with different statistical distributions, we often want to make probabilistic statements based on the distribution.
+
+We typically want to know one of four things:
+
+* The density (pdf) at a particular value.
+* The distribution (cdf) at a particular value.
+* The quantile value corresponding to a particular probability.
+* A random draw of values from a particular distribution.
+
+This used to be done with statistical tables printed in the back of textbooks. Now, `R` has functions for obtaining density, distribution, quantile and random values.
+
+The general naming structure of the relevant `R` functions is:
+
+* `dname` calculates density (pdf) at input `x`.
+* `pname` calculates distribution (cdf) at input `x`.
+* `qname` calculates the quantile at an input probability.
+* `rname` generates a random draw from a particular distribution.
+
+Note that `name` represents the name of the given distribution.
+
+## Part 1: Gambling
+
+We will be using all of the above functions in the following questions.
+
+Roulette is a game in which a ball and a spinning wheel are used to generate a random number between 0 and 36 (inclusive).  Players are offered a variety of events on which they can bet.  They can attempt to guess the exact number that will be rolled.  They can attempt to guess whether the number will be even or odd (excluding 0), to guess if the number will be 1-12, 13-24 or 25-36, and various other events related to the precise arrangement of the numbers on a "board" that is visible to players.
+
+![roulette](roulette.jpeg)
+
+Assuming that the ball and wheel are fair:
+
+### Question 1: What is the probability that the random number is between 1 and 12 (inclusive)?
+
+Let $X$ be a random variable so that $X = 3$ if the roulette wheel generates a number between 1 and 12, and $X = 0$ otherwise.
+
+### Question 2: What is $E(X)$?
+
+### Question 3: What is the standard deviation of $X$?
+
+Suppose we run our roulette experiment 10 times.  Let $Y = X_1 + X_2 + X_3 + ... + X_{10}$, where the $X_i$ are defined as in question 1.
+
+### Question 4: What is the distribution of $Y$?
+
+### Question 5: What is $E(Y)$?
+
+### Question 6: What is the standard deviation of $Y$?
+
+Suppose we run our roulette experiment 100 times, and $Z = \sum X_i$.
+
+### Question 7: What is $P(Z > 100)$?
+
+Suppose that it costs $\$1$ to play the game (so it costs $\$100$ to play 100 times).  Plot a histogram of the distribution of $Z - 100$ by repeatedly sampling from the distribution of $Z$.  This represents the distribution of how much money you might make after 100 games of roulette.
+
+### Question 8: What do you think about the long-term prospects of playing roulette?
+
+Plot a similar histogram as in question 8, but when playing the game 100,000 times.  Suppose that you aren't the one playing the game, but you are the one charging people a dollar to play, and potentially giving them money if they win.
+
+### Question 9: What do you think about the long-term prospects of managing a roulette table?
+
+Pretend for a moment that you work for the state gaming commission.  It is your duty to ensure that the roulette tables in your state are "fair" in the sense that the probabilities are "equally likely" of getting the various numbers on the wheel.  In particular, people rarely bet on "0", so you are interested in whether the probability of getting a "0" is much more than $\frac{1}{37}$.  Consider a random variable $W = 36$ if we roll a "0", and $W = -1$ otherwise.  Compute the expected value of $W$ if $P({0}) = \frac{1}{37}$.  Compute the expected value of $W$ if $P({0}) = \frac{1}{36}$
+
+### Question 10: If nobody bets "0", how much more money might the casino expect to make with the unfair table?
+
+We are still bent on deciding whether the table is "fair".  To this end, we decide to figure out some probabilities of getting various outcomes for fair and unfair tables.  For $n = 30, 100, 300 and 1000$ create histograms for $\sum_{i=1}^n W_i$ for $P({0}) = \frac{1}{37}$ and also $P({0}) = \frac{1}{36}$ (that's 8 histograms total).  
+
+You pick a roulette table at a casino to study.  We sit down to play $n$ games of roulette to further our knowledge of $P({0})$ at this particular table.
+
+Suppose that the ACTUAL probability of "0" on this table IS $\frac{1}{36}$, and not the "fair" value of $\frac{1}{37}$.
+
+## Question 11: Which value of $n$ (out of 30, 100, 300, 1000) will allow us to most reliably tell the difference between a table with $P({0}) = \frac{1}{36}$ and a table with $P({0}) = \frac{1}{37}$?
+
+At some point, you've got a job to do and a lot of tables to look at, so you have to stop playing roulette at this table.
+
+## Question 12: Which value of $n$ (out of 30, 100, 300, 1000) is "enough" to reliably tell the difference between a table with $P({0}) = \frac{1}{36}$ and a table with $P({0}) = \frac{1}{37}$?  Explain your reasoning.
+
+You leave this table and go to another table.  You decide that you only have time to play 300 rounds at this table.  Suppose for a moment that this next table IS actually "fair", so $P({0}) = \frac{1}{37}$.
+
+## Question 13: For what number of 0s is "the probability of getting at least that many 0s" less than 5%?
+
+## Question 14: For what number of 0s is "the probability of getting at least that many 0s" less than 1%?
+
+Suppose that, knowing the answers to questions 13 and 14, you actually play roulette for 300 rounds at this table, and observe 20 0s. 
+
+## Question 15: How does this make you feel about your initial supposition that the table is "fair"?
