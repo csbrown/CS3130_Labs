@@ -33,9 +33,9 @@ The general naming structure of the relevant `R` functions is:
 
 Note that `name` represents the name of the given distribution.
 
-## Part 1: Gambling
+## Gambling
 
-We will be using all of the above functions in the following questions.
+We will be using all of the above functions in the following questions.  Specifically, with respect to the discrete distributions we've been studying in class, you might find the functions above where `name` is `binom`, `geom`, `hyper` or `pois` interesting.  Try typing in `?dbinom` and `?rpois` now.
 
 Roulette is a game in which a ball and a spinning wheel are used to generate a random number between 0 and 36 (inclusive).  Players are offered a variety of events on which they can bet.  They can attempt to guess the exact number that will be rolled.  They can attempt to guess whether the number will be even or odd (excluding 0), to guess if the number will be 1-12, 13-24 or 25-36, and various other events related to the precise arrangement of the numbers on a "board" that is visible to players.
 
@@ -75,7 +75,7 @@ Pretend for a moment that you work for the state gaming commission.  It is your 
 
 ### Question 10: If nobody bets "0", how much more money might the casino expect to make with the unfair table?
 
-We are still bent on deciding whether the table is "fair".  To this end, we decide to figure out some probabilities of getting various outcomes for fair and unfair tables.  For $n = 30, 100, 300 and 1000$ create histograms for $\sum_{i=1}^n W_i$ for $P({0}) = \frac{1}{37}$ and also $P({0}) = \frac{1}{36}$ (that's 8 histograms total).  
+We are still bent on deciding whether the table is "fair".  To this end, we decide to figure out some probabilities of getting various outcomes for fair and unfair tables.  For $n = 30, 100, 300$ and $1000$ create histograms for $\sum_{i=1}^n W_i$ for $P({0}) = \frac{1}{37}$ and also $P({0}) = \frac{1}{36}$ (that's 8 histograms total).  
 
 You pick a roulette table at a casino to study.  We sit down to play $n$ games of roulette to further our knowledge of $P({0})$ at this particular table.
 
