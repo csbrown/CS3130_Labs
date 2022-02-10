@@ -55,11 +55,17 @@ Suppose we run our roulette experiment 10 times.  Let $Y = X_1 + X_2 + X_3 + ...
 
 ### Question 4: What is the distribution of $Y$?
 
+If you can relate a distribution of a random variable to a known distribution, then you have lots of tools at your disposal for calculating probabilities, and you don't have to resort to counting.  Specifically, we can use the `dname` function in `R`, where `name` is the name of our distribution (see top of this document) to compute the pmf at arbitrary points.  Compute the probability that Y is 3 now, using the appropriate function in `R`.  Compute the probability that Y is 6.  Note that these functions are vectorized, so you can compute multiple probabilities at once.  Use the array `1:3` with the function you decided on previously to compute three probabilities, where Y is 3 and also where Y is 6 and also where Y is 9 all in one line of code.  
+
+In `R`, when we multiply two arrays of the same length, the multiplication happens element-wise and returns an array.  Try `c(2,3) * c(4,5)` now to see what this means.  Finally, `R` has a built in `?sum` function that adds up all of the elements of an array.
+
+We can use these operations together to make some computations easier.
+
 ### Question 5: What is $E(Y)$?
 
 ### Question 6: What is the standard deviation of $Y$?
 
-Suppose we run our roulette experiment 100 times, and $Z = \sum X_i$.
+Suppose we run our roulette experiment 100 times, and $Z = \sum X_i$.  Recall that we typically define a CDF function that can easily compute sums of probabilities over a range of values.  See the notes at the top.  Usually with discrete distributions, it is more performant to use the CDF directly than to actually add up all of the probabilities from the PMF.
 
 ### Question 7: What is $P(Z > 100)$?
 
