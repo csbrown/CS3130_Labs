@@ -65,6 +65,8 @@ We can use these operations together to make some computations easier.
 
 ### Question 6: What is the standard deviation of $Y$?
 
+Before continuing, let's stop for a moment and think about how all of this relates to the game.  Think of $X$ as the payout in dollars of playing the game when making a bet on 1-12.  Suppose that it costs $\$1$ to play the game each time.  What are $Y$, $E(Y)$ and the standard deviation of $Y$ mean in the context of playing a game of roulette?
+
 Suppose we run our roulette experiment 100 times, and $Z = \sum X_i$.  Recall that we typically define a CDF function that can easily compute sums of probabilities over a range of values.  See the notes at the top.  Usually with discrete distributions, it is more performant to use the CDF directly than to actually add up all of the probabilities from the PMF.
 
 ### Question 7: What is $P(Z > 100)$?
