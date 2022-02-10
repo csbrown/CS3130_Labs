@@ -79,28 +79,47 @@ Plot a similar histogram as in question 8, but when playing the game 100,000 tim
 
 ### Question 9: What do you think about the long-term prospects of managing a roulette table?
 
-Pretend for a moment that you work for the state gaming commission.  It is your duty to ensure that the roulette tables in your state are "fair" in the sense that the probabilities are "equally likely" of getting the various numbers on the wheel.  In particular, people rarely bet on "0", so you are interested in whether the probability of getting a "0" is much more than $\frac{1}{37}$.  Consider a random variable $W = 36$ if the wheel rolls the exact number we have guessed, and $W = 0$ otherwise.  Suppose that we *didn't guess 0*.  Compute the expected value of $W$ if $P({i}) = \frac{1}{37}$ for all numbers $i$ on the wheel (a "fair" wheel).  Compute the expected value of $W$ if $P({0}) = \frac{1}{36}$ and the remaining $P({i})$ are equally likely.
+Pretend for a moment that you work for the state gaming commission.  It is your duty to ensure that the roulette tables in your state are "fair" in the sense that the probabilities are "equally likely" of getting the various numbers on the wheel.  In particular, people rarely bet on "0", so you are interested in whether the probability of getting a "0" is much more than $\frac{1}{37}$.  Consider a random variable $W = 36$ if the wheel rolls the exact number we have guessed, and $W = 0$ otherwise.  Suppose that we *didn't guess 0*.  Compute the expected value of $W$ if $P({i}) = \frac{1}{37}$ for all numbers $i$ on the wheel (a "fair" wheel).  You should get $36/37$ for this.  Now, compute the expected value of $W$ if $P({0}) = \frac{1}{36}$ and the remaining $P({i})$ are equally likely.
 
-### Question 10: If you don't guess "0", how much more money might the casino expect to make per game with the unfair table?
+### Question 10: If you never guess "0" (e.g. you always guess 36), how much more money might the casino expect to make per game with the unfair table?
 
-We are still bent on deciding whether the table is "fair".  To this end, we decide to figure out some probabilities of getting various outcomes for fair and unfair tables.  For $n = 30, 100, 300$ and $1000$ create histograms for $\sum_{i=1}^n W_i$ for $P({0}) = \frac{1}{37}$ and also $P({0}) = \frac{1}{36}$ (that's 8 histograms total).  
+We are still bent on deciding whether the table is "fair".  To this end, we decide to figure out some probabilities of getting various outcomes for fair and unfair tables.  
+
+We've decided that we can compare the probabilities of getting various outcomes by looking at the histograms.  I would be useful for us to plot the histograms "near" each other, so that we can compare nicely.  We're going to color our histograms with some "transparency" and then simply plot them on top of one another.  For $n=30$, we can do the following:
+
+```{r}
+# Make some pretty colors.  alpha is "transparency"
+blue <- rgb(0.3, 0.3, 0.9, alpha = 0.4)
+pink <- rgb(0.9, 0.3, 0.3, alpha = 0.4)
+
+# Simulate some data
+fair <- rbinom(10000, size=30, prob=1/37)
+unfair <- rbinom(10000, size=30, prob=1/36)
+
+# plot our histograms.  add=TRUE will add your plot to the current plot.
+hist(fair, col=blue, breaks=0:7 - 0.5)
+hist(unfair, col=pink, breaks=0:7 - 0.5, add=TRUE)
+```
+
+
+For $n = 30, 100, 300$ and $1000$ create histograms for $\sum_{i=1}^n W_i$ for $P({0}) = \frac{1}{37}$ and also $P({0}) = \frac{1}{36}$ (that's 8 histograms total).  
 
 You pick a roulette table at a casino to study.  We sit down to play $n$ games of roulette to further our knowledge of $P({0})$ at this particular table.
 
 Suppose that the ACTUAL probability of "0" on this table IS $\frac{1}{36}$, and not the "fair" value of $\frac{1}{37}$.
 
-## Question 11: Which value of $n$ (out of 30, 100, 300, 1000) will allow us to most reliably tell the difference between a table with $P({0}) = \frac{1}{36}$ and a table with $P({0}) = \frac{1}{37}$?
+### Question 11: Which value of $n$ (out of 30, 100, 300, 1000) will allow us to most reliably tell the difference between a table with $P({0}) = \frac{1}{36}$ and a table with $P({0}) = \frac{1}{37}$?
 
 At some point, you've got a job to do and a lot of tables to look at, so you have to stop playing roulette at this table.
 
-## Question 12: Which value of $n$ (out of 30, 100, 300, 1000) is "enough" to reliably tell the difference between a table with $P({0}) = \frac{1}{36}$ and a table with $P({0}) = \frac{1}{37}$?  Explain your reasoning.
+### Question 12: Which value of $n$ (out of 30, 100, 300, 1000) is "enough" to reliably tell the difference between a table with $P({0}) = \frac{1}{36}$ and a table with $P({0}) = \frac{1}{37}$?  Explain your reasoning.
 
 You leave this table and go to another table.  You decide that you only have time to play 300 rounds at this table.  Suppose for a moment that this next table IS actually "fair", so $P({0}) = \frac{1}{37}$.
 
-## Question 13: For what number of 0s is "the probability of getting at least that many 0s" less than 5%?
+### Question 13: For what number of 0s is "the probability of getting at least that many 0s" less than 5%?
 
-## Question 14: For what number of 0s is "the probability of getting at least that many 0s" less than 1%?
+### Question 14: For what number of 0s is "the probability of getting at least that many 0s" less than 1%?
 
 Suppose that, knowing the answers to questions 13 and 14, you actually play roulette for 300 rounds at this table, and observe 20 0s. 
 
-## Question 15: How does this make you feel about your initial supposition that the table is "fair"?
+### Question 15: How does this make you feel about your initial supposition that the table is "fair"?
