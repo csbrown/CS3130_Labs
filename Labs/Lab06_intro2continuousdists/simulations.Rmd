@@ -33,13 +33,13 @@ In order to investigate this situation, we [buy 1000 resistors](https://www.amaz
 
 Recall Chebyshev's inequality:  For most non-pathological distributions, the probability that a given value falls outside of $k$ standard deviations from the mean is:
 
-$$ P( | X - \mu | > k\sigma ) < \frac{1}{k^2} $$
+$$ P( | X - \mu | \geq k\sigma ) \leq \frac{1}{k^2} $$
 
 Suppose for a moment that your sample standard deviation is an accurate point-estimate of the population standard deviation.
 
 ### Question 2: How many standard deviations from the claimed mean of $120\Omega$ is +-5%?
 
-### Question 3: What is the maximum percentage of values that can fall outside of this range, according to Chebyshev's inequality?
+### Question 3: What is the maximum percentage of values that can fall outside of this range, according to Chebyshev's inequality? (assuming an accurate sd)
 
 Note that Chebyshev's inequality is *an inequality* - it doesn't tell you how many values actually fall outside of a certain range, it just tells you *at most* how many fall outside of that range.  It is a "worst-case scenario".  We suspect that our resistors are sufficiently well-distributed that we are much better off than this.
 
