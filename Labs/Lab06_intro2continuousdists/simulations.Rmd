@@ -1,0 +1,117 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+```
+
+# Lab 6: Intro to Continuous Distributions and Simulations
+
+Today we will be using a number of ECE concepts that you may or may not be familiar with.  It's not a big deal if you're not, so if you don't recognize some of the electronics concepts, don't be discouraged.
+
+Per usual, create an R project and open an R script to work in for this lab.
+
+You may find the documentation on distributions from [David Dalpiaz's "Applied Statistics with `R`"](https://daviddalpiaz.github.io/appliedstats/probability-and-statistics-in-r.html#distributions) useful throughout this lab.
+
+### Getting Started
+
+[Resistors](https://en.wikipedia.org/wiki/Resistor) are an electronic component that "resist" the flow of electricity.  They have many uses in electrical and computer engineering, but are commonly used to split up an electric current in a particular ratio.  This is similar to how you might divert part of a river for irrigation - the size of your irrigation canal determines how much water flows through the canal.  Similarly, if you put a branch in an electrical circuit, the resistance of each branch determines "how much" electricity goes to each branch.
+
+Here is what "ordinary" circuit resistors look like:
+
+[resistors]("resistors.jpg")
+
+You can tell what the resistance of a resistor is [by "reading" the stripes](https://www.youtube.com/watch?v=GLD7AgAYqwA).  The resistors in the image above are $120\Omega$ ([$\Omega$ = "Ohms"](https://en.wikipedia.org/wiki/Ohm), a unit of resistance) resistors, with a +-5% tolerance.
+
+Although "+-5%" may seem super informative, it's not entirely clear what this means when you buy a bunch of resistors.  Does this mean that we know with 100% certainty that 100% of the resistors in your batch are between $114\Omega$ and $126\Omega$?  If so, might our batch of resistors contain all $114\Omega$ resistors?  If we build a board using *only* $114\Omega$ resistors, and our board contains hundreds of resistors, it may not perform as designed!
+
+In order to investigate this situation, we [buy 1000 resistors](https://www.amazon.com/Projects-100EP514120R-120-Resistors-Pack/dp/B077FS2G6H/ref=sr_1_4?keywords=120%2Bohm%2Bresistor&qid=1645643330&sr=8-4&th=1) (cost $\approx \$14$) and meticulously use our super-accurate and precise [ohmmeter](https://en.wikipedia.org/wiki/Ohmmeter) to measure the resistance of all of them.  The results of this experiment are in "resistance_data.csv" included with this lab.  Load this data into `R` now, and use `?head`, summary statistics and other exploratory know-how to get a feel for this data.
+
+### Question 1: What percent of resistors in your sample fall outside of the +-5% tolerance?
+
+Recall Chebyshev's inequality:  For most non-pathological distributions, the probability that a given value falls outside of $k$ standard deviations from the mean is:
+
+$$ P( | X - \mu | > k\sigma ) < \frac{1}{k^2} $$
+
+Suppose for a moment that your sample standard deviation is an accurate point-estimate of the population standard deviation.
+
+### Question 2: How many standard deviations from the claimed mean of $120\Omega$ is +-5%?
+
+### Question 3: What is the maximum percentage of values that can fall outside of this range, according to Chebyshev's inequality?
+
+Note that Chebyshev's inequality is *an inequality* - it doesn't tell you how many values actually fall outside of a certain range, it just tells you *at most* how many fall outside of that range.  It is a "worst-case scenario".  We suspect that our resistors are sufficiently well-distributed that we are much better off than this.
+
+Judging from the histogram we plotted (plotting a histogram was part of your exploratory know-how from earlier, right?) it looks like our data is vaguely "bell-shaped".  There is a theoretical distribution called the Normal distribution that is also vaguely bell-shaped, and has nice properties.  We would like to check our data to see if maybe it is normally-distributed.
+
+## Frequency, Relative Frequency, Density Histograms
+
+To get a sense of what the Normal distribution looks like, run the following code:
+
+```{r eval=FALSE}
+fake_normal_data = rnorm(10000, mean=0, sd=1)
+hist(fake_normal_data)
+```
+
+Adapt this code to generate and graph 10000 points of normally-distributed data *that has the same mean and standard deviation as your sample of resistors*.  
+
+We can do some interesting maneuvering with colors and transparency to plot our fake data on top of our actual data with the `col` option.  For example: `col=rgb(1,0,0,alpha=0.2)`.  `rgb` stands for "red, green and blue".  The "1" in this option is "maximum red", and the zeros are "no green, no blue".  The `alpha=0.2` means to set our plot to be 80% transparent (so that we can see multiple histograms when we plot them atop one another)
+
+Use the `col` option as described with your fake normal data histogram to make it red and semi-transparent.
+
+You can add a plot to an existing plot using the option `add=TRUE`.
+
+Plot a histogram of your resistor resistance data *on top* of your simulated data.  Make this histogram green and semi-transparent.
+
+### Question 4: What is the problem with comparing these graphs?  Why did this happen?
+
+We can fix this situation by "normalizing" the units of the y-axis on our histograms.  Note that relative frequency could help a bit, but it will still have the same issue if our two histograms have a different number of `breaks`.  We would like to make the units of the y-axis such that neither the size of our sample nor the width of our bins have any influence on whether or not we can effectively compare our histograms.
+
+In order to accomplish this, we will use a unit called *density*.  We will define density so that the *area* under the bar is the relative frequency.  Note that since the relative frequencies have to add up to 1, this means that the *area* under all of the bars will add up to 1, so that our histograms are the same "size" in some sense.  In order to plot a histogram using the *density* unit, we can employ the `freq=FALSE` option to our `?hist` function.  
+
+Re-plot the above histograms, but now using the `freq=FALSE` option.
+
+### Question 5: Assert that you have managed to make two histograms, they are both simultaneously visible, and they look pretty similar.
+
+We can do this sort of thing for arbitrary distributions.  Let's plot a *uniform distribution* on top of all of this.  You can plot a uniform distribution covering approximately the same domain with:
+
+```{r eval=FALSE}
+hist(runif(10000, 114, 126), freq=FALSE, add=TRUE, col=rgb(0,0,1,alpha=0.2))
+```
+
+Run this code now.
+
+### Question 6: Which distribution seems to fit our data more closely, a Uniform distribution or a Normal distribution?
+
+Suppose that the resistances of our population of resistors is actually Normal with mean $120\Omega$ and that the standard deviation of our sample is an accurate point estimate of the population standard deviation.  Recall that we can use `pname` to compute "at most" type probabilities.  So `pnorm` will compute these sorts of probabilities for a normal distribution. 
+
+### Question 7: What is the probability that a randomly selected resistor will have a resistance that is less than 4 standard deviations below the mean?
+
+### Question 8: What is the probability that a randomly selected resistor will have a resistance that is more than 4 standard deviations *above* the mean?
+
+## Simulations
+
+Resistors are never used all alone - they are hooked up en masse in various configurations in a circuit that does any number of things.  One way that resistors may be configured in a circuit is ["in parallel"](https://en.wikipedia.org/wiki/Resistor#Series_and_parallel_resistors).  This looks like the following:
+
+[Resistors in parallel]("parallel_resistors.png")
+
+If two resistors are connected in parallel, the the total resistance of the resulting circuit is given as:
+
+$$ R_{\text{total}} = \frac{R_1 R_2}{R_1 + R_2} $$
+
+Where $R_1$ and $R_2$ are the resistances of the individual resistors.
+
+If $R_1$ is normally distributed, and $R_2$ is normally distributed, will $R_{\text{total}}$ be normally distributed?  What are the mean and standard deviation?  Suppose that we hook up three resistors in parallel, making for a more complicated formula, or hook up other interesting components to our circuit, introducing additional complexities?
+
+Sometimes, you will be faced with situations where a problem is related to a known distribution, but only through a series of complex calculations, it is not immediately clear how the distributions of the inputs relate to the distribution of the outputs, and the mathematics of proving what the distributions are is difficult or intractable.  In such circumstances, the power of computers can come to your rescue.
+
+Suppose that we hook up two of our $120\Omega$ resistors that we've been using all along *in parallel*.  We can *simulate* what the resulting resistance will be by simply simulating constructing such a circuit many times.  To do this, generate 10000 resistors from a normal distribution with mean $120$ and standard deviation $2$.  These are the "first resistor", $r1$.  Now, generate 10000 more resistors from a normal distribution with mean $120$ and standard deviation $2$.  These are the "second resistor", $r2$.  Now hook them up in parallel by applying the formula above.
+
+```{r eval=FALSE}
+rtotal = r1*r2 / (r1 + r2)
+```
+
+Plot a histogram of this, and compute some summary stats to get an idea of the new data.
+
+### Question 9: What is the approximate standard deviation of the resistance of the parallel circuit?
