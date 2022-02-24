@@ -1,0 +1,128 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+# Lab 7: Assessing Goodness of Fit Without Hypothesis Testing
+
+## Analyzing the Packet Per Second Data
+
+For assignment 2 you collected number of packets sent per second by one of the CADE machines. While in the assignment you will collect much more data, for this lab, we'll use a much smaller version of the packet data you will collect.
+
+In the data folder of this lab, you will find `packet_data.csv`. For one of the CADE Machines, this is the cumulative total number of packets sent with a timestamp. Data is collected 3 times each second. The first thing we'll need to do is convert each row to be number of packets per second.
+
+Here is some code that does that:
+
+```{r}
+packetData = read.csv("data/packet_data.csv",header = TRUE) %>%
+  mutate(time = as.integer(time)) %>%
+  group_by(time) %>%
+  summarise(packets = max(total_packets) - min(total_packets))
+```
+
+Now we want to know whether this data comes from a poisson distribution. Here are some questions we might ask ourselves to being to probe this further:
+
+### Question 1: Does the possible values that a Poisson random variable can take on match the possible values that the number of packet arrivals per second can take on?
+
+### Question 2: Does the arrival of one packet affect the probability that other packets will arrive?
+
+### Question 3: Is it true that there is a single rate at which packets arrive for time periods all with the same length?
+
+Lets see how well the poisson probability mass function fits the packet arrival data. The strategy is as follows:
+
+We assume the packet arrival data is $X_1,X_2,\dots,X_N$ ($X_i$ being the $i^{th}$ packet arrival, $N = 180$) and these packet arrivals are independent and identically distributed according to $P_D$, where $P_D$ is the probability mass function.
+
+We'd like to compare $P_D$ with a poisson distribution. 
+
+There are two challenges here
+
+
+1. We don't have access to $P_D$, so we first need to estimate it with our data
+2. There are infinitely many poisson distributions? Which Poisson distribution do we compare our estimate of $P_D$ to?
+
+The law of large numbers (and extensions of it) will help us with both of these questions
+
+For the first challenge, we need to estimate $P_D(x)$ for every $x \in \{0,1,2,3,\dots\}$. For a single $x$, let $\mathbb{I}(X_i = x)$ be $1$ if $X_i = x$ and $0$ otherwise. Then $E(\mathbb{I}(X_i = x)) = P_D(x)$ for each $1 \leq i \leq N$. So versions of the law of large numbers (about which you could learn more if you take a more advanced probability course), give that
+
+\[
+\frac{1}{N} \sum_{i=1}^{N} \mathbb{I}(X_i = x)
+\]
+is a good estimator for $P_D(x)$ for large values of $N$. We'll assume $N$ is large enough for now -- (in a more advanced probability course you would learn about ways to probabalistically bound the deviation between this average and $P_D(x)$ by choose a sample size large enough)
+
+### Question 4: Using the method just described, what would our estimate be for $P_D(2)$?
+
+Using this method, here is some code that computes $P_D(x)$ for every $x$ value that occurs in the data.
+
+```{r}
+N = nrow(packetData)
+meanEst = mean(packetData$packets)
+maxObs = max(packetData$packets)
+vizPacketData <- packetData %>%
+  group_by(packets) %>%
+  summarise(p = n()/N)
+```
+
+For the non-occurring $x$ values in $\{0,1,2,\dots\}$, the estimate is $0$. So now we have estimates for $P_D(x)$ for each $x \in \{0,1,2,\dots\}$.
+
+[Side note: Because $P_D$ takes on infinitely many values, there is some refinement of the vanilla law of large numbers needed to guarantee that we are uniformily estimating $P_D$ well. But there is a such an argument (the main ideas of it can be seen for example in the Glinvenko-Cantelli theorem) that justifies our method for estimating $P_D$.]
+
+Now that we have an estimate for $P_D$, what is the correct poisson distribution to compare it to?
+
+If $P_D$ is $Poisson(\lambda)$, then by the law of large numbers, $\frac{1}{N} \sum_{i=1}^{N} X_i$ will be a good estimator for $\lambda$ as $N$ gets large. So lets compare our estimate of $P_D$ to a $Poisson(\frac{1}{N} \sum_{i=1}^{N} X_i)$ 
+
+### Question 5: As described above, based on the law of large numbers, compute the value of $\lambda$ we will use when we compare the Poisson distribution with our estimate of $P_D$
+
+Here is some code that compares our estimate of $P_D$ with the $Poisson(\frac{1}{N} \sum_{i=1}^{N} X_i)$
+
+```{r,fig.width = 15}
+vizPacketData = vizPacketData %>%
+   rbind(data.frame(packets = setdiff(0:maxObs,unique(packetData$packets)),
+                   p = rep(0,length(setdiff(0:maxObs,unique(packetData$packets)))))) %>%
+  mutate(empirical = rep("Estimated P_D(x)",length(p))) %>%
+  rbind(data.frame(packets = 0:maxObs,
+                   p = dpois(0:maxObs,lambda = meanEst),
+                   empirical = rep("Poisson(avg)(x)")))
+ggplot(data = vizPacketData,aes(x = packets,y=p,fill = empirical))+geom_bar(position="dodge", stat="identity")+
+  scale_x_continuous(breaks=seq(0,80,by=1))
+```
+
+The 2 clear outliers in the packet arrival data will have a strong influence on $\frac{1}{N}\sum_{i=1}^{N} X_i$, thereby "pushing" the poisson distribution that we are comparing to farther to the right.
+
+While we recognize that the outliers are a part of the distribution of the packet arrival data, it is also worthwhile to remove them to understand how much of an effect they have on the theoeretical distribution we are comparing to. 
+
+### Question 6: Remove the two outliers, and compute and report the sample mean again.
+
+
+With the outliers removed, here is the same analysis repeated:
+
+```{r,echo = FALSE}
+packetData = packetData %>%
+  filter(packets <= 30)
+N = nrow(packetData)
+meanEst = mean(packetData$packets)
+maxObs = max(packetData$packets)
+vizPacketData <- packetData %>%
+  group_by(packets) %>%
+  summarise(p = n()/N)
+
+vizPacketData = vizPacketData %>%
+   rbind(data.frame(packets = setdiff(0:maxObs,unique(packetData$packets)),
+                   p = rep(0,length(setdiff(0:maxObs,unique(packetData$packets)))))) %>%
+  mutate(empirical = rep("Estimated P_D(x)",length(p))) %>%
+  rbind(data.frame(packets = 0:maxObs,
+                   p = dpois(0:maxObs,lambda = meanEst),
+                   empirical = rep("Poisson(avg)(x)")))
+ggplot(data = vizPacketData,aes(x = packets,y=p,fill = empirical))+geom_bar(position="dodge", stat="identity")+
+  scale_x_continuous(breaks=seq(0,80,by=1))
+```
+
+Not even a great fit after removing the outliers.
+
+### Question 7: At what $x$ value do we see the biggest deviation from poissonality?
+
