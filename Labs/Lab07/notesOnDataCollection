@@ -1,0 +1,11 @@
+
+ping_data.csv:
+	3 minutes of data collection at 3 times per second
+temp_data.csv:
+	3 minutes of data collection at 3 times per second
+pgfault_data.csv:
+	3 minutes of data collection at 3 times per second
+packet_data.csv:
+	3 minutes of data collection at 3 times per second
+
+
