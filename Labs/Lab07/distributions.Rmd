@@ -196,7 +196,7 @@ with the `hist` function choosing the intervals for us.
 Now this histogram is our estimate for $f_d$. So we'll compare it to the density function for the appropriate exponential distribution to assess the goodness of fit of the exponential distribution to the data.
 
 \textbf{Here is some code that will help you do this. Play with this code and the original histogram code line to get the density overlayed on the histogram}
-```{r}
+```{r,eval = FALSE}
 rateEst = 1/mean(pingData$ping)
 xlines = seq(0,max(h$breaks),length.out = 100)
 lines(x = xlines,y=dexp(xlines,rate = rateEst))
@@ -205,11 +205,19 @@ lines(x = xlines,y=dexp(xlines,rate = rateEst))
 
 ### Question 12: Based on the plot you made (with the exponential density function over), do you think the exponential distribution is a good model for this data?
 
+There are other ways besides density analysis to compare the distribution of the data to the theoretical distribution of interest. For example, we could have attempted to compare cdfs instead. Just so you can get a flavor of what this would look like:
+
+### Question 13: Use the law of large numbers to estimate $F_D(.15)$. Then use the `pexp` function to find $P(exp(1/mean(pingData)) <= .15)$. Compute the absolute difference.
+
+A more thorough `cdf` based analysis would look at the plot of the `cdf` of the theoretical distribution against the plot of the `cdf` of the probability measure that puts mass $1/N$ at each data point (called the `empirical cdf`).
+
+Let's now move back to the bigger picture:
+
 We've now seen that technically the normal distribution is an inappropriate fit to the data and techincally and practically, the exponential distribution is a poor fit.
 
-### Question 13: What is a distribution that can be used to model elapsed time that is more flexible than the exponential distribution?
+### Question 14: What is a distribution that can be used to model elapsed time that is more flexible than the exponential distribution?
 
-### Question 14: 
+### Question 15: 
 
 
 
