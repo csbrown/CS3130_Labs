@@ -58,3 +58,6 @@ ggplot(data = tempData,aes(x = temp))+geom_histogram()+facet_wrap(~machine)
 
 
 
+
+
+
