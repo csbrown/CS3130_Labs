@@ -11,9 +11,9 @@ library(ggplot2)
 
 # Lab 7: Assessing Goodness of Fit Without Hypothesis Testing
 
-## Analyzing the Packet Per Second Data
+## Analyzing the Packet Data
 
-For assignment 2 you collected number of packets sent per second by one of the CADE machines. While in the assignment you will collect much more data and analyze seconds per packet, for this lab, we'll use a much smaller version of the packet data you will collect, and we'll analyze packets per second.
+For assignment 2 you collected packet data. While in the assignment you will collect much more data and analyze seconds per packet, for this lab, we'll use a much smaller version of the packet data you will collect, and we'll analyze packets per second.
 
 In the data folder of this lab, you will find `packet_data.csv`. For one of the CADE Machines, this is the cumulative total number of packets sent with a timestamp. While you collect data 5 times per second, here data is collected 3 times per second. The first thing we'll need to do is convert each row to be a number of packets per second.
 
@@ -26,7 +26,10 @@ packetData = read.csv("data/packet_data.csv",header = TRUE) %>%
   summarise(packets = max(total_packets) - min(total_packets))
 ```
 
-Now we want to know whether this data comes from a poisson distribution. Here are some questions we might ask ourselves to begin to probe this further:
+Packets could arrive before the first timestamp of a second and after the last timestamp of a second. But we don't count them here. There may be more accurate ways to count the number of packets occurring within a fixed time interval, but lets ignore this detail for now.
+
+
+We want to know whether this data comes from a poisson distribution. Here are some questions we might ask ourselves to begin to probe this further:
 
 ### Question 1: What are a collection of sufficient conditions that would result in the packet data being poisson distributed? [See Question 1 in Canvas] 
 
@@ -69,6 +72,7 @@ maxObs = max(packetData$packets)
 vizPacketData <- packetData %>%
   group_by(packets) %>%
   summarise(p = n()/N)
+#print(vizPacketData)
 ```
 
 For the non-occurring $x$ values in $\{0,1,2,\dots\}$, the estimate is $0$. So now we have estimates for $P_D(x)$ for each $x \in \{0,1,2,\dots\}$.
@@ -248,6 +252,7 @@ When you look at this plot, questions to ask yourself are:
 To be more quantitative in our assessment, there is a measure called the Kolmogorov-Smirnov statistic, that finds the "maximum" distance between the empirical cdf and the candidate cdf. (Those of you who like real analysis may note that defining "maximum" distance in this setting involves some care, but we will ignore this detail in this course)
 
 ### Question 9: On the grid used in the code, find and report the maximum absolute difference between the empirical cdf and the candidate cdf
+
 
 We discussed that the normal distribution is technically not an appropriate model for the ping data. But that doesn't necessarily mean that in practice it is a bad fit -- especially if the mean of the elapsed times is large and the variance is very small.
 

@@ -169,16 +169,17 @@ pre code {
 
 <div id="lab-7-assessing-goodness-of-fit-without-hypothesis-testing" class="section level1">
 <h1>Lab 7: Assessing Goodness of Fit Without Hypothesis Testing</h1>
-<div id="analyzing-the-packet-per-second-data" class="section level2">
-<h2>Analyzing the Packet Per Second Data</h2>
-<p>For assignment 2 you collected number of packets sent per second by one of the CADE machines. While in the assignment you will collect much more data and analyze seconds per packet, for this lab, we’ll use a much smaller version of the packet data you will collect, and we’ll analyze packets per second.</p>
+<div id="analyzing-the-packet-data" class="section level2">
+<h2>Analyzing the Packet Data</h2>
+<p>For assignment 2 you collected packet data. While in the assignment you will collect much more data and analyze seconds per packet, for this lab, we’ll use a much smaller version of the packet data you will collect, and we’ll analyze packets per second.</p>
 <p>In the data folder of this lab, you will find <code>packet_data.csv</code>. For one of the CADE Machines, this is the cumulative total number of packets sent with a timestamp. While you collect data 5 times per second, here data is collected 3 times per second. The first thing we’ll need to do is convert each row to be a number of packets per second.</p>
 <p>Here is some code that does that:</p>
 <pre class="r"><code>packetData = read.csv(&quot;data/packet_data.csv&quot;,header = TRUE) %&gt;%
   mutate(time = as.integer(time)) %&gt;%
   group_by(time) %&gt;%
   summarise(packets = max(total_packets) - min(total_packets))</code></pre>
-<p>Now we want to know whether this data comes from a poisson distribution. Here are some questions we might ask ourselves to begin to probe this further:</p>
+<p>Packets could arrive before the first timestamp of a second and after the last timestamp of a second. But we don’t count them here. There may be more accurate ways to count the number of packets occurring within a fixed time interval, but lets ignore this detail for now.</p>
+<p>We want to know whether this data comes from a poisson distribution. Here are some questions we might ask ourselves to begin to probe this further:</p>
 <div id="question-1-what-are-a-collection-of-sufficient-conditions-that-would-result-in-the-packet-data-being-poisson-distributed-see-question-1-in-canvas" class="section level3">
 <h3>Question 1: What are a collection of sufficient conditions that would result in the packet data being poisson distributed? [See Question 1 in Canvas]</h3>
 <p>While a thorough analysis would discuss the validity of the sufficient conditions in detail, we’ll assess the validity of the Poisson distribution to the data solely based off of comparison of probability mass functions.</p>
@@ -206,7 +207,8 @@ meanEst = mean(packetData$packets)
 maxObs = max(packetData$packets)
 vizPacketData &lt;- packetData %&gt;%
   group_by(packets) %&gt;%
-  summarise(p = n()/N)</code></pre>
+  summarise(p = n()/N)
+#print(vizPacketData)</code></pre>
 <p>For the non-occurring <span class="math inline">\(x\)</span> values in <span class="math inline">\(\{0,1,2,\dots\}\)</span>, the estimate is <span class="math inline">\(0\)</span>. So now we have estimates for <span class="math inline">\(P_D(x)\)</span> for each <span class="math inline">\(x \in \{0,1,2,\dots\}\)</span>.</p>
 <p>[Side note: Because <span class="math inline">\(P_D\)</span> takes on infinitely many values, there is some refinement of the vanilla law of large numbers needed to guarantee that we are uniformily estimating <span class="math inline">\(P_D\)</span> well. But there is a such an argument (the main ideas of it can be seen for example in the Glinvenko-Cantelli theorem) that justifies our method for estimating <span class="math inline">\(P_D\)</span>.]</p>
 <p>Now that we have an estimate for <span class="math inline">\(P_D\)</span>, what is the correct poisson distribution to compare it to?</p>
