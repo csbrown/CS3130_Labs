@@ -17,7 +17,7 @@ In today's lab, we are going to simulate the sampling distributions for various 
 
 We'll focus on the sampling distribution for the mean for now.  Firstly, because the mean is intuitively something we can compare individual measurements to.  Secondly, because "the average value" is very frequently something that decision-makers are interested in.  For example, a Statistics professor might be interested in the average score on an exam to get an idea for how students are faring in a course.  The average doesn't tell the whole story, but can immediately be indicative of problems that need fixing.  E.g. a low average score on an exam, a low average speed on an interstate during rush hour, a high average incidence of cancer in an area, etc are all things that indicate a potential for action.  Since the mean is so useful, we'll be focusing on it *a lot* in the class.  Still, do know that it is not the only population parameter that we can make statistical inferences about, and it is not the only parameter that we can form a sampling distribution for, as we will see later in the lab.
 
-In order to do any simulations, we will need an example population.  We will be using the Poisson distribution.  The specific property of the Poisson distribution that will make it interesting for us is that the [*skewness*](https://en.wikipedia.org/wiki/Skewness) of the Poisson is $\lambda^{-\frac{1}{2}}$.  *Skewness* is a measure of how "asymmetric" the distribution is.  For example, the normal distribution (which is perfectly symmetric about the mean) has skewness 0.  The exponential distribution has skewness 2 (no matter what the paramter $\lambda$ is!).  In the exponential distribution, all of the values to the left of the mean are still pretty close to the mean (recall that the support of the exponential distribution is $(0, \infty)$), but values to the right of the mean may well be quite large.  This is the essense of skewness.
+In order to do any simulations, we will need an example population.  We will be using the Poisson distribution for most of the lab.  The specific property of the Poisson distribution that will make it interesting for us is that the [*skewness*](https://en.wikipedia.org/wiki/Skewness) of the Poisson is $\lambda^{-\frac{1}{2}}$.  *Skewness* is a measure of how "asymmetric" the distribution is.  For example, the normal distribution (which is perfectly symmetric about the mean) has skewness 0.  The exponential distribution has skewness 2 (no matter what the paramter $\lambda$ is!).  In the exponential distribution, all of the values to the left of the mean are still pretty close to the mean (recall that the support of the exponential distribution is $(0, \infty)$), but values to the right of the mean may well be quite large.  This is the essense of skewness.
 
 To get an idea of what skewness means, plot a Poisson distribution for several different values of $\lambda$.  Specifically consider what happens "as $\lambda$ gets smaller" and "as $\lambda$ gets larger".   Below is an example.  Be careful as you plot the distribution for various $\lambda$ that the limits on your graph are allowing you to see all of the "interesting" parts.  For example, if the average number of occurrences per unit time is 10, then viewing probabilities near x=1000 might not make sense.
 
@@ -80,7 +80,7 @@ my_normal_dist <- function(x) dnorm(x, mean=10, sd=2)
 plot(my_normal_dist, n=1000, xlim=c(4,16))
 ```
 
-You'll need to adjust the limits and also estimate the most likely parameters for your normal distribution from your data.
+You'll need to adjust the limits and also estimate the most likely parameters for your normal distribution from your data.  You can use `add=T` to superimpose this graph over your previous Poisson graph, if this is helpful.
 
 ### Question 5: Is the sampling distribution of the mean for $n=30$ and $X \sim \text{Poisson}(1)$ approximately normal?
 
@@ -88,19 +88,21 @@ We're about to make super short arguments for 2 really cool results concerning t
 
 If $X \sim \text{Poisson}(4)$, then the average number of occurrences per time unit is 4.  Suppose that instead of one time unit, we want the number of occurrences over TWO time units.  This is still a Poisson process, so this is distributed as a Poisson distribution but the average number of occurrences in two time units is 8.  ALSO, though, the number of occurrences in two time units is just $X_1 + X_2$, where $X_1$ and $X_2$ are the number of occurrences in ONE time unit.  So, the *sum* of Poisson random variables is Poisson!  Since the sample mean is just a constant times a sum, this means that the sampling distribution of the mean for a Poisson random variable is basically Poisson! (it's Poisson times a constant).
 
-We can check this out by plotting a sampling distribution for a mean for our $n=5$, $X \sim \text{Poisson}(1)$ variable along with a $\text{Poisson}(5)$ distribution.  You've actually already created both of these plots as part of this lab.  The only adjustment is that you need to divide the $x$ values in your plot of $\text{Poisson}(5)$ by $1/5$.  Re-create these plots on top of one another (`add=T` to the histogram) to compare the sampling distribution of the mean for $n=5$, $X \sim \text{Poisson}(1)$ and also a distribution for $X / 5$ where $X \sim \text{Poisson}(5)$. 
+We can check this out by plotting a sampling distribution for a mean for our $n=5$, $X \sim \text{Poisson}(1)$ variable along with a $\text{Poisson}(5)$ distribution.  You've actually already created both of these plots as part of this lab.  The only adjustment is that you need to divide the $x$ values in your plot of $\text{Poisson}(5)$ by $1/5$.  Re-create these plots on top of one another (`add=T` to the histogram) to compare the sampling distribution of the mean for $n=5$, $X \sim \text{Poisson}(1)$ and also a distribution for $X / 5$ where $X \sim \text{Poisson}(5)$.
+
+Be careful here that when we change our `x` units, the probabilities that we get from `dpois` aren't densities anymore (the density relies on the units in x!).  So we actually need to adjust the y values as well.
+
+```{r eval=F}
+plot(x/5, y*5)
+```
 
 ### Question 6: Visually verify that the sampling distribution of the mean for $n=5$, $X \sim \text{Poisson}(1)$ and $X/5$ where $X \sim \text{Poisson}(5)$ are, in fact, the same distribution.
 
-Cool result number 2: by the central limit theorem, since our Poisson distribution measurements are i.i.d, then the sampling distribution of the mean should converge to a Normal distribution as $n \rightarrow \infty$.  But, since the sampling distribution of the mean for a Poisson random variable is Poisson, then this means that *the Poisson distribution itself converges toward a Normal distribution as $\lambda \rightarrow \infty$*.
-
-Recall that the mean and variance of the Poisson distribution are both $\lambda$.  Verify this result by plotting a Poisson distribution with $\lambda = 100$ along with a Normal distribution with appropriate mean and standard deviation.
-
-### Question 7: Visually verify that the Poisson distribution is approximately Normal for "large" $\lambda$.
+Cool result number 2: by the central limit theorem, since our Poisson distribution measurements are i.i.d, then the sampling distribution of the mean should converge to a Normal distribution as $n \rightarrow \infty$.  But, since the sampling distribution of the mean for a Poisson random variable is Poisson, then this means that *the Poisson distribution itself converges toward a Normal distribution as $\lambda \rightarrow \infty$*.  Recall your work on Question 5.
 
 This ALSO means, though, that if $\lambda$ is very very small, then the convergence toward Normal will be slow.  So, for example, if $\lambda = 0.01$ (we expect only one occurrence per hundred time units), then the sampling distribution for the mean for $n=100$ will be distributed as a constant times $\text{Poisson}(1)$.  You graphed this distribution in Question 4.  Note that $\text{Poisson}(1)$ *isn't* particularly normal.
 
-### Question 8: What is the skewness of a Poisson distribution with $\lambda = 0.01$?
+### Question 7: What is the skewness of a Poisson distribution with $\lambda = 0.01$?
 
 We can also ask about the sampling distribution of various other sample statistics.  There are many and varied results for these things in Statistics, but they are beyond the scope of this course.  Still, you can easily simulate these things if you are so inclined.  All of the logic about creating samples remains the same, we just need to change the thing that we are computing for each sample.  So, we can estimate the sampling distribution of the standard deviation as:
 
@@ -108,9 +110,9 @@ We can also ask about the sampling distribution of various other sample statisti
 rowwise_sds <- apply(poisson_samples, 1, sd)
 ```
 
-Plot a histogram of the sampling distribution of the standard deviation for $n=500$,  $X \sim \text{Poisson}(1)$.
+Plot a histogram of the sampling distribution of the standard deviation for $n=500$,  $X \sim \text{Poisson}(1)$.  Note that we can use our simulated sampling distribution to make estimates of the mean of the sampling distribution, the median, the standard deviation ("the standard deviation of the sampling distribution of the standard deviation -- quite a mouthful!"), etc using the ordinary `mean`, `median` and `sd` functions in R.  We can also estimate probabilities by computing relative frequencies in the simulated data.
 
-### Question 9: Based on this plot, do you expect that the sampling distribution of the standard deviation approaches a normal distribution for large $n$?
+### Question 8: Suppose our population is $\sim \text{Poisson}(1)$.  Estimate the probability of getting a sample size $n=500$ with sample standard deviation greater than 1.1 by computing the proportion of sample standard deviations that are greater than 1.1 in your simulated data.
 
 Lastly, let's check out the importance of some of the assumptions that we've made in the central limit theorem.  We have included with this lab the data of all of the bytes in shakespeare's collected works that you should recognize from Assignment 2:
 
@@ -137,7 +139,7 @@ for (n in c(2, 5, 15, 50)) {
 
 Note that even though our data has gotten "somewhat more normal-ish", it seems to be kinda off.  This is due to the fact that we've not met some of the conditions of the CLT.  Think carefully about what the individual bytes in the collected works of shakespeare represent, and also our process of forming samples (using this `matrix` reshaping technique).
 
-### Question 10: Why does the CLT technically not hold using the given sampling procedure?  Explain what should we do instead if we want the CLT to guarantee convergence to Normal?
+### Question 9: Why does the CLT technically not hold using the given sampling procedure?  Explain what should we do instead if we want the CLT to guarantee convergence to Normal?
 
 If you'd like to explore further, you can check out the `?sample` function.  Actually, if we simply remove `byrow=T` from the call to `matrix`, we get the graphs below.  This *still* doesn't satisfy the conditions of the CLT, but apparently does approximately so, enough that the sampling distribution seems to converge.  This is the sort of thing one needs to consider when taking a [*systematic sample*](https://en.wikipedia.org/wiki/Systematic_sampling)
 
