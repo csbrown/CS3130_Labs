@@ -1,0 +1,15 @@
+TRTFRIEND: Total nonwork-related time respondent spent with friends (in minutes) [Min:0, Max: 1440]
+TRTSPONLY: Total nonwork-related time respondent spent with spouse only (in minutes)
+TRTCCC: Total nonwork-related time respondent spent with customers, clients, and coworkers (in minutes)
+TRTALONE: Total nonwork-related time respondent spent alone (in minutes) 
+TRTFAMILY: Total nonwork-related time respondent spent with family members
+
+TRCHILDNUM: Number of household Children < 18
+
+TRERNWA: Weekly earnings at main job (2 implied decimals)  -- it's possible this one doesn't have data for every row
+TRERNHLY: Hourly earnings at main job
+
+TUCC2: Time first child < 13 woke up [Need to convert from time to number of minutes since beginning of day]
+TUCC4: Time last household child < 13 went to bed [Need to convert from time to number of minutes since beginning of day]
+
+

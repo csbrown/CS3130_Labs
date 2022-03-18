@@ -1,0 +1,59 @@
+---
+title: 'Lab 9: Confidence Intervals For the Mean Via the CLT'
+output: html_document
+---
+
+We'll be analyzing how Americans spend their time.
+
+The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1)
+ interviewed $8,782$ people in 2020 and inquired about how these individuals allocate their time to different tasks on a weekday. Some variables collected include:
+ 
+ <ul>
+  <li>TRTFRIEND: Total nonwork-related time respondent spent with friends (in minutes) [Min:0, Max: 1440] </li>
+  <li>TRTSPONLY: Total nonwork-related time respondent spent with spouse only (in minutes) </li>
+  <li>TRTCCC: Total nonwork-related time respondent spent with customers, clients, and coworkers (in minutes)</li>
+  <li>TRTALONE: Total nonwork-related time respondent spent alone (in minutes) </li>
+  <li>TRTFAMILY: Total nonwork-related time respondent spent with family members 
+ </li>
+ <li>TRCHILDNUM: Number of household Children < 18 </li>
+ <li> TRERNWA: Weekly earnings at main job [For non-hourly wage earners]</li>
+ <li> TRERNHLY: Hourly earnings at main job [For hourly wage earners]</li>
+ <li> TUCC2: Time first child < 13 woke up [For those with children -- in number of minutes past midnight]</li>
+ <li> TUCC4: Time last household child < 13 went to bed [For those with children] -- in number of minutes past midnight</li>
+</ul>
+
+The population of interest is Americans and how they spend their time on a typical weekday. So there are $10$ distributions of interest, and we would like to do inference for the mean of each of these distributions.
+
+Although contrived, from now on we will assume that the entire ATUS survey results **are the entire** population -- i.e we are assuming that every American is included in the ATUS survey results. 
+
+And we will use a random subsampling of the ATUS survey results to do inference about the population of all Americans (assuming that all Americans have been surveyed by ATUS).
+
+With this strategy, here is the POPULATION dataset.
+
+## Question 1: Use the POPULATION dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
+Answer is $362.0627$ minutes
+
+Using an approach like that you used in question 1, here are our population means for the other variables.
+
+ <ul>
+  <li>TRTFRIEND: 22.228 minutes 
+  <li>TRTSPONLY: 114.421 minutes</li>
+  <li>TRTCCC: 3.964 minutes</li>
+  <li>TRTFAMILY: 295.0263 minutes
+ </li>
+ <li>TRCHILDNUM: .6522 children </li>
+ <li> TRERNWA: 21.3226\$</li>
+ <li> TRERNHLY: 1176.6790\$</li>
+ <li> TUCC2: 451.7254 minutes</li>
+ <li> TUCC4: 1212.3868 minutes</li>
+</ul>
+
+
+## Question 2: What is the population standard deviation for time spent alone?
+
+Now lets imagine we didn't have access to the population. We only have access to a sample of 200 independent and identically distribution observations for each variable.
+
+Here is the SAMPLE data
+
+## Question 3: Using the CLT, and the population variance you computed in question 2, find a $90\%$ confidence interval for the population mean time spent along by using the sample data.
+
