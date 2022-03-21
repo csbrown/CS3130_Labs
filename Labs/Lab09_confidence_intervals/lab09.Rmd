@@ -28,9 +28,9 @@ Although contrived, from now on we will assume that the entire ATUS survey resul
 
 And we will use a random subsampling of the ATUS survey results to do inference about the population of all Americans (assuming that all Americans have been surveyed by ATUS).
 
-With this strategy, here is the POPULATION dataset.
+You can find most of the population data in `data/populationData/nonNAdata.csv`. After loading in this dataset, answer question 1.
 
-## Question 1: Use the POPULATION dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
+## Question 1: Use the population dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
 Answer is $362.0627$ minutes
 
 Using an approach like that you used in question 1, here are our population means for the other variables.
@@ -53,8 +53,6 @@ Using an approach like that you used in question 1, here are our population mean
 
 Now lets imagine we didn't have access to the population. We only have access to a sample of 200 independent and identically distribution observations for each variable.
 
-Here is the SAMPLE data
-
 Let $\bar{X}_{200}$ be the sample mean time spent alone. Because our samples are independent and identically distributed from the population, the CLT gives 
 \[
 \frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu_{alone}) \overset{d}{\to} N(0,1)
@@ -65,7 +63,9 @@ $ \frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu) \overset{d}{\approx} N(0,1)$ is reas
 There are a couple of details we are glossing over here. One is that we don't necessarily know that the variance of the distribution of time spent alone even exists. And even if it did, we learned last week that the [skewness of a distribution determines the speed of convergence in the CLT](https://en.wikipedia.org/wiki/Berry%E2%80%93Esseen_theorem).
 
 But for now, lets assume that the variance of the distribution of time spent alone does exist, and higher moments of this distribution behave in such a way that
-$\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)$ is not a bad approximation
+$\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)$ is not a bad approximation.
+
+Side note: If you compare the probability density of an appropriately paramaterized exponential distribution with the histogram of time spent alone, you can see a decent fit. So based on our investigation both in the last several lectures and in last weeks lab, $N =200$ should be more than enough for the CLT approximation to be a good one.
 
 ## Question 3: Using the CLT, and the population standard deviation you computed in question 2, find a $90\%$ confidence interval for the population mean time spent alone by using the sample data.
 
@@ -73,7 +73,7 @@ Usually we don't have access to the population standard deviation, so we estimat
 
 As we've discussed, the law of large numbers provides justification for using the sample standard deviation $\hat{\sigma}_n$ to estimate the population standard deviation.
 
-Also, the [algebra of convergence in distribution](https://en.wikipedia.org/wiki/Slutsky%27s_theorem) justifies replacing $\sigma^2$
+Also, the [algebra of convergence in distribution](https://en.wikipedia.org/wiki/Slutsky%27s_theorem) justifies replacing $\sigma^2$ with $\hat{\sigma}_n^2$ in statements about convergence in distribution.
 
 So it is valid to use the sample standard deviation ($\hat{\sigma_n}$) in place of the population standard deviation when applying the CLT. Specifically, instead of using the approximation
 \[
@@ -101,7 +101,7 @@ If you know the exact distribution of a statistic, it is better to use it (rathe
 
 Let's say that $1000$ different researchers in isolated environments  independently collect samples of size $200$ from the distribution of time spent alone by Americans. Then they construct **exact** $90\%$ confidence intervals for the mean time spent alone.
 
-We can describe this procedure visually, where $t_{1,1}$ is the time spent alone collected from the first individual by the first researcher, $t_{1,2}$ is the time spent alone collected from the second individual by the first researcher, and so on. $I_1$ is the confidence interval for the mean constructed by the first researcher.
+We can describe this procedure visually, where $t_{1,1}$ is the time spent alone collected from the first individual by the first researcher, $t_{1,2}$ is the time spent alone collected from the second individual by the first researcher, and so on. $I_1$ is the confidence interval for the mean constructed by the first researcher, $I_2$ is the confidence interval for the mean constructed by the second researcher and so on.
 
 So each row is the data collected by a researcher, and the $j^{th}$ researchers interval is $I_{j}$
 \[
@@ -120,9 +120,35 @@ Let $Y$ be the number of researchers whose intervals don't cover $\mu$.
 
 ## Question 6: What is the distribution of $Y$?
 
+## Question 7: What is P(Y > 100)?
 
+Here is some code to simulate the data collection procedure of the $1000$ researchers:
 
-## Question 7
+```{r,eval = FALSE}
+library(tidyverse)
+##Read in the data
+timeSpentAlonePopulation = read.csv("data/populationData/nonNAdata.csv",header = TRUE) %>%
+  select(TRTALONE) %>% unlist()
+sampleMatrix = matrix(sample(timeSpentAlonePopulation,size = 200*1000,
+                             replace = TRUE),nrow = 1000,ncol = 200)
+
+```
+And here is some follow up code that would compute the $1000$ intervals assumign the CLT provides an accurate approximation:
+
+```{r,eval = FALSE}
+trueMean = 362.0627
+n = 200
+z = "What you will fill in for question 8"
+mns <- apply(X = sampleMatrix, MARGIN = 1, FUN = mean)
+sds <- apply(X = sampleMatrix, MARGIN = 1, FUN = sd)
+intervalLow <- mns - z*(sds/sqrt(n))
+intervalHigh <- mns+z*(sds/sqrt(n))
+numFailedIntervals <- sum(trueMean < intervalLow | trueMean > intervalHigh)
+```
+
+## Question 8: What code gives $z$? Recall we are assuming the CLT approximation is valid and we are constructing $90\%$ confidence intervals.
+
+## Question 9: After you fill in the code for $z$, run the code to find the number of researchers whose intervals have failed to cover the true mean in the population. Do we conclude these researchers did something wrong?
 
 
 
