@@ -94,7 +94,10 @@ to construct a confidence interval.
 
 But you might be scratching your head as to why we did that. In class on Tuesday, we learned the exact distribution of $\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)$. **But only when the population is normally distributed**
 
-If you know the exact distribution of a statistic, it is better to use it (rather than an approximation like the CLT) to construct the confidence interval. It turns out that time spent alone is highly non symmetric, so we needed the CLT here. 
+If you know the exact distribution of a statistic use it (rather than an approximation like the CLT) to construct the confidence interval. 
+
+T-TEST stuff: If we're going to add it, this might be a good place
+
 
 
 ## Question 5: Assuming we independently collected 200 samples from each of the 10 ATUS variables and then construct exact $90\%$ confidence intervals for the mean for each variable, what is the probability that at least one interval doesn't cover the mean?
