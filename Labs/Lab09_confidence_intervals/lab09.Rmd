@@ -55,5 +55,76 @@ Now lets imagine we didn't have access to the population. We only have access to
 
 Here is the SAMPLE data
 
-## Question 3: Using the CLT, and the population variance you computed in question 2, find a $90\%$ confidence interval for the population mean time spent along by using the sample data.
+Let $\bar{X}_{200}$ be the sample mean time spent alone. Because our samples are independent and identically distributed from the population, the CLT gives 
+\[
+\frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu_{alone}) \overset{d}{\to} N(0,1)
+\]
+So for sufficiently large $n$, the approximation
+$ \frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu) \overset{d}{\approx} N(0,1)$ is reasonable.
+
+There are a couple of details we are glossing over here. One is that we don't necessarily know that the variance of the distribution of time spent alone even exists. And even if it did, we learned last week that the [skewness of a distribution determines the speed of convergence in the CLT](https://en.wikipedia.org/wiki/Berry%E2%80%93Esseen_theorem).
+
+But for now, lets assume that the variance of the distribution of time spent alone does exist, and higher moments of this distribution behave in such a way that
+$\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)$ is not a bad approximation
+
+## Question 3: Using the CLT, and the population standard deviation you computed in question 2, find a $90\%$ confidence interval for the population mean time spent alone by using the sample data.
+
+Usually we don't have access to the population standard deviation, so we estimate it using the sample data.
+
+As we've discussed, the law of large numbers provides justification for using the sample standard deviation $\hat{\sigma}_n$ to estimate the population standard deviation.
+
+Also, the [algebra of convergence in distribution](https://en.wikipedia.org/wiki/Slutsky%27s_theorem) justifies replacing $\sigma^2$
+
+So it is valid to use the sample standard deviation ($\hat{\sigma_n}$) in place of the population standard deviation when applying the CLT. Specifically, instead of using the approximation
+\[
+\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)
+\]
+we can use the approximation
+\[
+\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu) \overset{d}{\approx} N(0,1)
+\]
+
+## Question 4: Using the CLT, and the sample standard deviation for time spent alone, compute a $90\%$ confidence interval for the population mean time spent alone
+
+We just approximated the distribution of 
+\[
+\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)
+\]
+to construct a confidence interval. 
+
+But you might be scratching your head as to why we did that. In class on Tuesday, we learned the exact distribution of $\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)$. **But only when the population is normally distributed**
+
+If you know the exact distribution of a statistic, it is better to use it (rather than an approximation like the CLT) to construct the confidence interval. It turns out that time spent alone is highly non symmetric, so we needed the CLT here. 
+
+
+## Question 5: Assuming we independently collected 200 samples from each of the 10 ATUS variables and then construct exact $90\%$ confidence intervals for the mean for each variable, what is the probability that at least one interval doesn't cover the mean?
+
+Let's say that $1000$ different researchers in isolated environments  independently collect samples of size $200$ from the distribution of time spent alone by Americans. Then they construct **exact** $90\%$ confidence intervals for the mean time spent alone.
+
+We can describe this procedure visually, where $t_{1,1}$ is the time spent alone collected from the first individual by the first researcher, $t_{1,2}$ is the time spent alone collected from the second individual by the first researcher, and so on. $I_1$ is the confidence interval for the mean constructed by the first researcher.
+
+So each row is the data collected by a researcher, and the $j^{th}$ researchers interval is $I_{j}$
+\[
+\begin{equation}
+  \left(
+    \begin{array}{*5{c}}
+    t_{1,1} & t_{1,2} & t_{1,3} & \dots & t_{1,200} & \rightarrow & I_1 \\
+    t_{2,1} & t_{2,2} & t_{2,3} & \dots & t_{2,200} & \rightarrow & I_2\\
+     \vdots & \vdots & \vdots & \vdots  & \vdots & \rightarrow & \vdots\\
+    t_{1000,1} & t_{1000,2} & t_{1000,3} & \dots & t_{1000,200} & \rightarrow & I_{2000}
+  \end{array}\right)
+\end{equation}
+\]
+
+Let $Y$ be the number of researchers whose intervals don't cover $\mu$.
+
+## Question 6: What is the distribution of $Y$?
+
+
+
+## Question 7
+
+
+
+
 
