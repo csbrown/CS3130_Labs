@@ -22,7 +22,7 @@ The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1)
  <li> TUCC4: Time last household child < 13 went to bed [For those with children] -- in number of minutes past midnight</li>
 </ul>
 
-The population of interest is Americans and how they spend their time on a typical weekday. So there are $10$ distributions of interest, and we would like to do inference for the mean of each of these distributions.
+The population of interest is Americans and how they spend their time on a typical weekday (in 2020). So there are $10$ distributions of interest, and we would like to do inference for the mean of each of these distributions.
 
 Although contrived, from now on we will assume that the entire ATUS survey results **are the entire** population -- i.e we are assuming that every American is included in the ATUS survey results. 
 
