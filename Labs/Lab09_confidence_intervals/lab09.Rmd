@@ -67,7 +67,7 @@ $\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)$ is not a bad approximat
 
 Side note: If you compare the probability density of an appropriately paramaterized exponential distribution with the histogram of time spent alone, you can see a decent fit. So based on our investigation both in the last several lectures and in last weeks lab, $N =200$ should be more than enough for the CLT approximation to be a good one.
 
-## Question 3: Using the CLT, and the population standard deviation you computed in question 2, what will the length of a $90\%$ confidence interval for the population mean time spent alone be?
+## Question 3: Using the CLT, and assuming for a moment that the population standard deviation is $150$ minutes, and assuming a sample of size $N=200$, what will the length of a $90\%$ confidence interval for the population mean time spent alone be?
 
 Usually we don't have access to the population standard deviation, so we estimate it using the sample data.
 
