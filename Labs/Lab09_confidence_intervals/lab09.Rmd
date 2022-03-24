@@ -5,8 +5,9 @@ output: html_document
 
 We'll be analyzing how Americans spend their time.
 
-The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1)
- interviewed $8,782$ people in 2020 and inquired about how these individuals allocate their time to different tasks on a weekday. Some variables collected include:
+The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1) is an annual survey that provides nationally representative data about the amount of time Americans spend doing various activities, such as commuting to work, watching television, or caring for children, and provides ancillary variables such as demographic characteristics and other factors.  These data a frequently used by researchers, journalists, educators, sociologists, economists, government lawmakers, lawyers, city planners and individuals such as yourself.
+
+The 2020 survey interviewed $8,782$ people.  Some variables collected include:
  
  <ul>
   <li>TRTFRIEND: Total nonwork-related time respondent spent with friends (in minutes) [Min:0, Max: 1440] </li>
@@ -24,30 +25,25 @@ The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1)
 
 The population of interest is Americans and how they spend their time on a typical weekday. So there are $10$ distributions of interest, and we would like to do inference for the mean of each of these distributions.
 
-Although contrived, from now on we will assume that the entire ATUS survey results **are the entire** population -- i.e we are assuming that every American is included in the ATUS survey results. 
+Although contrived, from now on we will assume that the entire ATUS survey results **are the entire** population -- i.e we are assuming that every American is included in the ATUS survey results.  The point of this is so that we can investigate the relationship between "confidence", a sample, and the population.  In practice, of course, if one were attempting to make inferences about the time use of Americans, one would simply use the entire ATUS dataset. 
 
-And we will use a random subsampling of the ATUS survey results to do inference about the population of all Americans (assuming that all Americans have been surveyed by ATUS).
+i.e will use a random subsampling of the ATUS survey results to do inference about the population of all Americans surveyed by ATUS.
 
-You can find most of the population data in `data/populationData/nonNAdata.csv`. After loading in this dataset, answer question 1.
+You can find most of this "population" data in `data/populationData/nonNAdata.csv`. After loading in this dataset, answer question 1.
 
 ## Question 1: Use the population dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
-Answer is $362.0627$ minutes
 
 Using an approach like that you used in question 1, here are our population means for the other variables.
 
- <ul>
-  <li>TRTFRIEND: 22.228 minutes 
-  <li>TRTSPONLY: 114.421 minutes</li>
-  <li>TRTCCC: 3.964 minutes</li>
-  <li>TRTFAMILY: 295.0263 minutes
- </li>
- <li>TRCHILDNUM: .6522 children </li>
- <li> TRERNWA: 21.3226\$</li>
- <li> TRERNHLY: 1176.6790\$</li>
- <li> TUCC2: 451.7254 minutes</li>
- <li> TUCC4: 1212.3868 minutes</li>
-</ul>
-
+*  TRTFRIEND: 22.228 minutes 
+*  TRTSPONLY: 114.421 minutes
+*  TRTCCC: 3.964 minutes
+*  TRTFAMILY: 295.0263 minutes
+*  TRCHILDNUM: .6522 children 
+*  TRERNWA: 21.3226\$
+*  TRERNHLY: 1176.6790\$
+*  TUCC2: 451.7254 minutes
+*  TUCC4: 1212.3868 minutes
 
 ## Question 2: What is the population standard deviation for time spent alone?
 
