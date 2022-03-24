@@ -5,9 +5,9 @@ output: html_document
 
 We'll be analyzing how Americans spend their time.
 
-The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1) is an annual survey that provides nationally representative data about the amount of time Americans spend doing various activities, such as commuting to work, watching television, or caring for children, and provides ancillary variables such as demographic characteristics and other factors.  These data a frequently used by researchers, journalists, educators, sociologists, economists, government lawmakers, lawyers, city planners and individuals such as yourself.
+The [American Time Use Survey](https://www.bls.gov/tus/overview.htm#1) is an annual survey that provides nationally representative data about the amount of time Americans spend doing various activities, such as commuting to work, watching television, or caring for children, and provides ancillary variables such as demographic characteristics and other factors.  These data are frequently used by researchers, journalists, educators, sociologists, economists, government policy-makers, lawyers, city planners and individuals such as yourself.
 
-The 2020 survey interviewed $8,782$ people.  Some variables collected include:
+The 2020 survey interviewed $8,782$ people.  Just a handful of variables collected include:
  
  <ul>
   <li>TRTFRIEND: Total nonwork-related time respondent spent with friends (in minutes) [Min:0, Max: 1440] </li>
@@ -31,7 +31,7 @@ i.e will use a random subsampling of the ATUS survey results to do inference abo
 
 You can find most of this "population" data in `data/populationData/nonNAdata.csv`. After loading in this dataset, answer question 1.
 
-## Question 1: Use the population dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
+## Question 1: Use the "population" dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
 
 Using an approach like that you used in question 1, here are our population means for the other variables.
 
@@ -46,9 +46,9 @@ Using an approach like that you used in question 1, here are our population mean
 *  TUCC4: 1212.3868 minutes
 
 
-## Question 2: What is the population standard deviation for time spent alone?
+## Question 2: What is the "population" standard deviation for time spent alone (the standard deviation of the entire ATUS data)?
 
-Now lets imagine we didn't have access to the population. We only have access to a sample of 200 independent and identically distribution observations for each variable.
+As a general rule, you don't have access to the population.  We will attempt to make inferences about the population using a *sample*.  Let's simulate taking a sample of 200 independent and identically distribution observations for each variable.
 
 Let $\bar{X}_{200}$ be the sample mean time spent alone. Because our samples are independent and identically distributed from the population, the CLT gives 
 \[
@@ -57,14 +57,30 @@ Let $\bar{X}_{200}$ be the sample mean time spent alone. Because our samples are
 
 where $\sigma$ is the population standard deviation time spent alone (in minutes) and $\mu$ is the population mean time spent alone (in minutes).
 
-There are a couple of details we are glossing over here. One is that we don't necessarily know that the variance of the distribution of time spent alone even exists. And even if it did, we learned last week that the [skewness of a distribution determines the speed of convergence in the CLT](https://en.wikipedia.org/wiki/Berry%E2%80%93Esseen_theorem).
+There are a couple of details we are glossing over here. One is that we don't necessarily know that the variance of the distribution of time spent alone even exists. And even if it did, we learned last week that the [skewness of a distribution determines the speed of convergence in the CLT](https://en.wikipedia.org/wiki/Berry%E2%80%93Esseen_theorem).  If you like, you can employ the techniques from Lab 8 to estimate the sampling distribution of the mean for $n=200$, and thereby the speed of convergence.
 
 But for now, lets assume that the variance of the distribution of time spent alone does exist, and higher moments of this distribution behave in such a way that
 $\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)$ is not a bad approximation.
 
-Side note: If you compare the probability density of an appropriately paramaterized exponential distribution with the histogram of time spent alone, you can see a decent fit. So based on our investigation both in the last several lectures and in last weeks lab, $N =200$ should be more than enough for the CLT approximation to be a good one.
+Side note: If you compare the probability density of an appropriately paramaterized exponential distribution with the histogram of time spent alone, you can see a decent fit. So based on our investigation both in the last several lectures and in last weeks lab, $n = 200$ should be more than enough for the CLT approximation to be a good one.
 
-## Question 3: Using the CLT, and assuming for a moment that the population standard deviation is $150$ minutes, and assuming a sample of size $N=200$, what will the length of a $90\%$ confidence interval for the population mean time spent alone be?
+The standard deviation of the entire TRTALONE variable is about $290m$.
+
+We can approximate a 90% two-sided confidence interval using our Normal approximation as:
+
+```{r eval=F}
+c(qnorm(alpha/2, mean=your_sample_mean, sd=290/sqrt(n)), qnorm(1-alpha/2, mean=your_sample_mean, sd=290/sqrt(n)))
+```
+
+This is equivalent to:
+
+$\bar{x} \pm$ `qnorm(1-alpha/2, mean=0, sd=1) * 290/sqrt(n)`
+
+Which is similar to the $t$-distribution calculation we learned in class.
+
+*Draw a picture of this with pen-and-paper, if you have it*.  Figure out what alpha should be, and compute the above confidence interval.
+
+## Question 3: Using the CLT, and assuming for a moment that the population standard deviation is $290$ minutes, and assuming a sample of size $n=200$, use `qnorm` to use a Normal approximation to estimate the length of a $90\%$ confidence interval for the population mean time spent alone be?
 
 Usually we don't have access to the population standard deviation, so we estimate it using the sample data.
 
@@ -81,30 +97,35 @@ we can use the approximation
 \bar{X}_{200} \overset{d}{\approx} N(\mu,\hat{\sigma}_{200}^2/200)
 \]
 
-But in class on Tuesday we learned the exact distribution of $\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)$. **But only when the population is normally distributed**
+In class, we learned that the exact distribution of our *t-statistic*: $\frac{\bar{X}_{200} - \mu}{\hat{\sigma}_{200}/\sqrt{n}}$ is the *t-distribution* -- **But only when the population is normally distributed**
 
-If you know the exact distribution of a statistic use it (rather than an approximation like the CLT) to construct the confidence interval. 
+In a sense, using the $t$-distribution instead of the Normal distribution to compute confidence intervals for the mean accounts for *some* of the approximation error due to using the sample standard deviation - but only as much as can be accounted for with Normally-distributed populations.  The remaining "extra" error depends on "unknown unknowns" for which we simply have to lean on our convergence to Normal result (i.e. taking a large sample) in an unquantifiable way.
 
-Side note: As the degrees of freedom of the $t$ distribution tends to infinity, the $t$ distribution converges to the standard normal. i.e 
+Side note: If you *happen to know the exact distribution of a statistic*, you should use it (rather than an approximation like the CLT) to construct the confidence interval.  We will see situations like this in future.
+
+Since the $t$-statistic tends toward a Normal distribution, an immediate corrollary is that as the degrees of freedom of the $t$-*distribution* tends to infinity, the $t$-distribution converges to the standard normal. i.e 
 \[t_{df} \overset{d}{\to} N(0,1) \text{ as }df \to \infty\]
 
-If we had erroneously assumed time spent alone was normally distributed, we would have concluded that
+Since the $t$-distribution accounts for *some* of the additional error due to using the sample standard deviation, then in general it is better to use the $t$-distribution to estimate your confidence interval rather than the Normal distribution, *regardless* of whether the population is normally distributed.  In the extremely unlikely event that your population has an "even more central" distribution than Normal because the population under study is miraculously well-behaved, then using the $t$-distribution will give overly-conservative estimates of confidence (i.e. you should actually feel *more* confident than the $t$-distribution suggests).  In the likely event that the population has a "less central" distribution than Normal, then using the $t$-distribution will give under-conservative estimates of confidence, but less under-conservative than the Normal distribution approximation.
+
+However, since the $t$-statistic (and distribution) tend toward Normal, then the difference between:
 \[
-\frac{\sqrt{200}}{\hat{\sigma_n}}(\bar{X}_{200}-\mu) \sim t_{199}
+\frac{\sqrt{200}}{\hat{\sigma_n}}(\bar{X}_{200}-\mu) \overset{\approx}{\sim} t_{199}
 \]
-Instead we used the CLT and concluded 
+
+and
+
 \[
   \frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu) \overset{\approx}{\sim} N(0,1)
 \]
 
-But because $t_{df} \to N(0,1)$ as $df \to \infty$ and $df = 199$ is quite large, there is very little difference between $t_{199}$ and $N(0,1)$.
+Will be very small.
 
 Since both of these distribution are symmetric, in $90\%$ confidence interval construction, we are interested in the $95^{th}$ quantile of whatever distribution we believe our statistic follows. The $95^{th}$ quantile of the $t_{199}$ is $1.652547$ while the $95^{th}$ quantile of $N(0,1)$ is $1.644854$. Not much difference.
 
-In other words, when $N$ is large, both of these approaches will lead to very similar inferences. The probability that a $t$ based interval will cover the mean is slightly higher than that of the $N(0,1)$ (CLT) based approach since the $t$ distribution has heavier tails than the $N(0,1)$.
+In other words, when $n$ is large, both of these approaches will lead to very similar inferences. The probability that a $t$ based interval will cover the mean is slightly higher than that of the $N(0,1)$ (CLT) based approach since the $t$ distribution has heavier tails than the $N(0,1)$.
 
-
-*Now assume we independently collect 200 samples from each of the 10 ATUS variables and then construct exact $90\%$ confidence intervals for the mean for each variable.*
+In the rest of the lab, we will independently collect a sample of 200 indiduals from each of the 10 ATUS variables and then construct exact $90\%$ confidence intervals for the mean for each variable.
 
 Let $Y =$ Number of Intervals Not Covering the Mean
 
@@ -112,9 +133,7 @@ Let $Y =$ Number of Intervals Not Covering the Mean
 
 ## Question 5: What is $P(Y \geq 1)$?. Hint: $1 - P(Y = 0)$. Note: Even if you aren't sure about Question 4, you can still answer this question using properties of independent events
 
-
-
-Here is some code that does this procedure using our CLT based approach -- which is fine since is $N$ is large. You'll fill in a couple of details to make the code work. Then you'll construct the 10 intervals using the filled in code.
+Here is some code that does this procedure using our Normal approximation.  If you are interested, you can compare this with the $t$-distribution, and also with an estimate of the actual sampling distribution, as we've done in class.  You'll fill in a couple of details to make the code work. Then you'll construct the 10 intervals using the filled in code.  The key here is the `?sample` function.
 
 ```{r,eval = FALSE}
 #Read in the data
@@ -140,23 +159,24 @@ qntl <- ? [see question 7]
 
 #construct the confidence intervals 
 intervalLow <- mns - qntl*(sds/sqrt(n))
-intervalHigh <- mns+qntl*(sds/sqrt(n))
+intervalHigh <- mns + qntl*(sds/sqrt(n))
 
 #These are the population means.
 trueMeans <- c(22.228,114.421,3.964,362.0627,295.0263,.6522,21.3226,1176.6790,451.7254,1212.3868)
 
 frame <- data.frame(intervalLow,trueMeans,intervalHigh)
 
-numFailedIntervals <- sum(trueMeans < intervalLow | trueMeans > intervalHigh)
+numFailedIntervals <- ? [see question 8]
 ```
 
-## Question 6: What code should be filled in on the line where `qntl` is defined in order to construct the $90\%$ (CLT based) confidence intervals?
+## Question 6: If we use the Normal approximation, what code should be filled in on the line where `qntl` is defined in order to construct the $90\%$ (CLT based) confidence intervals?
 
 Now based on your answer to question $6$, fill in the line for `qntl` and run the code.
 
-## Question 7: Report the number of intervals that failed to cover the mean.
+## Question 7: Report the *actual* number of intervals that failed to cover the population mean.
+
+Go around the class and ask your peers what *they* got for Question 7.  Compare this with your results from question 5.
 
 ## Question 8: If instead we decided to make intervals based on the $t$ distribution -- still $90\%$ -- what code should be filled in on the line where `qntl` is defined?
 
-
-
+Compute a few of these and compare them to your Normal distribution estimate.  Which are more "conservative", the Normal distribution CIs or the $t$-distribution CIs?
