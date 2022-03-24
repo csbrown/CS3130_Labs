@@ -32,7 +32,6 @@ i.e will use a random subsampling of the ATUS survey results to do inference abo
 You can find most of this "population" data in `data/populationData/nonNAdata.csv`. After loading in this dataset, answer question 1.
 
 ## Question 1: Use the population dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
-<<<<<<< HEAD
 
 Using an approach like that you used in question 1, here are our population means for the other variables.
 
