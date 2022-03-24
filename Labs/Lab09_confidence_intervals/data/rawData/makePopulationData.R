@@ -63,10 +63,10 @@ cleanDat <- function(N,rawDat,genNewSampleData) {
   sampledData$TUCC2 = wakeTimeSamples
   sampledData$TUCC4 = sleepTimeSamples
   if (genNewSampleData) {
-    write.csv("data/ATUS_sampled_data_N.csv",header)
+    write.csv(sampledData,"data/ATUS_sampled_data_N.csv")
   }
   #Now we will print population level information
-  nonNAdataPOPmeans
+  print(nonNAdataPOPmeans)
   
   #And for the adjusted vectors
   adjustedVariables = c("TRERNHLY","TRERNWA","TUCC2","TUCC4")

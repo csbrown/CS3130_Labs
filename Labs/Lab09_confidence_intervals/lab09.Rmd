@@ -1,5 +1,5 @@
 ---
-title: 'Lab 9: Confidence Intervals For the Mean Via the CLT'
+title: 'Lab 9: Confidence Intervals For the Mean'
 output: html_document
 ---
 
@@ -23,7 +23,7 @@ The 2020 survey interviewed $8,782$ people.  Some variables collected include:
  <li> TUCC4: Time last household child < 13 went to bed [For those with children] -- in number of minutes past midnight</li>
 </ul>
 
-The population of interest is Americans and how they spend their time on a typical weekday. So there are $10$ distributions of interest, and we would like to do inference for the mean of each of these distributions.
+The population of interest is Americans and how they spend their time on a typical weekday (in 2020). So there are $10$ distributions of interest, and we would like to do inference for the mean of each of these distributions.
 
 Although contrived, from now on we will assume that the entire ATUS survey results **are the entire** population -- i.e we are assuming that every American is included in the ATUS survey results.  The point of this is so that we can investigate the relationship between "confidence", a sample, and the population.  In practice, of course, if one were attempting to make inferences about the time use of Americans, one would simply use the entire ATUS dataset. 
 
@@ -32,6 +32,7 @@ i.e will use a random subsampling of the ATUS survey results to do inference abo
 You can find most of this "population" data in `data/populationData/nonNAdata.csv`. After loading in this dataset, answer question 1.
 
 ## Question 1: Use the population dataset to compute the mean total time spent alone (in minutes) on a week day for Americans in 2020
+<<<<<<< HEAD
 
 Using an approach like that you used in question 1, here are our population means for the other variables.
 
@@ -40,10 +41,11 @@ Using an approach like that you used in question 1, here are our population mean
 *  TRTCCC: 3.964 minutes
 *  TRTFAMILY: 295.0263 minutes
 *  TRCHILDNUM: .6522 children 
-*  TRERNWA: 21.3226\$
-*  TRERNHLY: 1176.6790\$
+*  TRERNWA: 1176.6790\$
+*  TRERNHLY: 21.3226\$
 *  TUCC2: 451.7254 minutes
 *  TUCC4: 1212.3868 minutes
+
 
 ## Question 2: What is the population standard deviation for time spent alone?
 
@@ -51,10 +53,10 @@ Now lets imagine we didn't have access to the population. We only have access to
 
 Let $\bar{X}_{200}$ be the sample mean time spent alone. Because our samples are independent and identically distributed from the population, the CLT gives 
 \[
-\frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu_{alone}) \overset{d}{\to} N(0,1)
+\frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu) \overset{d}{\to} N(0,1)
 \]
-So for sufficiently large $n$, the approximation
-$ \frac{\sqrt{n}}{\sigma} (\bar{X}_n - \mu) \overset{d}{\approx} N(0,1)$ is reasonable.
+
+where $\sigma$ is the population standard deviation time spent alone (in minutes) and $\mu$ is the population mean time spent alone (in minutes).
 
 There are a couple of details we are glossing over here. One is that we don't necessarily know that the variance of the distribution of time spent alone even exists. And even if it did, we learned last week that the [skewness of a distribution determines the speed of convergence in the CLT](https://en.wikipedia.org/wiki/Berry%E2%80%93Esseen_theorem).
 
@@ -63,93 +65,99 @@ $\bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)$ is not a bad approximat
 
 Side note: If you compare the probability density of an appropriately paramaterized exponential distribution with the histogram of time spent alone, you can see a decent fit. So based on our investigation both in the last several lectures and in last weeks lab, $N =200$ should be more than enough for the CLT approximation to be a good one.
 
-## Question 3: Using the CLT, and the population standard deviation you computed in question 2, find a $90\%$ confidence interval for the population mean time spent alone by using the sample data.
+## Question 3: Using the CLT, and assuming for a moment that the population standard deviation is $150$ minutes, and assuming a sample of size $N=200$, what will the length of a $90\%$ confidence interval for the population mean time spent alone be?
 
 Usually we don't have access to the population standard deviation, so we estimate it using the sample data.
 
 As we've discussed, the law of large numbers provides justification for using the sample standard deviation $\hat{\sigma}_n$ to estimate the population standard deviation.
 
-Also, the [algebra of convergence in distribution](https://en.wikipedia.org/wiki/Slutsky%27s_theorem) justifies replacing $\sigma^2$ with $\hat{\sigma}_n^2$ in statements about convergence in distribution.
+Also, the [algebra of convergence in distribution](https://en.wikipedia.org/wiki/Slutsky%27s_theorem) justifies replacing $\sigma$ with $\hat{\sigma}_n$ in statements about convergence in distribution.
 
-So it is valid to use the sample standard deviation ($\hat{\sigma_n}$) in place of the population standard deviation when applying the CLT. Specifically, instead of using the approximation
+So it is valid to use the sample standard deviation ($\hat{\sigma}_n$) in place of the population standard deviation when applying the CLT. Specifically, instead of using the approximation
 \[
 \bar{X}_{200} \overset{d}{\approx} N(\mu,\sigma^2/200)
 \]
 we can use the approximation
 \[
-\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu) \overset{d}{\approx} N(0,1)
+\bar{X}_{200} \overset{d}{\approx} N(\mu,\hat{\sigma}_{200}^2/200)
 \]
 
-## Question 4: Using the CLT, and the sample standard deviation for time spent alone, compute a $90\%$ confidence interval for the population mean time spent alone
-
-We just approximated the distribution of 
-\[
-\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)
-\]
-to construct a confidence interval. 
-
-But you might be scratching your head as to why we did that. In class on Tuesday, we learned the exact distribution of $\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)$. **But only when the population is normally distributed**
+But in class on Tuesday we learned the exact distribution of $\frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu)$. **But only when the population is normally distributed**
 
 If you know the exact distribution of a statistic use it (rather than an approximation like the CLT) to construct the confidence interval. 
 
-T-TEST stuff: If we're going to add it, this might be a good place
+Side note: As the degrees of freedom of the $t$ distribution tends to infinity, the $t$ distribution converges to the standard normal. i.e 
+\[t_{df} \overset{d}{\to} N(0,1) \text{ as }df \to \infty\]
 
-
-
-## Question 5: Assuming we independently collected 200 samples from each of the 10 ATUS variables and then construct exact $90\%$ confidence intervals for the mean for each variable, what is the probability that at least one interval doesn't cover the mean?
-
-Let's say that $1000$ different researchers in isolated environments  independently collect samples of size $200$ from the distribution of time spent alone by Americans. Then they construct **exact** $90\%$ confidence intervals for the mean time spent alone.
-
-We can describe this procedure visually, where $t_{1,1}$ is the time spent alone collected from the first individual by the first researcher, $t_{1,2}$ is the time spent alone collected from the second individual by the first researcher, and so on. $I_1$ is the confidence interval for the mean constructed by the first researcher, $I_2$ is the confidence interval for the mean constructed by the second researcher and so on.
-
-So each row is the data collected by a researcher, and the $j^{th}$ researchers interval is $I_{j}$
+If we had erroneously assumed time spent alone was normally distributed, we would have concluded that
 \[
-\begin{equation}
-  \left(
-    \begin{array}{*5{c}}
-    t_{1,1} & t_{1,2} & t_{1,3} & \dots & t_{1,200} & \rightarrow & I_1 \\
-    t_{2,1} & t_{2,2} & t_{2,3} & \dots & t_{2,200} & \rightarrow & I_2\\
-     \vdots & \vdots & \vdots & \vdots  & \vdots & \rightarrow & \vdots\\
-    t_{1000,1} & t_{1000,2} & t_{1000,3} & \dots & t_{1000,200} & \rightarrow & I_{2000}
-  \end{array}\right)
-\end{equation}
+\frac{\sqrt{200}}{\hat{\sigma_n}}(\bar{X}_{200}-\mu) \sim t_{199}
+\]
+Instead we used the CLT and concluded 
+\[
+  \frac{\sqrt{n}}{{\hat{\sigma}_{200}}} (\bar{X}_{200}  - \mu) \overset{\approx}{\sim} N(0,1)
 \]
 
-Let $Y$ be the number of researchers whose intervals don't cover $\mu$.
+But because $t_{df} \to N(0,1)$ as $df \to \infty$ and $df = 199$ is quite large, there is very little difference between $t_{199}$ and $N(0,1)$.
 
-## Question 6: What is the distribution of $Y$?
+Since both of these distribution are symmetric, in $90\%$ confidence interval construction, we are interested in the $95^{th}$ quantile of whatever distribution we believe our statistic follows. The $95^{th}$ quantile of the $t_{199}$ is $1.652547$ while the $95^{th}$ quantile of $N(0,1)$ is $1.644854$. Not much difference.
 
-## Question 7: What is P(Y > 100)?
+In other words, when $N$ is large, both of these approaches will lead to very similar inferences. The probability that a $t$ based interval will cover the mean is slightly higher than that of the $N(0,1)$ (CLT) based approach since the $t$ distribution has heavier tails than the $N(0,1)$.
 
-Here is some code to simulate the data collection procedure of the $1000$ researchers:
+
+*Now assume we independently collect 200 samples from each of the 10 ATUS variables and then construct exact $90\%$ confidence intervals for the mean for each variable.*
+
+Let $Y =$ Number of Intervals Not Covering the Mean
+
+## Question 4: What is the distribution of $Y$?
+
+## Question 5: What is $P(Y \geq 1)$?. Hint: $1 - P(Y = 0)$. Note: Even if you aren't sure about Question 4, you can still answer this question using properties of independent events
+
+
+
+Here is some code that does this procedure using our CLT based approach -- which is fine since is $N$ is large. You'll fill in a couple of details to make the code work. Then you'll construct the 10 intervals using the filled in code.
 
 ```{r,eval = FALSE}
-library(tidyverse)
-##Read in the data
-timeSpentAlonePopulation = read.csv("data/populationData/nonNAdata.csv",header = TRUE) %>%
-  select(TRTALONE) %>% unlist()
-sampleMatrix = matrix(sample(timeSpentAlonePopulation,size = 200*1000,
-                             replace = TRUE),nrow = 1000,ncol = 200)
+#Read in the data
+dataSubset1 <- read.csv("data/populationData/nonNAdata.csv",header = TRUE)
+m <- nrow(dataSubset1)
+n <- 200
+sampledOne <- dataSubset1[sample(m,size = n,replace = TRUE),]
+trernhlyS <- sample(read.csv("data/populationData/TRERNHLYadjusted.csv")[,2],size = n,replace = TRUE)
+trernwaS <- sample(read.csv("data/populationData/TRERNWAadjusted.csv")[,2],size = n,replace = TRUE)
+tucc2S <- sample(read.csv("data/populationData/TUCC2adjusted.csv")[,2],size = n,
+                 replace = TRUE)
+tucc4S <- sample(read.csv("data/populationData/TUCC4adjusted.csv")[,2],size = n,
+                 replace = TRUE)
+sampledData <- cbind(sampledOne,trernhlyS,trernwaS,tucc2S,tucc4S)[,-1]
 
+#get the sample means
+mns <- apply(X = sampledData, MARGIN = 2, FUN = mean)
+#get the sample sds
+sds <- apply(X = sampledData, MARGIN = 2, FUN = sd)
+
+#Get the quantile needed for CI construction
+qntl <- ? [see question 7]
+
+#construct the confidence intervals 
+intervalLow <- mns - qntl*(sds/sqrt(n))
+intervalHigh <- mns+qntl*(sds/sqrt(n))
+
+#These are the population means.
+trueMeans <- c(22.228,114.421,3.964,362.0627,295.0263,.6522,21.3226,1176.6790,451.7254,1212.3868)
+
+frame <- data.frame(intervalLow,trueMeans,intervalHigh)
+
+numFailedIntervals <- sum(trueMeans < intervalLow | trueMeans > intervalHigh)
 ```
-And here is some follow up code that would compute the $1000$ intervals assumign the CLT provides an accurate approximation:
 
-```{r,eval = FALSE}
-trueMean = 362.0627
-n = 200
-z = "What you will fill in for question 8"
-mns <- apply(X = sampleMatrix, MARGIN = 1, FUN = mean)
-sds <- apply(X = sampleMatrix, MARGIN = 1, FUN = sd)
-intervalLow <- mns - z*(sds/sqrt(n))
-intervalHigh <- mns+z*(sds/sqrt(n))
-numFailedIntervals <- sum(trueMean < intervalLow | trueMean > intervalHigh)
-```
+## Question 6: What code should be filled in on the line where `qntl` is defined in order to construct the $90\%$ (CLT based) confidence intervals?
 
-## Question 8: What code gives $z$? Recall we are assuming the CLT approximation is valid and we are constructing $90\%$ confidence intervals.
+Now based on your answer to question $6$, fill in the line for `qntl` and run the code.
 
-## Question 9: After you fill in the code for $z$, run the code to find the number of researchers whose intervals have failed to cover the true mean in the population. Do we conclude these researchers did something wrong?
+## Question 7: Report the number of intervals that failed to cover the mean.
 
-
+## Question 8: If instead we decided to make intervals based on the $t$ distribution -- still $90\%$ -- what code should be filled in on the line where `qntl` is defined?
 
 
 
