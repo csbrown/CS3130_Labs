@@ -1,0 +1,141 @@
+---
+output:
+  html_document:
+    css: "style.css"
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+```
+
+# Lab 10: A/B testing
+
+For computer programmers, we often need to [design user interfaces (UI)](https://en.wikipedia.org/wiki/User_interface_design) so that humans can interface with our programs.  The user interface is large part of the [user experience (UX)](https://en.wikipedia.org/wiki/User_experience) of an application: having an easy-to-use and intuitive UI can be a major driver of users adopting your application, and having an unintuitive, ugly or difficult-to-use UI can drive users away.  When choosing amongst the infinite options for a UI design, how do we decide between them?  It is common for us to rely on our intuition as to where to put which button, how to style a particular widget, etc.  However, *you, the programmer* are probably not a very good representation of the average user.  In order to find out what the average user prefers, we need science.
+
+In the industry, testing between various program designs by *actually exposing users* to the designs is referred to as "A/B testing".  One option (A) is given to some users and another option (B) is given to other users.  Some metric of "design success" (such as click-through rates for clickable objects) is measured for each option, and the results are compared.  Since the stakes may be high (when users leave your application due to poor UI design, you lose money!), then we demand evidence for our choice between A and B, and we want to quantify that evidence.  In other words, we need Statistics.
+
+[By some estimates](https://hbr.org/2017/09/the-surprising-power-of-online-experiments), large firms such as Google and Facebook "each conduct more than 10,000 online controlled experiments annually".
+
+### Conducting an A/B test
+
+[News organizations have had a difficult time](https://www.bbc.com/news/world-australia-56163550) adapting their business models to an online world increasingly dominated by large tech companies that rely heavily on "fair-use" snippets to share news without requiring the user to interact with the content creators.  One method that has been moderately effective is the "free-to-try, pay-to-stay" model where users can read some limited number of full articles, but must "subscribe" to access more content.
+
+[The Harvard Business Review page linked above](https://hbr.org/2017/09/the-surprising-power-of-online-experiments) has adopted precisely this model.  If you scroll down, you should notice an advertisement at the bottom of the screen to encourage you to subscribe (i.e. to pay them money to access the news).  Specifically, I get the following banner:
+
+<img src="static/banner.png">
+
+Suppose that you are a programmer working for the Harvard Business Review.  The CEO is interested in getting more subscribers, because more subscribers means more money, and more money is what CEOs want.  They come to you with the following question:
+
+"What is the probability that a user clicks on our current subscribe banner?"
+
+We are going to design an experiment for this.
+
+### Question 1: What is the population for this problem?
+
+### Question 2: What is the population parameter we are interested in studying?
+
+### Question 3: What would a "simple random sample" look like if you had magical experimenting powers?
+
+Suppose that the CEO adds: "I need this on my desk by next week."
+
+### Question 4: What is a more reasonable sampling strategy given our real-life constraints?  Do you think that this sample will be reasonably representative?  What transient factors might influence whether or not this is representative (use your imagination here!)?
+
+You ask yourself: "What will the CEO do with this information?"
+
+"Probably", you tell yourself, "She'll decide that this probability is too low no matter what it is, and will come back with demands for further experiments next week..."
+
+### Question 5: Based on this assessment, do you feel as though you need to have *very* strong evidence for your conclusions in this task?
+
+From your conclusions here, you decide that 95% confidence ("kinda good") evidence will be sufficient for this task.  
+
+Now, with a plan in-hand, you set about actually performing an experiment.
+
+You implement data-gathering code as soon as you can, push this code to production, and wait a week minus a day.  You get the following information:
+
+The site had $100,000$ visits.  Of those visits, $5,000$ resulted in the user clicking the subscribe banner.
+
+### Question 6: Construct a Confidence Interval for the true population probability that a user will click the subscribe banner.
+
+You know that although the CEO is a smart and driven person, they have a degree in Journalism and therefore it is unlikely that they've taken a statistics class.  Possibly, they don't know what a confidence interval is at all.
+
+### Question 7: Explain your results in terms that your non-statistics-savvy CEO will understand, while attempting to be as technically correct in your interpretation as possible.
+
+"5%!?!?", your CEO exclaims.  "YOU put that banner there.  YOU need to make this better!"
+
+"One week!"
+
+You can do this.
+
+You design the following banner as a replacement (You can click this banner to stop the annoying flashing behavior):
+
+<div class="blinkdiv" onclick="this.style.webkitAnimationIterationCount=1;"> SUBSCRIBE NOW!!! </div>
+
+To compare the relative effectiveness of the two banners, you decide to compute [the odds](https://en.wikipedia.org/wiki/Odds) that a user will click each, and to compute the [odds ratio](https://en.wikipedia.org/wiki/Odds_ratio) as a comparison.
+
+We adopt a similar sampling strategy as before, but now, when the site receives a visitor, they will randomly see *only one or the other* of the two possible banners.
+
+You ask yourself: "What will the CEO do with this information?"
+
+"Probably", you tell yourself, "She'll decide that we need to adopt the 'better' banner, and this might have serious implications for our user experience... The existing user experience is known to not be totally terrible, so we should tread with care in changing it up."
+
+### Question 8: Based on this assessment, do you think that you should require better evidence that you required in the previous experiment?
+
+From your conclusions here, you decide that 99.5% confidence ("very good") evidence will be better for this task.  
+
+Now, with a plan in-hand, you set about actually performing an experiment.
+
+You implement data-gathering code as soon as you can, push this code to production, and wait a week minus a day.  In this time, the site had $100,000$ visits. Among those, $49800$ were shown the original banner.  Among those shown the original banner, $2400$ clicked on the banner.  Among those shown the new banner, $2700$ clicked on the banner.
+
+### Question 9: Compute a point-estimate of the odds that a user clicked on the new banner.
+
+As we decided in class, ideally, we would use Boschloo's method here, as it has essentially no conditions on use.  Unfortunately, it is known to you that the runtime for Boschloo's method scales poorly with sample size, and that the `exact2x2::boschloo` function would take too long on your very large sample considering your time constraints.  [You discover that Boschloo's method gives "uniformly more powerful" estimates than Fisher's method](https://en.wikipedia.org/wiki/Boschloo%27s_test#Fisher's_exact_test).  This means that Fisher's method will always give a wider interval for the same nominal confidence.  A wider interval means always means higher confidence, so this means that Fisher's method is, in some sense, "under-reporting" the confidence of an interval.  We say that the method that gives wider intervals is "more conservative".  You decide that this loss of precision for a given confidence level is fine and proceed with using Fisher's method.
+
+The `fisher.test` method in R requires data in a contingency table.  There are 2 banner options and 2 possibilities for effect (click or no-click).  This makes 4 possibilities total.  A contingency table lists out these four possiblities in a convenient way.  It is similar to a [Punnet square](https://en.wikipedia.org/wiki/Punnett_square) which you may recognize from Biology class.  You need to compute the various values in this table from the data given above.
+
+```{r eval=F}
+contingency_table <- matrix(c(banner1_clicks, banner2_clicks, banner1_failures, banner2_failures), nrow=2)
+```
+
+We can then compute a confidence interval with:
+
+```{r eval=F}
+fisher.test(contingency_table, conf.level=my_confidence_level)
+```
+
+### Question 10: Compute a confidence interval for the ratio of the odds that a user clicks the new banner vs the odds that a user clicks the original banner.
+
+### Question 11: Explain these results to your CEO.
+
+You report your findings to the CEO, who tells you to implement the changes site-wide immediately, and gives you an immediate promotion and a raise.
+
+\*\*\*\*
+
+A week later, the CEO comes back to you: "Our revenue from subscriptions has PLUMMETED!  What is going on?!"
+
+You realize that *just because someone clicks on a banner, doesn't mean that they will actually subscribe*.  This revelation from your CEO causes you to realize that you have operationalized this problem all wrong!  What we were *really* interested in all along was *increasing revenue*, NOT simply improving click-rates!.
+
+You design a new experiment exactly as before, except this time instead of merely measuring the click rate, you keep track of whether or not a user actually followed through with a subscription, and also which tier of subscription they opted for, the duration of the subscription, etc etc.  You use this info to estimate the amount of money that each visitor will bring in for the month.
+
+The results of your experiment are in `data/revenue_per_user_by_banner.csv`.
+
+We can divide our revenue data up according to which banner it corresponds to with:
+
+```{r eval=F}
+split_data <- split(revenue_data$projected.revenue, revenue_data$banner)
+```
+
+This is a named list with two items.  The items correspond to the unique values in the `revenue_data$banner` column.  You can see what these unique values are with:
+
+```{r eval=F}
+unique(revenue_data$banner)
+```
+
+You can then access the data for each banner type with:
+
+```{r eval=F}
+split_data$"original banner"
+```
+
+### Question 12: Compute a confidence interval for the difference in the mean revenue per visit for the original banner and the new banner.
+
+Hypothesize reasons for the seemingly conflicting results for Questions 12 and 10.  Try to think of a reason why these conflicting results might be due to a fundamental property of your population (users).  Try to think of a reason why these conflicting results might be due to our failure to obtain a simple random sample.  Use your imagination.
