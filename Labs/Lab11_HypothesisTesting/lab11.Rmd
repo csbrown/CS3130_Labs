@@ -34,9 +34,11 @@ Based on the chart, he decides that he will take action to ensure the health of 
 At this point it is worthwhile to note both benefits and limitations of the study procedure. 
 
 ## Question 3: Point out a couple of limitations of the study procedure
+some answers:
+
 * The length of Murphys playing experiences may differ; and this may change the distribution of the max temperatures. But Murphy doesn't take this into consideration, because he says that he spends about the same amount of time playing each time.
 * The population definition is very general, maybe too general. His computer will change over the course of its life, so if he were to conduct this experiment a year from now, the distribution of his samples may have changed! So when we talk about the population, a more nuanced definition is the distribution of max CPU temperature while playing league of legends playing while his computer is in its current configuration and health.
-* Choosing 80 degrees in a little arbitrary. If the true mean of max CPU temp during playing sessions is 79.9 degrees, then under regular conditions (sample size large), the test we are about to perform should reject the null hypothesis less than 5% of the time. This isn't great; Murphy would want to know if the mean of max CPU temp during playing sessions is pretty close to 80 degrees. That would probably be enough to warrant action on his part.
+* Choosing 80 degrees in a little arbitrary. If the true mean of max CPU temp during playing sessions is 79.9 degrees, then under regular conditions (e.g sample size large or population distribution normal), the test we are about to perform should reject the null hypothesis less than 5% of the time when the null is true. This isn't great; Murphy would want to know if the mean of max CPU temp during playing sessions is pretty close to 80 degrees. That would probably be enough to warrant action on his part.
 
 
 Let $\mu$ denote the mean of the max CPU temperature during a League of Legends playing session for Murphy.
@@ -83,7 +85,7 @@ Fill in ?. Then answer question $10$
 
 This explains to Murphy why choosing a value of $x$ greater than $80$ would be problematic. But why didn't we choose a value of $x$ smaller than $80$?
 
-You provide him with a hand wavy argument that gives the gist:
+You provide him with a hand wavy argument that gives the gist. (Noting that in later probability courses you will be able to eliminate the hand waviness of the following argument)
 
 Recall three things 
 <ul>
