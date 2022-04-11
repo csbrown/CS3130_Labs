@@ -1,0 +1,3 @@
+The 30 data points are generated according to N(82,1)
+
+write.csv(data.frame(cpuTemps = rnorm(n = 30,mu = 82,sd = 1)),file = "cpuTemps.csv",row.names = FALSE)
