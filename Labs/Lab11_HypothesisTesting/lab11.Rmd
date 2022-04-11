@@ -56,10 +56,7 @@ Let $\bar{X}$, $s$ be the sample mean and sample standard deviation respectively
 ## Question 7: Murphy will have to spend a lot of money to service his computer if he concludes it is overheating (i.e $\mu \geq 80^{\circ}$), so he really wants to avoid making this conclusion when it is not true. He also doesn't know anything about the population distribution. Given this concern and his knowledge, should Murphy use the t test or the CLT based test?
 answer: t test more conservative, use it
 
-## Question 8: Suppose instead that Murphy had studied the skewness of the population distribution, determined that $30$ was large enough to justify the use of the CLT, and that he was most concerned with accidentally concluding his computer is not overheating (i.e $\mu < 80^{\circ}$) when indeed it is. Should he use the CLT based test or the t-test?
-answer: CLT based test is more powerful, and the test level (i.e probability of rejection under null hypothesis) will meet the satisfactory criteria $\leq .05$ since he somehow knows N is large enough for this.
-
-## Question 9: Conduct the t-test and explain the results to Murphy
+## Question 8: Conduct the t-test and explain the results to Murphy
 
 Murphy comes back to you and asks why you subtracted $80$ in the test statistic. He says this seems kind of arbitrary. Why not subtract $79$ or $81$ for example? What made you choose $80$?
 
@@ -81,7 +78,7 @@ P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) > t_{n-1,.95
 
 Fill in ?. Then answer question $10$
 
-## Question 10: So if $\mu < x$, is the probability of rejecting $\leq$ or $>$ $.05$?
+## Question 9: So if $\mu < x$, is the probability of rejecting $\leq$ or $>$ $.05$?
 
 This explains to Murphy why choosing a value of $x$ greater than $80$ would be problematic. But why didn't we choose a value of $x$ smaller than $80$?
 
@@ -98,7 +95,12 @@ So for large (and finite) $n$, the distribution of $\frac{\sqrt{n}}{s_n}(\bar{X_
 
 So for large (and finite) $n$, the hand wavy approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$ is valid.
 
-## Question 11: Given the approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$, as $n$ gets large, for $\mu > x$, what number should $P(Reject)$ get very close to?
+## Question 10: Given the approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$, as $n$ gets large, for $\mu > x$, what number should $P(Reject)$ get very close to?
 
-This explains to Murphy why choosing $x < 80$ is undesirable. He is satisfied now.
+This explains to Murphy why choosing $x < 80$ is undesirable. He is satisfied now with the choice of $x = 80$.
 
+Now suppose Murphy knows that $n = 30$ (his original sample size) is large enough to justify the approximation for $P(Reject)$ given in the previous question.
+
+## Question 11: Murphy hopes that if $\mu \geq 90$, then he should reject with high probability. Using the appoximation for $P(Reject)$ given in question 11, what is the approximate rejection probability when $\mu = 90$. (Recall his planned testing procedure has $n=30$ and $x = 80$)
+
+## Question 12: Let $\mu_1 = 90$ and $\mu_2 > 90$. Is the approximate rejection probability under $\mu = \mu_2$ greater than, equal to, or less than the approximate rejection probability when $\mu = \mu_1$ (when $n$ and $x$ are given)?
