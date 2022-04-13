@@ -19,9 +19,9 @@ He isn't sure if he needs to take action because he hasn't been logging the temp
 
 So he decides to conduct the following experiment:
 
-Over his next 30 playing experiences, he will record the maximum CPU temperature during his playing experiences.
+Over his next 30 playing experiences, he will record the maximum CPU temperature during his playing experiences. 
 
-His goal is to use this data to make inferences about the mean of the maximum CPU temperature achieved during a League of Legends playing session (with his current computer).
+His goal is to use this data to make inferences about the mean of the maximum CPU temperature achieved during a League of Legends playing session (while using his current computer and playing in the climate controlled environment).
 
 
 Based on the chart, he decides that he will take action to ensure the health of his computer if the conclusions of his inference suggest evidence that the mean max CPU temperature is NOT less than 80 degrees Celsius. He will use hypothesis testing for decision making.
@@ -31,11 +31,11 @@ Based on the chart, he decides that he will take action to ensure the health of 
 
 ## Question 2: What is the population parameter being studied?
 
-Let $\mu$ denote the mean of the max CPU temperature during a League of Legends playing session for Murphy
+Let $\mu$ denote the population mean of the max CPU temperatures that could be achieved during a League of Legends playing session for Murphy (on his current computer while playing in the climate controlled environment)
 
 ## Question 3: Based on Murphy's stated goals, state the null and alternative hypotheses.
 
-At this point it is worthwhile to take mental notes of both the limiations and benefits of the study procedure.
+At this point it is worthwhile to take mental notes of both the limitations and benefits of the study procedure. 
 
 ## Question 4: Point out a limitation of the study procedure 
 Let $\bar{X}$, $s$ be the sample mean and sample standard deviation respectively from the 30 playing sessions.
@@ -49,13 +49,13 @@ Let $\bar{X}$, $s$ be the sample mean and sample standard deviation respectively
 You are conducting the testing procedure for Murphy and you plan to use the t-test. You explain the procedure to Murphy and he has questions for you.
 
 
-He asks, why did you subtract $80$ in the test statistic. He says this seems kind of arbitrary. Why not subtract $79$ or $81$ for example? What made you choose $80$?
+He asks, why did you subtract $80$ in the test statistic? He says this seems kind of arbitrary. Why not subtract $79$ or $81$ for example? What made you choose $80$?
 
 You guide him through the following thought process:
 
 Imagine the population distribution is Normal, and that instead of subtracting $80$ we subtract $x$ and we have a sample of size $n$. So the test statistic is $\frac{\sqrt{n}}{s_n}(\bar{X_n}-x)$ where $\bar{X_n}$ is the sample mean of the $n$ observations and $s_n$ is the sample standard deviation of the $n$ observations. 
 
-Then we have that
+Then letting $t_{n-1,.95}$ be the $95^{th}$ quantile of the $t$ distribution with $n-1$ degrees of freedom
 
 \[
 P(Reject) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-x) > t_{n-1,.95}) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) > t_{n-1,.95})
@@ -64,7 +64,7 @@ P(Reject) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-x) > t_{n-1,.95}) = P(\frac{\sqrt{n
 If $\mu < x$, then $\frac{\sqrt{n}}{s_n}(\mu - x) < 0$. Thus
 
 \[
-P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) > t_{n-1,.95}) \leq P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) > t_{n-1,.95}) = ?
+P(Reject) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) > t_{n-1,.95}) \leq P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) > t_{n-1,.95}) = ?
 \]
 
 Fill in ?. Then answer question $10$
@@ -84,7 +84,7 @@ Recall three things
 
 So for large (and finite) $n$, the distribution of $\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) \approx N(\frac{\sqrt{n}}{\sigma}(\mu-x),1)$
 
-So for large (and finite) $n$, the hand wavy approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$ is valid.
+So for large (and finite) $n$, the hand wavy approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$ is valid (where $z_{.95}$ is the $95^{th}$ quantile of the $Normal(0,1)$ distribution)
 
 ## Question 9: Given the approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$, as $n$ gets large, for $\mu > x$, what number should $P(Reject)$ get very close to?
 
@@ -95,11 +95,11 @@ Now suppose Murphy knows that $n = 30$ (his original sample size) is large enoug
 
 We'll also suppose that while Murphy doesn't know $\sigma$, from past statistical experiments, he is confident it is no more than $10^{\circ} C$
 
-## Question 10: Murphy hopes that if $\mu \geq 85$, then he should reject with high probability. Using the appoximation for $P(Reject)$ given in question 9, what is the approximate rejection probability when $\mu = 85$? (Recall his planned testing procedure has $n=30$ and $x = 85$). Assume $\sigma = 10$ to answer this question.
+## Question 10: Murphy hopes that if $\mu \geq 85$, then he should reject with high probability. Using the appoximation for $P(Reject)$ given in question 9, what is the approximate rejection probability when $\mu = 85$? (Recall his planned testing procedure has $n=30$ and $x = 80$). Assume $\sigma = 10$ to answer this question.
 
-You tell Murphy the number from question $10$ and he says great. . But what about if $\mu > 85$? Question 11 helps us answer this question.
+You tell Murphy the number from question $10$ and he is thrilled. But what about if $\mu > 85$? Question 11 helps us answer this question.
 
-## Question 11: Let $\mu_1 = 85$ and $\mu_2 > 85$. Is the approximate rejection probability under $\mu = \mu_2$ greater than, equal to, or less than the approximate rejection probability when $\mu = \mu_1$ (when $n$ and $x$ are given)?
+## Question 11: Let $\mu_1 = 85$ and $\mu_2 > 85$. Is the approximate rejection probability under $\mu = \mu_2$ greater than, equal to, or less than the approximate rejection probability when $\mu = \mu_1$ (when $n$,$x$,$\sigma$ are given)?
 
 Murphy is finally content. He collects the data over the next month and gives it you.
 
