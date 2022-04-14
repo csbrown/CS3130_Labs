@@ -21,7 +21,7 @@ So he decides to conduct the following experiment:
 
 Over his next 30 playing experiences, he will record the maximum CPU temperature during his playing experiences. 
 
-His goal is to use this data to make inferences about the mean of the maximum CPU temperature achieved during a League of Legends playing session (while using his current computer and playing in the climate controlled environment).
+His goal is to use this data to make inferences about the mean of the maximum CPU temperature achieved during his next League of Legends playing session (while using his current computer and playing in the climate controlled environment).
 
 
 Based on the chart, he decides that he will take action to ensure the health of his computer if the conclusions of his inference suggest evidence that the mean max CPU temperature is NOT less than 80 degrees Celsius. He will use hypothesis testing for decision making.
@@ -44,36 +44,21 @@ Let $\bar{X}$, $s$ be the sample mean and sample standard deviation respectively
 
 ## Question 6: Let $M_{30}$ denote the test statistic and the plan is to conduct a level $.05$ test. What is the rejection rule for the t test? What is the rejection rule for the test based on the CLT?
 
-## Question 7: Murphy will have to spend a lot of money to service his computer if he concludes it is overheating (i.e $\mu \geq 80^{\circ}$), so he really wants to avoid making this conclusion when it is not true. He also doesn't know anything about the population distribution. Given this concern and his knowledge, should Murphy use the t test or the CLT based test?
+## Question 7: Murphy will have to spend a lot of money to service his computer if he concludes it is overheating (i.e $\mu > 80^{\circ}$), so he really wants to avoid making this conclusion when it is not true. He also doesn't know anything about the population distribution. Given this concern and his knowledge, should Murphy use the t test or the CLT based test?
 
 You are conducting the testing procedure for Murphy and you plan to use the t-test. You explain the procedure to Murphy and he has questions for you.
 
+He asks, why did you subtract $80$ in the test statistic?  The hypotheses are an inequality, after all, so why are we checking against the EXACT value of 80?  He says this seems kind of arbitrary. Why not subtract $79$ or $81$ for example?
 
-He asks, why did you subtract $80$ in the test statistic? He says this seems kind of arbitrary. Why not subtract $79$ or $81$ for example? What made you choose $80$?
+Suppose for a moment that the true population mean is *actually* 80 (the largest value allowed by the null hypothesis).  If we choose a test statistic that compares to anything *greater than* 80, then we are in danger of failing to reject our null hypothesis (which includes 80) even though the mean temperature is precisely 80.  This danger becomes a certainty as $n \rightarrow \infty$.  If we choose a test statistic that compares to anything *less than* 80, then we are in danger of successfully rejecting a null hypothesis (which includes 80) even if the mean temperature is precisely 80.  This danger also becomes a certainty as $n \rightarrow \infty$.  
 
-You guide him through the following thought process:
+What we would like is that 1) in the *worst allowable scenario* (where the mean temp is 80), then the probability of rejection (which would be erroneous, but just barely so) is around our stated 0.05 and that this becomes more accurate as $n$ grows.  2) In the "better scenario" where the mean temp is less than 80, then the probability of an rejection (which would be erroneous) actually heads to 0.  3) In the "worse than allowable scenario" where the mean temp is greater than 80, then the probability of rejection actually goes to 1 as $n \rightarrow \infty$.  These three things happen when we compare our sample mean with exactly 80.
 
-Imagine the population distribution is Normal, and that instead of subtracting $80$ we subtract $x$ and we have a sample of size $n$. So the test statistic is $\frac{\sqrt{n}}{s_n}(\bar{X_n}-x)$ where $\bar{X_n}$ is the sample mean of the $n$ observations and $s_n$ is the sample standard deviation of the $n$ observations. 
+The next few questions walk us through some of the math that underpins this.
 
-Then letting $t_{n-1,.95}$ be the $95^{th}$ quantile of the $t$ distribution with $n-1$ degrees of freedom
+In the following, suppose that the true population mean is actually precisely 80:
 
-\[
-P(Reject) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-x) > t_{n-1,.95}) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) > t_{n-1,.95})
-\]
-
-If $\mu < x$, then $\frac{\sqrt{n}}{s_n}(\mu - x) < 0$. Thus
-
-\[
-P(Reject) = P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) > t_{n-1,.95}) \leq P(\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) > t_{n-1,.95}) = ?
-\]
-
-Fill in ?. Then answer question $10$
-
-## Question 8: So if $\mu < x$, is the probability of rejecting $\leq$ or $>$ $.05$?
-
-This explains to Murphy why choosing a value of $x$ greater than $80$ would be problematic. But why didn't we choose a value of $x$ smaller than $80$?
-
-You provide him with a hand wavy argument that gives the gist. (Noting that in later probability courses you will be able to eliminate the hand waviness of the following argument)
+Imagine the population distribution is Normal, $\mu = 80$, that instead of subtracting $80$ we subtract some $x > 80$, and that we have a sample of size $n$. So the test statistic is $\frac{\sqrt{n}}{s_n}(\bar{X_n}-x)$ where $\bar{X_n}$ is the sample mean of the $n$ observations and $s_n$ is the sample standard deviation of the $n$ observations. 
 
 Recall three things 
 <ul>
@@ -84,25 +69,32 @@ Recall three things
 
 So for large (and finite) $n$, the distribution of $\frac{\sqrt{n}}{s_n}(\bar{X_n}-\mu) + \frac{\sqrt{n}}{s_n}(\mu-x) \approx N(\frac{\sqrt{n}}{\sigma}(\mu-x),1)$
 
-So for large (and finite) $n$, the hand wavy approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$ is valid (where $z_{.95}$ is the $95^{th}$ quantile of the $Normal(0,1)$ distribution)
+So for large (and finite) $n$, the hand wavy approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$ is valid (where $z_{.95}$ is the $95^{th}$ quantile of the $Normal(0,1)$ distribution $\approx 1.64$)
 
-## Question 9: Given the approximation $P(Reject) \approx P(N(\frac{\sqrt{n}}{\sigma}(\mu-x),1) > z_{.95})$, as $n$ gets large, for $\mu > x$, what number should $P(Reject)$ get very close to?
+Use this approximation to answer the next few questions.
 
-This explains to Murphy why choosing $x < 80$ is undesirable. He is satisfied now with the choice of $x = 80$.
+## Question 8: Suppose that $\mu < x$, then as n gets large, what happens to the probability of rejection?
+
+## Question 9: Suppose that $\mu > x$, then as n gets large, what happens to the probability of rejection?
+
+## Question 10: Suppose that $\mu = x$, then as n gets large, what happens to the probability of rejection?
+
+You can use a parity of reasoning in the above calculations to see that not only does using something besides 80 result in the "dangers" that we mentioned above, but that using precisely 80 results in the "desireable" things that we mentioned.  Murphy is now content with our choice of precisely 80 in the formula for the test statistic.
 
 Now suppose Murphy knows that $n = 30$ (his original sample size) is large enough to justify the approximation for $P(Reject)$ given in the previous question.
 
-
 We'll also suppose that while Murphy doesn't know $\sigma$, from past statistical experiments, he is confident it is no more than $10^{\circ} C$
 
-## Question 10: Murphy hopes that if $\mu \geq 85$, then he should reject with high probability. Using the appoximation for $P(Reject)$ given in question 9, what is the approximate rejection probability when $\mu = 85$? (Recall his planned testing procedure has $n=30$ and $x = 80$). Assume $\sigma = 10$ to answer this question.
+## Question 11: Murphy hopes that if $\mu \geq 85$, then he should reject with high probability. Using the appoximation for $P(Reject)$ given in question 9, what is the approximate rejection probability when $\mu = 85$? (Recall his planned testing procedure has $n=30$ and $x = 80$). Assume $\sigma = 10$ to answer this question.
 
-You tell Murphy the number from question $10$ and he is thrilled. But what about if $\mu > 85$? Question 11 helps us answer this question.
+The probability of rejecting a *false* null hypothesis is called the <b style="color:red;">power</b> of your test.  In general the power of a test depends on your chosen rejection-evidence-level $\alpha$, the sample size $n$ and the *actual population parameter*.  For "worse" population parameters, the power increases.  Unfortunately, the population parameter is never known, so it is impossible to compute the "true" power of a given experimental design.  However, we can compute the power of a "hypothetical" scenario (such as $\mu = 85$ as in the previous question).  Researchers frequently use this to determine a necessary sample size:  if we *REALLY* want to reject when $\mu > 85$, how large of a sample do we need to have a power of at least $1 - \beta$?  We won't cover this formula in this class.  However, you can play around with this concept by re-computing question 11 using a larger $n$.
 
-## Question 11: Let $\mu_1 = 85$ and $\mu_2 > 85$. Is the approximate rejection probability under $\mu = \mu_2$ greater than, equal to, or less than the approximate rejection probability when $\mu = \mu_1$ (when $n$,$x$,$\sigma$ are given)?
+You tell Murphy the number from question 11 and he is thrilled. But what about if $\mu > 85$? Question 12 helps us answer this question.
+
+## Question 12: Let $\mu_1 = 85$ and $\mu_2 > 85$. Is the approximate rejection probability under $\mu = \mu_2$ greater than, equal to, or less than the approximate rejection probability when $\mu = \mu_1$ (when $n$,$x$,$\sigma$ are given)?
 
 Murphy is finally content. He collects the data over the next month and gives it you.
 
 The data is stored in `cpuTemps.csv`. Read the csv into R and conduct the test.
 
-## Question 12: Conduct the originally planned t-test and explain the results to Murphy
+## Question 13: Conduct the originally planned t-test and explain the results to Murphy
