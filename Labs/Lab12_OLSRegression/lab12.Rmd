@@ -84,7 +84,9 @@ Make a scatter plot matrix for our two predictor variables and our response vari
 
 ## Question 10: Are our two predictors correlated?
 
-## Question 10: In your opinion, does "Median Income" convey information about a community that "Poverty rate" does not?  i.e. do you "know more" about a community by having *both* of these pieces of info rather than just one?
+In the next question, rely on your "real-world" understanding of what a "county" is, what "median income" means, and what "poverty" means.
+
+## Question 11: In your opinion, does "Median Income" convey information about a community that "Poverty rate" does not?  i.e. do you "know more" about a community by having *both* of these pieces of info rather than just one?
 
 Recall that we can use the `lm` function along with the `~` operator to create "formulas" and to construct linear models to estimate the paramters of our "formula" from our data.
 
@@ -103,19 +105,19 @@ model1 <- lm(age_adjusted_incidence_rate_e_cases_per_100_000 ~ b19013_001, data=
 summary(model1)
 ```
 
-## Question 11: If Community 1 has a median income that is $\$5000$ greater than Community 2, what change does our model predict in the number of cancer cases per 100,000?
+## Question 12: If Community 1 has a median income that is $\$5000$ greater than Community 2, what change does our model predict in the number of cancer cases per 100,000?
 
 Construct a linear model with *just* "Poverty Rate" as a predictor, and the variable you chose for "Cancer Incidence" variable as the response.
 
-## Question 12: Which of these two predictors has the strongest correlation with your response variable?
+## Question 13: Which of these two predictors has the strongest correlation with your response variable?
 
 The formula `y ~ x + z` describes a model where `y` is expressed as a linear combination of `x` and `z`.  Construct a linear model with *both* of our chosen predictors against cancer incidence.
 
-For Question 13, recall that:
+For Question 14, recall that:
 
 $$ R^2 := 1 - \frac{\text{Var}(\text{Residual})}{\text{Var}(Y)} $$
 
-## Question 13: How much **more** of the variance in cancer incidence is "accounted for" by including both variables, instead of just "Median Income"?
+## Question 14: How much **more** of the variance in cancer incidence is "accounted for" by including both variables, instead of just "Median Income"?
 
 Based on this, do you think it's better to go with the simpler model, or the more complex model that performs slightly "better"?  Let's investigate this even further with some silly examples: 
 
@@ -125,4 +127,4 @@ Which is more informative about cancer incidence, poverty rate, or fips?
 
 For the sake of illustration and comparison, construct a linear model for cancer incidence against BOTH the "fips" and "Median Income" variables.  Compare this model against the model you built using both "Poverty Rate" and "Median Income".  
 
-## Question 14: Based on this, does Poverty Rate seem to be informative of Cancer Incidence?  After taking Median Income into account, does Poverty Rate seem to add any additional information about Cancer Incidence?
+## Question 15: Based on this, does Poverty Rate seem to be informative of Cancer Incidence?  After taking Median Income into account, does Poverty Rate seem to add any additional information about Cancer Incidence?
