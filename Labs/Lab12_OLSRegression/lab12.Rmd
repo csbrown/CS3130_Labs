@@ -1,0 +1,194 @@
+---
+title: 'Lab 12: Regression'
+output: 
+  html_document: default
+  pdf_document: default
+---
+
+# Intro
+
+"Curing Cancer" is often used as a stereotype for a "pie-in-the-sky" sort of idea.  Possibly, instead of "curing cancer", there are steps that we can take to *prevent* it from occurring in the first place.  On an individual scale, this might involve difficult and interesting choices and difficult knowledge of an individual's physiological response to various factors.  However, on a *societal* scale, there are possibly simple variables that we can takle that will improve overal societal outcomes.  You discover that the US federal govt, who are veritable data fiends, have gathered and published exactly the sorts of data we might need to investigate this.  Specifically, [cancer.gov](cancer.gov) has geographic data on cancer indidence and mortality.  [census.gov](census.gov), in turn, has geographic data on various socio-economic factors.  Yet other groups have geographic data on other possible factors - for example, groups at the University of Utah are currently studying this in conjunction with air-quality data gathered from sensors placed around the Salt Lake area.
+
+In any case, since the socio-economic and cancer incidence data are already readily available, we decide to take a look at this to get our feet wet and our data analysis pipeline figured out before we go into a lot of effort gathering other relevant data.  Also, perhaps there is something here that people will find relevant - possibly cancer-cure crusaders might also want to be social-program crusaders if these two things have a strong relationship?  We've gotten a small subset of such data from census.gov in the form of the American Community Survey (ACS).
+
+# Get the Data
+
+We have already acquired and tidied up the relevant data from cancer.gov and census.gov for you.  Load those in now:
+
+```{r}
+incdrate  <- read.csv('data/incd.csv')
+poverty   <- read.csv('data/poverty.csv')
+income    <- read.csv('data/income.csv')
+pop       <- read.csv('data/pop.csv')
+```
+
+Use `?head` to get an idea of what is included in each dataset.  Note that the poverty dataset has some columns with weird names.  This is because the ACS has literally thousands of variables, and naming them all with informative and unique names is hard, so they just "code" them somehow.  This also applies to many variables in the ACS.  You can usually find definitions for stuff like this in a provided "dictionary".  The dictionary that came with this specific dataset are in `data/poverty_columnkey.csv` and `data/income_columnkey.csv`.  Read these in whatever way you see fit to get an idea of what the columns that we have mean.  Rename them if you wish.  I recommend the `?rename` function in the `dplyr` library.
+
+# Examine the Data
+
+When exploring multiple continuous (or approximately continuous) variables, it can be useful to plot them one-against-the-other pairwise.  We call this a **scatterplot matrix**.  You can construct a **scatterplot matrix** in R using the `?pairs` function.
+
+As a reminder, you can subset your dataframe by column using named indexing:
+
+```{r}
+head(
+    poverty[,c('b17001_002', 'b17001_003', 'b17001_017', 'fips')]
+)
+```
+
+Plot a **scatterplot matrix** of this subset of the variables now.
+
+## Question 1: Are any of these variables strongly correlated?  Are any *not* strongly correlated?
+
+```{r}
+# ANSWERS
+pairs(
+    poverty[,c('b17001_002', 'b17001_003', 'b17001_017', 'fips')]
+)
+```
+
+The info in the data dictionary is informative, but it's not *totally* clear exactly what these numbers mean.  Also, the 'fips' variable isn't in the dictionary.  Google "fips census wiki" now.
+
+Based on this information, the info from the data dictionary, and the info from the `head` of your data, explain what these variables mean.
+
+## Question 2: What is the "fips" variable?
+
+## Question 3: What is the `b17001_002` variable?  Be as specific as possible.  Include units.
+
+## Question 4: *Based on the meaning of the variable* Why might `b17001_002` be correlated strongly with `b17001_003`?
+
+## Question 5: *Based on the meaning of the variable* Why might `b17001_002` *not* be correlated strongly with `fips`?
+
+Contemplate your answer to question 1 based on what you've learned in questions 2,3,4, and 5.
+
+## Question 6: Use your imagination to think of *other reasons why* `b17001_002` would be correlated strongly with `b17001_003`.
+
+Our answer to Question 6 causes us some concern about the meaning of these variables.  These sort of "third variables external to our study" are often called **confounding** variables.  We're going to use the data in our `pop` dataframe to help with this.
+
+Let's cram our data together to help with this.  You can use the `?merge` function to perform an ["inner-join"](https://simple.wikipedia.org/wiki/Join_(SQL)#Join_(Also_called_an_Inner_Join)) of two `data.frame`s.  `merge` will perform the join by columns with the same name.  Fortunately, "fips" is a pretty standard county-level designation for government data, so all of our datasets have this variable available.  Join (merge) the `pop` and `poverty` datasets now, and store the results into a new dataframe.
+
+```{r}
+# ANSWERS
+povpop <- merge(poverty, pop)
+head(povpop)
+```
+
+## Question 7: What operation between these variables might produce a new variable that "factors out" our nasty confounding variable?
+
+Create new variables using `b17001_002, 003, 017` that deal with this problem now, and store them on the new dataframe you created with an appropriate name.  Re-create your scatterplot matrix as before using these new variables.
+
+```{r}
+# ANSWERS
+povpop[,c("povrate", "povrateM", "povrateF")] = povpop[,c('b17001_002', 'b17001_003', 'b17001_017')] / povpop$popestimate2015
+head(povpop[,c("povrate", "povrateM", "povrateF")])
+pairs(
+    povpop[,c("povrate", "povrateM", "povrateF")]
+)
+```
+
+## Question 7: Are these variables still strongly correlated?
+
+Recall from class that strongly correlated predictors can cause difficulty interpreting your confidence in your regression coefficients.  $X$ may be a strong predictor of $Y$, but if we "duplicate" $X$ 10 times, then each $X$ may only look 1/10th as powerful as it really is.  This may or may not be a dealbreaker - but, if you think that the additional variables really don't add significantly more "information" to the problem, then it's usually best to just not include them.  
+
+So, based on our analysis this far, we decide to just use the "population adjusted" `b17001_002` variable in our model.  If you are feeling tidy, you may want to create a new dataframe to "drop" the columns we won't be using.  This isn't necessary, though.
+
+The `b19013_001` variable in our `income` dataframe is "Median Income".  Note that this already doesn't depend on the population (mostly), so we don't need to do anything with this.  Inner join this data into the "complete" dataframe you started building previously.
+
+```{r}
+# ANSWERS
+povincpop <- merge(povpop, income)
+head(povincpop)
+```
+
+Now that we've gotten all of our **predictors** in order, let's focus on our **response**
+
+Take another look at the `head` of the `incdrate` dataframe.  Identify a variable in here that makes sense as the response for our model given all of our previous analysis.
+
+```{r}
+# ANSWERS
+head(incdrate)
+```
+
+Inner join JUST this variable into our "complete" dataframe that we've been building.
+
+```{r}
+# ANSWERS
+povincpopcancer <- merge(povincpop, incdrate[,c("age_adjusted_incidence_rate_e_cases_per_100_000", "fips")])
+head(povincpopcancer)
+```
+
+Make a scatter plot matrix for our two predictor variables and our response variable.
+
+```{r}
+# ANSWERS
+pairs(
+    povincpopcancer[,c("povrate", "age_adjusted_incidence_rate_e_cases_per_100_000", "b19013_001")]
+)
+```
+
+## Question 8: Is our response correlated with our predictors?
+
+## Question 9: Are our two predictors correlated?
+
+## Question 10: In your opinion, does "Median Income" convey information about a community that "Poverty rate" does not?  i.e. do you "know more" about a community by having *both* of these pieces of info rather than just one?
+
+Recall that we can use the `lm` function along with the `~` operator to create "formulas" and to construct linear models to estimate the paramters of our "formula" from our data.
+
+For example, we can construct a linear model with *just* "Median Income" as a predictor, and our cancer incidence rate as a response with:
+
+```{r}
+model1 <- lm(age_adjusted_incidence_rate_e_cases_per_100_000 ~ b19013_001, data=povincpopcancer)
+summary(model1)
+```
+
+## Question 11: If Community 1 has a median income that is $\$5000$ greater than Community 2, what change does our model predict in the number of cancer cases per 100,000?
+
+```{r}
+# ANSWERS
+model1$coefficients["b19013_001"] * 5000
+```
+
+Construct a linear model with *just* "Poverty Rate" as a predictor, and the variable you chose for "Cancer Incidence" variable as the response.
+
+```{r}
+# ANSWERS
+model2 <- lm(age_adjusted_incidence_rate_e_cases_per_100_000 ~ povrate, data=povincpopcancer)
+summary(model2)
+```
+## Question 12: Which of these two predictors has the strongest correlation with your response variable?
+
+The formula `y ~ x + z` describes a model where `y` is expressed as a linear combination of `x` and `z`.  Construct a linear model with *both* of our chosen predictors against cancer incidence.
+
+```{r}
+# ANSWERS
+model3 <- lm(age_adjusted_incidence_rate_e_cases_per_100_000 ~ povrate + b19013_001, data=povincpopcancer)
+summary(model3)
+```
+
+For Question 13, recall that:
+
+$$ R^2 := 1 - \frac{\text{Var}(\text{Residual})}{\text{Var}(Y)} $$
+
+## Question 13: How much **more** of the variance in cancer incidence is "accounted for" by including both variables, instead of just "Median Income"?
+
+Based on this, do you think it's better to go with the simpler model, or the more complex model that performs slightly "better"?  Let's investigate this even further with some silly examples: 
+
+For the sake of illustration and comparison, construct a linear model for cancer incidence against the "fips" variable.  Compare this model against the model you built using just the poverty rate.
+
+```{r}
+# ANSWERS
+model4 <- lm(age_adjusted_incidence_rate_e_cases_per_100_000 ~ fips, data=povincpopcancer)
+summary(model4)
+```
+
+Which is more informative about cancer incidence, poverty rate, or fips?
+
+For the sake of illustration and comparison, construct a linear model for cancer incidence against BOTH the "fips" and "Median Income" variables.  Compare this model against the model you built using both "Poverty Rate" and "Median Income".  
+
+```{r}
+# ANSWERS
+model5 <- lm(age_adjusted_incidence_rate_e_cases_per_100_000 ~ fips + b19013_001, data=povincpopcancer)
+summary(model5)
+```
+
+## Question 14: Based on this, does Poverty Rate seem to be informative of Cancer Incidence?  After taking Median Income into account, does Poverty Rate seem to add any additional information about Cancer Incidence?
